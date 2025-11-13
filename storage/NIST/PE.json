@@ -1,0 +1,643 @@
+{
+  "control_group": "PE",
+  "group_title": "Physical and Environmental Protection",
+  "group_description": "Safeguards to protect systems, buildings, and supporting infrastructure from physical threats and environmental hazards.",
+  "group_purpose": "Prevent unauthorized physical access, damage, and interference to maintain availability and integrity of information systems.",
+  "group_tags": [
+    "physical-security",
+    "access-control",
+    "environmental",
+    "fire-suppression",
+    "power",
+    "visitor-control",
+    "perimeter"
+  ],
+  "controls": [
+    {
+      "control_id": "PE-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain physical and environmental protection policies and procedures.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "physical-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe1_001",
+          "text": "Create and maintain a formal physical and environmental protection policy defining scope, roles, and controls.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_pe1_002",
+          "text": "Document procedures for access control, visitor management, and emergency response.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_pe1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "physical-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_pe1_003",
+          "text": "Assign a physical security officer responsible for compliance and incident response.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_pe1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_pe1_004",
+          "text": "Review and update physical protection policy annually or after incidents.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_pe1_001",
+            "rule_pe1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-2",
+      "control_title": "Physical Access Authorizations",
+      "control_description": "Authorize and maintain physical access to facilities and systems for approved individuals.",
+      "control_tags": [
+        "access-list",
+        "provisioning",
+        "deprovisioning",
+        "authorization"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe2_001",
+          "text": "Maintain an approved access list for all data centers and server rooms with role-based permissions.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Access Roster, ServiceNow",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-1"
+          ],
+          "tags": [
+            "access-list",
+            "data-center"
+          ]
+        },
+        {
+          "id": "rule_pe2_002",
+          "text": "Remove physical access within 24 hours of employee termination or role change.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "Okta Lifecycle, HRIS Integration",
+          "dependent_rule_ids": [
+            "rule_pe2_001"
+          ],
+          "dependent_control_ids": [
+            "PS-4"
+          ],
+          "tags": [
+            "deprovisioning",
+            "24-hour"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-3",
+      "control_title": "Physical Access Control",
+      "control_description": "Enforce physical access controls using locks, guards, badges, and authentication mechanisms.",
+      "control_tags": [
+        "locks",
+        "badge",
+        "biometric",
+        "mantrap",
+        "guard"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe3_001",
+          "text": "Require badge + PIN or biometric for entry to all restricted areas.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Lenel, Cisco ISE, HID Readers",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-2",
+            "IA-5"
+          ],
+          "tags": [
+            "multi-factor",
+            "badge-pin"
+          ]
+        },
+        {
+          "id": "rule_pe3_002",
+          "text": "Deploy mantraps or turnstiles at data center entrances to prevent tailgating.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Physical Security Hardware",
+          "dependent_rule_ids": [
+            "rule_pe3_001"
+          ],
+          "dependent_control_ids": [
+            "PE-1"
+          ],
+          "tags": [
+            "mantrap",
+            "anti-tailgate"
+          ]
+        },
+        {
+          "id": "rule_pe3_003",
+          "text": "Log all physical access events with user, time, and location.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Access Control System, SIEM",
+          "dependent_rule_ids": [
+            "rule_pe3_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2"
+          ],
+          "tags": [
+            "access-log",
+            "audit"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-4",
+      "control_title": "Access Control for Transmission",
+      "control_description": "Control physical access to information system distribution and transmission lines.",
+      "control_tags": [
+        "cabling",
+        "fiber",
+        "conduit",
+        "tamper"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe4_001",
+          "text": "Route all network cabling through locked conduits or secured raceways.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Physical Infrastructure",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-1"
+          ],
+          "tags": [
+            "conduit",
+            "cable-protection"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-5",
+      "control_title": "Access Control for Output Devices",
+      "control_description": "Control physical access to information system output devices to prevent unauthorized use.",
+      "control_tags": [
+        "printer",
+        "display",
+        "output",
+        "shoulder-surfing"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe5_001",
+          "text": "Require secure print release with badge or PIN at shared printers.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "PaperCut, FollowMe Print",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-3"
+          ],
+          "tags": [
+            "secure-print",
+            "badge-release"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-6",
+      "control_title": "Monitoring Physical Access",
+      "control_description": "Monitor physical access to facilities and review logs for anomalies.",
+      "control_tags": [
+        "monitoring",
+        "cctv",
+        "motion",
+        "alerting"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe6_001",
+          "text": "Deploy 24/7 CCTV with 90-day retention covering all entry/exit points and server rooms.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Milestone, Genetec, AWS Rekognition",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-3"
+          ],
+          "tags": [
+            "cctv",
+            "90-day"
+          ]
+        },
+        {
+          "id": "rule_pe6_002",
+          "text": "Alert on unauthorized access attempts or access outside business hours.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "SIEM, PagerDuty",
+          "dependent_rule_ids": [
+            "rule_pe6_001"
+          ],
+          "dependent_control_ids": [
+            "AU-6"
+          ],
+          "tags": [
+            "alert",
+            "after-hours"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-8",
+      "control_title": "Visitor Control",
+      "control_description": "Control physical access by visitors and maintain visitor logs.",
+      "control_tags": [
+        "visitor",
+        "escort",
+        "badge",
+        "log"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe8_001",
+          "text": "Issue temporary visitor badges and require escort in restricted areas.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Visitor Management System, Badge Printer",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-3"
+          ],
+          "tags": [
+            "visitor-badge",
+            "escort"
+          ]
+        },
+        {
+          "id": "rule_pe8_002",
+          "text": "Log all visitor entries with name, purpose, sponsor, and time in/out.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Envoy, Proxyclick, Access Logs",
+          "dependent_rule_ids": [
+            "rule_pe8_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2"
+          ],
+          "tags": [
+            "visitor-log",
+            "audit"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-9",
+      "control_title": "Power Equipment and Cabling",
+      "control_description": "Protect power equipment and cabling from damage and unauthorized access.",
+      "control_tags": [
+        "power",
+        "ups",
+        "pdu",
+        "generator"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe9_001",
+          "text": "Secure UPS, PDUs, and generators in locked rooms with restricted access.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Physical Locks, Access Control",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-3"
+          ],
+          "tags": [
+            "ups",
+            "power-security"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-10",
+      "control_title": "Emergency Shutoff",
+      "control_description": "Provide emergency power shutoff capability to protect systems during incidents.",
+      "control_tags": [
+        "epo",
+        "emergency",
+        "shutoff",
+        "safety"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe10_001",
+          "text": "Install labeled EPO switches near exits in data centers with protected covers.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Physical EPO Panel",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-1"
+          ],
+          "tags": [
+            "epo",
+            "emergency"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-11",
+      "control_title": "Emergency Power",
+      "control_description": "Provide short-term backup power to support orderly shutdown or continued operation.",
+      "control_tags": [
+        "ups",
+        "backup-power",
+        "battery",
+        "failover"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe11_001",
+          "text": "Deploy UPS with at least 15 minutes runtime for critical systems and graceful shutdown.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "APC, Eaton UPS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CP-2"
+          ],
+          "tags": [
+            "ups",
+            "15-minute"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-12",
+      "control_title": "Emergency Lighting",
+      "control_description": "Provide emergency lighting for safe evacuation and system access during power failure.",
+      "control_tags": [
+        "lighting",
+        "emergency",
+        "egress",
+        "battery"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe12_001",
+          "text": "Install battery-backed emergency lighting in data centers and egress paths.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Emergency Lighting System",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-1"
+          ],
+          "tags": [
+            "emergency-light",
+            "egress"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-13",
+      "control_title": "Fire Protection",
+      "control_description": "Employ fire detection and suppression systems appropriate for IT environments.",
+      "control_tags": [
+        "fire",
+        "suppression",
+        "fm-200",
+        "smoke",
+        "vesda"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe13_001",
+          "text": "Install VESDA and clean-agent (FM-200) suppression in all data centers.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Fire Suppression System",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-1"
+          ],
+          "tags": [
+            "vesda",
+            "fm-200"
+          ]
+        },
+        {
+          "id": "rule_pe13_002",
+          "text": "Test fire detection and suppression systems quarterly with documented results.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Maintenance Log, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_pe13_001"
+          ],
+          "dependent_control_ids": [
+            "MA-2"
+          ],
+          "tags": [
+            "quarterly-test",
+            "fire-system"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-14",
+      "control_title": "Temperature and Humidity Controls",
+      "control_description": "Maintain temperature and humidity within acceptable ranges for system reliability.",
+      "control_tags": [
+        "hvac",
+        "temperature",
+        "humidity",
+        "monitoring"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe14_001",
+          "text": "Monitor data center temperature (18-27°C) and humidity (40-60%) with real-time alerts.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "DCIM, Sensaphone, AWS CloudWatch",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-1"
+          ],
+          "tags": [
+            "hvac",
+            "alerting"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-15",
+      "control_title": "Water Damage Protection",
+      "control_description": "Protect systems from water damage due to leaks, floods, or condensation.",
+      "control_tags": [
+        "water",
+        "leak",
+        "flood",
+        "raised-floor"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe15_001",
+          "text": "Install raised floors and water leak detection sensors under server racks.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Leak Detection Cable, DCIM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-1"
+          ],
+          "tags": [
+            "leak-sensor",
+            "raised-floor"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-16",
+      "control_title": "Delivery and Removal",
+      "control_description": "Control physical access for delivery and removal of system components.",
+      "control_tags": [
+        "delivery",
+        "asset",
+        "removal",
+        "chain-of-custody"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe16_001",
+          "text": "Log and inspect all incoming/outgoing hardware with serial numbers and approval.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Asset Receipt Log, CMDB",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-8"
+          ],
+          "tags": [
+            "asset-log",
+            "inspection"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-17",
+      "control_title": "Alternate Work Site",
+      "control_description": "Employ security controls at alternate work sites comparable to primary sites.",
+      "control_tags": [
+        "remote",
+        "home-office",
+        "telework",
+        "security"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe17_001",
+          "text": "Require VPN, endpoint protection, and locked storage for remote workers handling CUI.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Zscaler, Intune, Physical Safe",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-17",
+            "PE-1"
+          ],
+          "tags": [
+            "telework",
+            "remote-security"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PE-18",
+      "control_title": "Location of Information System Components",
+      "control_description": "Position system components to minimize exposure to physical and environmental hazards.",
+      "control_tags": [
+        "location",
+        "risk",
+        "hazard",
+        "placement"
+      ],
+      "rules": [
+        {
+          "id": "rule_pe18_001",
+          "text": "Avoid placing servers near windows, exterior walls, or under water pipes.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Facility Layout, Risk Assessment",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-3"
+          ],
+          "tags": [
+            "placement",
+            "hazard-avoidance"
+          ]
+        }
+      ]
+    }
+  ]
+}

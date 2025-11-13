@@ -1,0 +1,612 @@
+{
+  "control_group": "IA",
+  "group_title": "Identification and Authentication",
+  "group_description": "Processes and mechanisms to uniquely identify and authenticate users, devices, and services before granting access.",
+  "group_purpose": "Prevent unauthorized access, enforce accountability, and support secure identity lifecycle management.",
+  "group_tags": [
+    "identity",
+    "authentication",
+    "mfa",
+    "password-policy",
+    "device-auth",
+    "service-account"
+  ],
+  "controls": [
+    {
+      "control_id": "IA-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain identification and authentication policies and procedures.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "identity-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia1_001",
+          "text": "Create and maintain a formal identity and authentication policy defining scope, standards, and enforcement.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_ia1_002",
+          "text": "Document procedures for user provisioning, password management, and authenticator lifecycle.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_ia1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "identity-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_ia1_003",
+          "text": "Assign an identity management lead responsible for policy compliance and reporting.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_ia1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_ia1_004",
+          "text": "Review and update IA policy and procedures annually or after incidents.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ia1_001",
+            "rule_ia1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-2",
+      "control_title": "Identification and Authentication (Organizational Users)",
+      "control_description": "Uniquely identify and authenticate organizational users using strong, risk-based methods.",
+      "control_tags": [
+        "user-auth",
+        "mfa",
+        "sso",
+        "password"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia2_001",
+          "text": "Require multi-factor authentication (MFA) for all interactive user logins.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Okta, Azure AD, AWS IAM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-1",
+            "AC-2"
+          ],
+          "tags": [
+            "mfa",
+            "interactive"
+          ]
+        },
+        {
+          "id": "rule_ia2_002",
+          "text": "Enforce single sign-on (SSO) using SAML or OIDC for all cloud applications.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Okta, Azure AD, Google Workspace",
+          "dependent_rule_ids": [
+            "rule_ia2_001"
+          ],
+          "dependent_control_ids": [
+            "IA-1"
+          ],
+          "tags": [
+            "sso",
+            "federation"
+          ]
+        },
+        {
+          "id": "rule_ia2_003",
+          "text": "Block legacy authentication protocols (POP, IMAP, SMTP without MFA).",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Conditional Access, AWS IAM Policy",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-1"
+          ],
+          "tags": [
+            "legacy-block",
+            "protocol"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-2(1)",
+      "control_title": "Multi-Factor Authentication to Privileged Accounts",
+      "control_description": "Require MFA for all privileged and administrative account access.",
+      "control_tags": [
+        "privileged-mfa",
+        "admin-auth",
+        "high-risk"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia2_1_001",
+          "text": "Enforce hardware-based or phishing-resistant MFA for all admin accounts.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "YubiKey, WebAuthn, Azure AD P2",
+          "dependent_rule_ids": [
+            "rule_ia2_001"
+          ],
+          "dependent_control_ids": [
+            "IA-2",
+            "AC-6"
+          ],
+          "tags": [
+            "hardware-mfa",
+            "phishing-resistant"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-2(12)",
+      "control_title": "Personal Identity Verification (PIV) Credentials",
+      "control_description": "Use PIV or CAC credentials for high-security federal systems.",
+      "control_tags": [
+        "piv",
+        "cac",
+        "smartcard",
+        "fips-201"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia2_12_001",
+          "text": "Issue and enforce PIV cards for all federal employees and contractors.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "PIV Middleware, YubiKey PIV",
+          "dependent_rule_ids": [
+            "rule_ia2_001"
+          ],
+          "dependent_control_ids": [
+            "IA-2"
+          ],
+          "tags": [
+            "piv",
+            "smartcard"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-3",
+      "control_title": "Device Identification and Authentication",
+      "control_description": "Uniquely identify and authenticate devices before allowing network access.",
+      "control_tags": [
+        "device-auth",
+        "certificate",
+        "802.1x",
+        "nac"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia3_001",
+          "text": "Issue X.509 certificates to all managed devices for mutual TLS authentication.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS PCA, Azure AD Cert Auth, Venafi",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-1",
+            "SC-12"
+          ],
+          "tags": [
+            "mtls",
+            "certificate"
+          ]
+        },
+        {
+          "id": "rule_ia3_002",
+          "text": "Enforce 802.1X authentication for wired and Wi-Fi network access.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Cisco ISE, Aruba ClearPass",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-1"
+          ],
+          "tags": [
+            "802.1x",
+            "nac"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-4",
+      "control_title": "Identifier Management",
+      "control_description": "Manage user identifiers by creating, issuing, and deactivating accounts.",
+      "control_tags": [
+        "user-id",
+        "provisioning",
+        "deprovisioning",
+        "uniqueness"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia4_001",
+          "text": "Assign unique identifiers to all users and disable generic or shared accounts.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Okta, Azure AD, AWS IAM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2",
+            "IA-1"
+          ],
+          "tags": [
+            "unique-id",
+            "no-shared"
+          ]
+        },
+        {
+          "id": "rule_ia4_002",
+          "text": "Automate user provisioning and deprovisioning via SCIM from HRIS.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Okta Workflows, Azure AD Provisioning",
+          "dependent_rule_ids": [
+            "rule_ia4_001"
+          ],
+          "dependent_control_ids": [
+            "AC-2(1)"
+          ],
+          "tags": [
+            "scim",
+            "automation"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-5",
+      "control_title": "Authenticator Management",
+      "control_description": "Manage authenticators including passwords, tokens, and biometrics.",
+      "control_tags": [
+        "password-policy",
+        "mfa-management",
+        "authenticator",
+        "rotation"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia5_001",
+          "text": "Enforce password complexity: 12+ chars, no reuse, no common words.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Azure AD Password Protection, Okta",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-1"
+          ],
+          "tags": [
+            "password-complexity",
+            "no-reuse"
+          ]
+        },
+        {
+          "id": "rule_ia5_002",
+          "text": "Require passwordless or phishing-resistant MFA (FIDO2, Passkeys).",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "YubiKey, WebAuthn, Microsoft Hello",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-2"
+          ],
+          "tags": [
+            "passwordless",
+            "fido2"
+          ]
+        },
+        {
+          "id": "rule_ia5_003",
+          "text": "Rotate service account keys and certificates every 90 days.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "HashiCorp Vault, AWS Secrets Manager",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-1"
+          ],
+          "tags": [
+            "key-rotation",
+            "service-account"
+          ]
+        },
+        {
+          "id": "rule_ia5_004",
+          "text": "Store password hashes using Argon2, bcrypt, or PBKDF2 with high iterations.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Application Code, IAM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-1"
+          ],
+          "tags": [
+            "hashing",
+            "argon2"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-5(1)",
+      "control_title": "Password-Based Authentication",
+      "control_description": "Enforce strong password policies and protect credentials in storage and transit.",
+      "control_tags": [
+        "password-strength",
+        "credential-protection",
+        "breach-check"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia5_1_001",
+          "text": "Block passwords found in known breach databases (HIBP integration).",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Okta, Azure AD, Pwned Passwords API",
+          "dependent_rule_ids": [
+            "rule_ia5_001"
+          ],
+          "dependent_control_ids": [
+            "IA-5"
+          ],
+          "tags": [
+            "hibp",
+            "breach-check"
+          ]
+        },
+        {
+          "id": "rule_ia5_1_002",
+          "text": "Require password change on first login and after suspected compromise.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "IAM Policy, Conditional Access",
+          "dependent_rule_ids": [
+            "rule_ia5_001"
+          ],
+          "dependent_control_ids": [
+            "IA-5"
+          ],
+          "tags": [
+            "first-login",
+            "forced-change"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-6",
+      "control_title": "Authenticator Feedback",
+      "control_description": "Obscure feedback of authentication information during the process.",
+      "control_tags": [
+        "masking",
+        "password-mask",
+        "ui-security"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia6_001",
+          "text": "Mask password input with dots or asterisks in all login interfaces.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Application UI, SSO Portal",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-1"
+          ],
+          "tags": [
+            "password-mask",
+            "obscure"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-7",
+      "control_title": "Cryptographic Module Authentication",
+      "control_description": "Enforce FIPS 140-validated cryptographic modules for authentication.",
+      "control_tags": [
+        "fips",
+        "crypto-module",
+        "compliance"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia7_001",
+          "text": "Use only FIPS 140-2/3 validated modules for all cryptographic operations.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS KMS, Azure Key Vault, OpenSSL FIPS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-13",
+            "IA-1"
+          ],
+          "tags": [
+            "fips-140",
+            "crypto"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-8",
+      "control_title": "Identification and Authentication (Non-Organizational Users)",
+      "control_description": "Uniquely identify and authenticate non-organizational users (public, partners).",
+      "control_tags": [
+        "external-user",
+        "guest-auth",
+        "b2b",
+        "public"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia8_001",
+          "text": "Authenticate external users via federated identity or secure guest portals.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Azure B2B, Okta External IDP",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-2"
+          ],
+          "tags": [
+            "federation",
+            "guest"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-9",
+      "control_title": "Service Identification and Authentication",
+      "control_description": "Uniquely identify and authenticate services and applications.",
+      "control_tags": [
+        "service-auth",
+        "api-key",
+        "oauth",
+        "mtls"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia9_001",
+          "text": "Authenticate service-to-service calls using mTLS or signed JWTs.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Istio, AWS API Gateway, OAuth2",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-3"
+          ],
+          "tags": [
+            "mtls",
+            "jwt"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-10",
+      "control_title": "Adaptive Identification and Authentication",
+      "control_description": "Use risk-based authentication that adapts to context and behavior.",
+      "control_tags": [
+        "adaptive-auth",
+        "risk-based",
+        "step-up",
+        "context"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia10_001",
+          "text": "Trigger step-up authentication for high-risk actions or anomalous behavior.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Okta Risk Signals, Azure AD Identity Protection",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-2"
+          ],
+          "tags": [
+            "step-up",
+            "risk-score"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-11",
+      "control_title": "Re-Authentication",
+      "control_description": "Require re-authentication for sensitive actions or after inactivity.",
+      "control_tags": [
+        "re-auth",
+        "session-timeout",
+        "sensitive-action"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia11_001",
+          "text": "Require re-authentication for privilege escalation or PII access.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "IAM Policy, App Logic",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-2"
+          ],
+          "tags": [
+            "re-auth",
+            "escalation"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IA-12",
+      "control_title": "Identity Proofing",
+      "control_description": "Verify the identity of users before issuing credentials.",
+      "control_tags": [
+        "identity-proofing",
+        "kba",
+        "id-verification",
+        "ial"
+      ],
+      "rules": [
+        {
+          "id": "rule_ia12_001",
+          "text": "Perform identity proofing for high-assurance accounts using IAL2/3 processes.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "ID.me, Login.gov, In-Person",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-4"
+          ],
+          "tags": [
+            "ial2",
+            "proofing"
+          ]
+        }
+      ]
+    }
+  ]
+}

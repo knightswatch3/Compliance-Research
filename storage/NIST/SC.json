@@ -1,0 +1,635 @@
+{
+  "control_group": "SC",
+  "group_title": "System and Communications Protection",
+  "group_description": "Mechanisms to protect system boundaries, communications, and data in transit and at rest from unauthorized access and modification.",
+  "group_purpose": "Ensure confidentiality, integrity, and availability of information through boundary defense, encryption, and secure protocols.",
+  "group_tags": [
+    "boundary-protection",
+    "encryption",
+    "tls",
+    "vpn",
+    "firewall",
+    "network-segmentation",
+    "data-protection"
+  ],
+  "controls": [
+    {
+      "control_id": "SC-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain system and communications protection policies and procedures.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "comm-protection"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc1_001",
+          "text": "Create and maintain a formal communications protection policy defining encryption, boundary, and protocol standards.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_sc1_002",
+          "text": "Document procedures for TLS configuration, firewall rules, and network segmentation.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Runbooks",
+          "dependent_rule_ids": [
+            "rule_sc1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "comm-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_sc1_003",
+          "text": "Assign a network security lead responsible for boundary and encryption compliance.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_sc1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_sc1_004",
+          "text": "Review and update comms protection policy annually or after major incidents.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_sc1_001",
+            "rule_sc1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-2",
+      "control_title": "Separation of System and User Functionality",
+      "control_description": "Separate user functionality from system management functionality.",
+      "control_tags": [
+        "separation",
+        "admin-interface",
+        "management-plane",
+        "least-privilege"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc2_001",
+          "text": "Isolate management interfaces on dedicated OOB network or bastion hosts.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Systems Manager, Azure Bastion, Jump Host",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-6",
+            "SC-7"
+          ],
+          "tags": [
+            "oob-management",
+            "bastion"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-7",
+      "control_title": "Boundary Protection",
+      "control_description": "Monitor, control, and protect communications at system boundaries.",
+      "control_tags": [
+        "firewall",
+        "boundary",
+        "ingress-egress",
+        "dmz",
+        "zero-trust"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc7_001",
+          "text": "Deploy stateful firewalls at all external and internal trust boundaries.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Network Firewall, Palo Alto, Azure Firewall",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-1"
+          ],
+          "tags": [
+            "stateful-firewall",
+            "boundary"
+          ]
+        },
+        {
+          "id": "rule_sc7_002",
+          "text": "Enforce deny-all default and explicitly allow only required ports and protocols.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Terraform, AWS Security Groups, NSG",
+          "dependent_rule_ids": [
+            "rule_sc7_001"
+          ],
+          "dependent_control_ids": [
+            "CM-7"
+          ],
+          "tags": [
+            "deny-all",
+            "least-privilege"
+          ]
+        },
+        {
+          "id": "rule_sc7_003",
+          "text": "Log and alert on all denied traffic and anomalous patterns at boundaries.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "CloudWatch, Splunk, Azure Monitor",
+          "dependent_rule_ids": [
+            "rule_sc7_001"
+          ],
+          "dependent_control_ids": [
+            "AU-6"
+          ],
+          "tags": [
+            "boundary-logging",
+            "alerting"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-8",
+      "control_title": "Transmission Confidentiality and Integrity",
+      "control_description": "Protect confidentiality and integrity of transmitted information.",
+      "control_tags": [
+        "tls",
+        "encryption-in-transit",
+        "https",
+        "ipsec"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc8_001",
+          "text": "Enforce TLS 1.2 or higher with strong ciphers for all external communications.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS ALB, Azure App Gateway, Nginx",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-1"
+          ],
+          "tags": [
+            "tls-1.2",
+            "strong-ciphers"
+          ]
+        },
+        {
+          "id": "rule_sc8_002",
+          "text": "Use IPsec or WireGuard VPN for all remote access and site-to-site connections.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Site-to-Site VPN, Azure VPN Gateway",
+          "dependent_rule_ids": [
+            "rule_sc8_001"
+          ],
+          "dependent_control_ids": [
+            "AC-17"
+          ],
+          "tags": [
+            "ipsec",
+            "vpn"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-10",
+      "control_title": "Network Disconnect",
+      "control_description": "Terminate network connections after inactivity or session end.",
+      "control_tags": [
+        "idle-timeout",
+        "session-termination",
+        "inactivity",
+        "vpn"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc10_001",
+          "text": "Enforce 15-minute idle timeout on all interactive sessions and VPN connections.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Client VPN, Azure AD, SSH Config",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-12"
+          ],
+          "tags": [
+            "15-minute",
+            "idle-timeout"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-12",
+      "control_title": "Cryptographic Key Establishment and Management",
+      "control_description": "Establish and manage cryptographic keys in accordance with standards.",
+      "control_tags": [
+        "key-management",
+        "kms",
+        "rotation",
+        "hsm"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc12_001",
+          "text": "Use FIPS 140-validated KMS for all key storage, rotation, and access control.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS KMS, Azure Key Vault, GCP KMS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-1"
+          ],
+          "tags": [
+            "fips-140",
+            "kms"
+          ]
+        },
+        {
+          "id": "rule_sc12_002",
+          "text": "Rotate encryption keys annually or upon key compromise.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "KMS Rotation, Terraform",
+          "dependent_rule_ids": [
+            "rule_sc12_001"
+          ],
+          "dependent_control_ids": [
+            "SC-1"
+          ],
+          "tags": [
+            "key-rotation",
+            "annual"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-13",
+      "control_title": "Cryptographic Protection",
+      "control_description": "Implement approved cryptographic algorithms and modules.",
+      "control_tags": [
+        "crypto",
+        "aes",
+        "sha",
+        "fips"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc13_001",
+          "text": "Use only FIPS-approved algorithms: AES-256, SHA-256, ECDSA P-384.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "OpenSSL Config, AWS Crypto",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-12"
+          ],
+          "tags": [
+            "fips-crypto",
+            "aes-256"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-15",
+      "control_title": "Collaborative Computing Devices and Applications",
+      "control_description": "Prohibit remote activation of collaborative devices unless explicitly authorized.",
+      "control_tags": [
+        "webcam",
+        "mic",
+        "screen-sharing",
+        "remote-control"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc15_001",
+          "text": "Disable webcam and microphone by default; require approval for remote activation.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Intune, Jamf, GPO",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-3"
+          ],
+          "tags": [
+            "webcam-disable",
+            "mic-control"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-17",
+      "control_title": "Public Key Infrastructure Certificates",
+      "control_description": "Issue and manage PKI certificates for authentication and encryption.",
+      "control_tags": [
+        "pki",
+        "certificate",
+        "ca",
+        "revocation"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc17_001",
+          "text": "Issue short-lived certificates (≤90 days) via internal CA with automated renewal.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "HashiCorp Vault, AWS ACM PCA",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-5"
+          ],
+          "tags": [
+            "short-lived",
+            "90-day"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-18",
+      "control_title": "Mobile Code",
+      "control_description": "Control use of mobile code and define acceptable technologies.",
+      "control_tags": [
+        "javascript",
+        "flash",
+        "mobile-code",
+        "csp"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc18_001",
+          "text": "Enforce strict CSP to allow only approved JavaScript sources and block inline scripts.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "NGINX, Cloudflare, Helmet",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-1"
+          ],
+          "tags": [
+            "csp",
+            "no-inline"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-20",
+      "control_title": "Secure Name/Address Resolution Service (Authoritative)",
+      "control_description": "Provide DNS data origin authentication and integrity verification.",
+      "control_tags": [
+        "dns",
+        "dnssec",
+        "authoritative",
+        "integrity"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc20_001",
+          "text": "Enable DNSSEC signing and validation on all authoritative DNS zones.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Route 53, Cloud DNS, BIND",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-1"
+          ],
+          "tags": [
+            "dnssec",
+            "signing"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-21",
+      "control_title": "Secure Name/Address Resolution Service (Recursive or Caching)",
+      "control_description": "Secure recursive DNS resolvers with integrity and authentication.",
+      "control_tags": [
+        "dns-resolver",
+        "dnssec-validation",
+        "doh",
+        "dot"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc21_001",
+          "text": "Enforce DNS over HTTPS (DoH) or TLS (DoT) with DNSSEC validation on all clients.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Cloudflare Gateway, Quad9, Firefox Policy",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-1"
+          ],
+          "tags": [
+            "doh",
+            "dot"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-22",
+      "control_title": "Architecture and Provisioning for Name/Address Resolution Service",
+      "control_description": "Design DNS infrastructure for fault tolerance and attack resistance.",
+      "control_tags": [
+        "dns-architecture",
+        "anycast",
+        "redundancy",
+        "resilience"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc22_001",
+          "text": "Deploy DNS servers across multiple regions with anycast and rate limiting.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Route 53, Akamai, NS1",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CP-2"
+          ],
+          "tags": [
+            "anycast",
+            "multi-region"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-23",
+      "control_title": "Session Authenticity",
+      "control_description": "Protect authenticity of communications sessions using cryptographic mechanisms.",
+      "control_tags": [
+        "session-protection",
+        "hsts",
+        "secure-cookies",
+        "csrf"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc23_001",
+          "text": "Enforce HSTS, Secure+HttpOnly cookies, and CSRF tokens on all web applications.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "NGINX, Apache, Express",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-8"
+          ],
+          "tags": [
+            "hsts",
+            "secure-cookies"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-28",
+      "control_title": "Protection of Information at Rest",
+      "control_description": "Protect confidentiality and integrity of information at rest.",
+      "control_tags": [
+        "encryption-at-rest",
+        "database-encryption",
+        "volume-encryption",
+        "s3"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc28_001",
+          "text": "Enable default encryption on all cloud storage and databases using AES-256.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS S3 SSE, RDS Encryption, Azure TDE",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-12"
+          ],
+          "tags": [
+            "aes-256",
+            "default-encrypt"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-39",
+      "control_title": "Process Isolation",
+      "control_description": "Maintain a separate execution domain for each process.",
+      "control_tags": [
+        "process-isolation",
+        "container",
+        "vm",
+        "sandbox"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc39_001",
+          "text": "Run each application in isolated containers or VMs with restricted privileges.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Docker, Kubernetes, Firecracker",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-6"
+          ],
+          "tags": [
+            "container-isolation",
+            "least-privilege"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-41",
+      "control_title": "Port and I/O Device Control",
+      "control_description": "Control and monitor use of physical ports and I/O devices.",
+      "control_tags": [
+        "usb-control",
+        "port-security",
+        "device-control",
+        "endpoint"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc41_001",
+          "text": "Block all USB mass storage devices and allow only approved peripherals.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Intune, Carbon Black, GPO",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "MP-7"
+          ],
+          "tags": [
+            "usb-block",
+            "device-control"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SC-42",
+      "control_title": "Sensor Capability and Data",
+      "control_description": "Prohibit use of devices with unauthorized sensor capabilities.",
+      "control_tags": [
+        "sensor",
+        "camera",
+        "microphone",
+        "byod"
+      ],
+      "rules": [
+        {
+          "id": "rule_sc42_001",
+          "text": "Disable cameras and microphones on managed devices in sensitive areas.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "MDM, Intune, Jamf",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-15"
+          ],
+          "tags": [
+            "camera-disable",
+            "sensor-control"
+          ]
+        }
+      ]
+    }
+  ]
+}

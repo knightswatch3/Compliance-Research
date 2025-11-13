@@ -1,0 +1,427 @@
+{
+  "control_group": "AT",
+  "group_title": "Awareness and Training",
+  "group_description": "Programs and activities to ensure personnel are aware of security risks, trained on policies and procedures, and capable of protecting organizational information and systems.",
+  "group_purpose": "Build a security-conscious workforce that understands threats, follows policy, and contributes to a culture of compliance and risk management.",
+  "group_tags": [
+    "security-awareness",
+    "training",
+    "phishing",
+    "role-based-training",
+    "culture"
+  ],
+  "controls": [
+    {
+      "control_id": "AT-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and disseminate awareness and training policies and procedures aligned with organizational mission and risk strategy.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "compliance"
+      ],
+      "rules": [
+        {
+          "id": "rule_at1_001",
+          "text": "Create and maintain a formal security awareness and training policy covering scope, roles, responsibilities, and delivery methods.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_at1_002",
+          "text": "Document procedures for developing, delivering, tracking, and updating security training programs.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_at1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "training-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_at1_003",
+          "text": "Assign a training coordinator responsible for program oversight and compliance reporting.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_at1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "coordinator"
+          ]
+        },
+        {
+          "id": "rule_at1_004",
+          "text": "Review and update awareness and training policy and procedures annually or after major incidents.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_at1_001",
+            "rule_at1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AT-2",
+      "control_title": "Literacy Training and Awareness",
+      "control_description": "Provide basic security awareness training to all users on recognizing threats, reporting incidents, and following security practices.",
+      "control_tags": [
+        "awareness",
+        "phishing",
+        "social-engineering",
+        "general-training"
+      ],
+      "rules": [
+        {
+          "id": "rule_at2_001",
+          "text": "Deliver mandatory annual security awareness training to all employees and contractors.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "KnowBe4, Proofpoint, SANS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AT-1"
+          ],
+          "tags": [
+            "annual-training",
+            "mandatory"
+          ]
+        },
+        {
+          "id": "rule_at2_002",
+          "text": "Include phishing simulations with real-time feedback and remedial training for failures.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "KnowBe4, Cofense, Proofpoint",
+          "dependent_rule_ids": [
+            "rule_at2_001"
+          ],
+          "dependent_control_ids": [
+            "AT-1"
+          ],
+          "tags": [
+            "phishing-simulation",
+            "remediation"
+          ]
+        },
+        {
+          "id": "rule_at2_003",
+          "text": "Track training completion and send automated reminders for overdue users.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "LMS, ServiceNow, Okta",
+          "dependent_rule_ids": [
+            "rule_at2_001"
+          ],
+          "dependent_control_ids": [
+            "AT-1"
+          ],
+          "tags": [
+            "compliance-tracking",
+            "reminders"
+          ]
+        },
+        {
+          "id": "rule_at2_004",
+          "text": "Provide new hire security training within 30 days of onboarding.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "LMS, HRIS Integration",
+          "dependent_rule_ids": [
+            "rule_at2_001"
+          ],
+          "dependent_control_ids": [
+            "AT-1",
+            "PS-3"
+          ],
+          "tags": [
+            "onboarding",
+            "new-hire"
+          ]
+        },
+        {
+          "id": "rule_at2_005",
+          "text": "Distribute monthly security newsletters with current threats and best practices.",
+          "type": "communication",
+          "platform": "ALL",
+          "tool": "Mailchimp, Internal Wiki",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AT-1"
+          ],
+          "tags": [
+            "newsletter",
+            "awareness"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AT-2(1)",
+      "control_title": "Practical Exercises",
+      "control_description": "Include practical exercises in awareness training to reinforce learning through simulated scenarios.",
+      "control_tags": [
+        "hands-on",
+        "simulation",
+        "phishing-drill"
+      ],
+      "rules": [
+        {
+          "id": "rule_at2_1_001",
+          "text": "Run quarterly phishing drills with randomized templates and track click rates.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "KnowBe4, Proofpoint TRAP",
+          "dependent_rule_ids": [
+            "rule_at2_002"
+          ],
+          "dependent_control_ids": [
+            "AT-2"
+          ],
+          "tags": [
+            "drill",
+            "metrics"
+          ]
+        },
+        {
+          "id": "rule_at2_1_002",
+          "text": "Require users who fail simulations to complete targeted micro-learning modules.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "LMS, Adaptive Learning",
+          "dependent_rule_ids": [
+            "rule_at2_1_001"
+          ],
+          "dependent_control_ids": [
+            "AT-2"
+          ],
+          "tags": [
+            "remedial",
+            "micro-learning"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AT-2(2)",
+      "control_title": "Insider Threat",
+      "control_description": "Include insider threat awareness as part of security training to help users recognize and report suspicious behavior.",
+      "control_tags": [
+        "insider-threat",
+        "behavior",
+        "reporting"
+      ],
+      "rules": [
+        {
+          "id": "rule_at2_2_001",
+          "text": "Train users to identify insider threat indicators like data hoarding or policy violations.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "LMS Module, SANS",
+          "dependent_rule_ids": [
+            "rule_at2_001"
+          ],
+          "dependent_control_ids": [
+            "AT-2",
+            "SI-4"
+          ],
+          "tags": [
+            "insider",
+            "indicators"
+          ]
+        },
+        {
+          "id": "rule_at2_2_002",
+          "text": "Provide anonymous reporting channels for suspected insider activity.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "EthicsPoint, Internal Hotline",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AT-2",
+            "IR-4"
+          ],
+          "tags": [
+            "whistleblower",
+            "anonymous"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AT-3",
+      "control_title": "Role-Based Training",
+      "control_description": "Provide role-specific security training to personnel with significant security responsibilities.",
+      "control_tags": [
+        "role-based",
+        "privileged-users",
+        "specialized-training"
+      ],
+      "rules": [
+        {
+          "id": "rule_at3_001",
+          "text": "Deliver annual role-based training for system administrators on secure configuration and logging.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "SANS, Pluralsight, LMS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AT-1",
+            "AC-2"
+          ],
+          "tags": [
+            "admin-training",
+            "secure-config"
+          ]
+        },
+        {
+          "id": "rule_at3_002",
+          "text": "Train developers on secure coding, OWASP Top 10, and threat modeling.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "Secure Code Warrior, Checkmarx Learn",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AT-1",
+            "SA-11"
+          ],
+          "tags": [
+            "devsecops",
+            "secure-coding"
+          ]
+        },
+        {
+          "id": "rule_at3_003",
+          "text": "Require privacy training for employees handling PII or PHI.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "LMS, HIPAA Module",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AT-1",
+            "PT-2"
+          ],
+          "tags": [
+            "privacy",
+            "pii"
+          ]
+        },
+        {
+          "id": "rule_at3_004",
+          "text": "Track role-based training completion and enforce access denial for non-compliance.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "LMS, IAM Integration",
+          "dependent_rule_ids": [
+            "rule_at3_001",
+            "rule_at3_002",
+            "rule_at3_003"
+          ],
+          "dependent_control_ids": [
+            "AT-1",
+            "AC-2"
+          ],
+          "tags": [
+            "enforcement",
+            "compliance"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AT-3(1)",
+      "control_title": "Environmental Training",
+      "control_description": "Provide training on physical and environmental security controls relevant to user roles.",
+      "control_tags": [
+        "physical-security",
+        "data-center",
+        "environmental"
+      ],
+      "rules": [
+        {
+          "id": "rule_at3_1_001",
+          "text": "Train data center staff on access control, badge usage, and tailgating prevention.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "On-site Training, Video",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AT-3",
+            "PE-3"
+          ],
+          "tags": [
+            "physical",
+            "tailgating"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AT-4",
+      "control_title": "Training Records",
+      "control_description": "Document and maintain records of security awareness and role-based training completion.",
+      "control_tags": [
+        "records",
+        "audit",
+        "evidence"
+      ],
+      "rules": [
+        {
+          "id": "rule_at4_001",
+          "text": "Retain training completion records for at least three years in a centralized LMS.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "LMS, HRIS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AT-2",
+            "AT-3"
+          ],
+          "tags": [
+            "retention",
+            "evidence"
+          ]
+        },
+        {
+          "id": "rule_at4_002",
+          "text": "Generate quarterly training compliance reports for leadership and auditors.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "LMS Reporting, Power BI",
+          "dependent_rule_ids": [
+            "rule_at4_001"
+          ],
+          "dependent_control_ids": [
+            "AT-1"
+          ],
+          "tags": [
+            "reporting",
+            "audit"
+          ]
+        }
+      ]
+    }
+  ]
+}

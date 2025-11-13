@@ -1,0 +1,566 @@
+{
+    "control_group": "CP",
+    "group_title": "Contingency Planning",
+    "group_description": "Establish, maintain, and test plans and procedures to ensure continuity of critical operations during and after disruptions.",
+    "group_purpose": "Minimize impact of outages, enable rapid recovery, and protect essential functions through proactive planning and testing.",
+    "group_tags": [
+      "business-continuity",
+      "disaster-recovery",
+      "backup",
+      "failover",
+      "rto",
+      "rpo",
+      "testing"
+    ],
+    "controls": [
+      {
+        "control_id": "CP-1",
+        "control_title": "Policy and Procedures",
+        "control_description": "Develop, document, and maintain contingency planning policies and procedures aligned with organizational risk tolerance.",
+        "control_tags": [
+          "governance",
+          "policy",
+          "procedures",
+          "cp-program"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp1_001",
+            "text": "Create and maintain a formal contingency planning policy defining scope, roles, and RTO/RPO targets.",
+            "type": "documentation",
+            "platform": "DOC",
+            "tool": "Confluence, Policy Repository",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [],
+            "tags": [
+              "policy",
+              "governance"
+            ]
+          },
+          {
+            "id": "rule_cp1_002",
+            "text": "Document procedures for plan development, testing, training, and revision.",
+            "type": "documentation",
+            "platform": "DOC",
+            "tool": "Confluence, SOPs",
+            "dependent_rule_ids": [
+              "rule_cp1_001"
+            ],
+            "dependent_control_ids": [],
+            "tags": [
+              "procedures",
+              "cp-lifecycle"
+            ]
+          },
+          {
+            "id": "rule_cp1_003",
+            "text": "Assign a contingency planning coordinator responsible for program oversight.",
+            "type": "governance",
+            "platform": "DOC",
+            "tool": "RACI Matrix",
+            "dependent_rule_ids": [
+              "rule_cp1_001"
+            ],
+            "dependent_control_ids": [],
+            "tags": [
+              "ownership",
+              "coordinator"
+            ]
+          },
+          {
+            "id": "rule_cp1_004",
+            "text": "Review and update CP policy and procedures annually or after major incidents.",
+            "type": "monitoring",
+            "platform": "DOC",
+            "tool": "Jira, ServiceNow",
+            "dependent_rule_ids": [
+              "rule_cp1_001",
+              "rule_cp1_002"
+            ],
+            "dependent_control_ids": [],
+            "tags": [
+              "review",
+              "update"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-2",
+        "control_title": "Contingency Plan",
+        "control_description": "Develop and document a contingency plan for system recovery and continued operations during disruptions.",
+        "control_tags": [
+          "cp-plan",
+          "recovery-strategy",
+          "roles",
+          "procedures"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp2_001",
+            "text": "Create a contingency plan with recovery objectives, roles, procedures, and communication protocols.",
+            "type": "documentation",
+            "platform": "DOC",
+            "tool": "Confluence, GRC Tool",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-1"
+            ],
+            "tags": [
+              "cp-plan",
+              "rto-rpo"
+            ]
+          },
+          {
+            "id": "rule_cp2_002",
+            "text": "Include alternate processing sites, data restoration, and manual procedures in the plan.",
+            "type": "documentation",
+            "platform": "DOC",
+            "tool": "Confluence",
+            "dependent_rule_ids": [
+              "rule_cp2_001"
+            ],
+            "dependent_control_ids": [
+              "CP-6",
+              "CP-9"
+            ],
+            "tags": [
+              "alternate-site",
+              "manual-ops"
+            ]
+          },
+          {
+            "id": "rule_cp2_003",
+            "text": "Distribute the contingency plan to all recovery personnel and store offsite.",
+            "type": "configuration",
+            "platform": "DOC",
+            "tool": "Secure Share, Physical Binder",
+            "dependent_rule_ids": [
+              "rule_cp2_001"
+            ],
+            "dependent_control_ids": [
+              "CP-1"
+            ],
+            "tags": [
+              "distribution",
+              "offsite"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-3",
+        "control_title": "Contingency Training",
+        "control_description": "Train personnel on contingency roles and responsibilities to ensure effective plan execution.",
+        "control_tags": [
+          "training",
+          "tabletop",
+          "role-based",
+          "awareness"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp3_001",
+            "text": "Conduct annual contingency training for all recovery team members.",
+            "type": "training",
+            "platform": "ALL",
+            "tool": "LMS, In-Person, Tabletop Exercise",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-2",
+              "AT-2"
+            ],
+            "tags": [
+              "annual-training",
+              "recovery-team"
+            ]
+          },
+          {
+            "id": "rule_cp3_002",
+            "text": "Include tabletop exercises simulating outages, ransomware, and site failure.",
+            "type": "training",
+            "platform": "ALL",
+            "tool": "Facilitated Workshop",
+            "dependent_rule_ids": [
+              "rule_cp3_001"
+            ],
+            "dependent_control_ids": [
+              "CP-4"
+            ],
+            "tags": [
+              "tabletop",
+              "simulation"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-4",
+        "control_title": "Contingency Plan Testing",
+        "control_description": "Test the contingency plan to validate recovery procedures and identify deficiencies.",
+        "control_tags": [
+          "testing",
+          "drill",
+          "failover",
+          "validation"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp4_001",
+            "text": "Conduct annual full contingency plan testing including failover and recovery.",
+            "type": "monitoring",
+            "platform": "ALL",
+            "tool": "Chaos Engineering, DR Drills",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-2"
+            ],
+            "tags": [
+              "annual-test",
+              "failover"
+            ]
+          },
+          {
+            "id": "rule_cp4_002",
+            "text": "Document test results, lessons learned, and update plan within 30 days.",
+            "type": "documentation",
+            "platform": "DOC",
+            "tool": "Confluence, After-Action Report",
+            "dependent_rule_ids": [
+              "rule_cp4_001"
+            ],
+            "dependent_control_ids": [
+              "CP-2"
+            ],
+            "tags": [
+              "after-action",
+              "remediation"
+            ]
+          },
+          {
+            "id": "rule_cp4_003",
+            "text": "Test backup restoration quarterly from alternate storage locations.",
+            "type": "monitoring",
+            "platform": "ALL",
+            "tool": "Veeam, AWS Backup, Azure Recovery",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-9"
+            ],
+            "tags": [
+              "backup-test",
+              "restore"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-6",
+        "control_title": "Alternate Storage Site",
+        "control_description": "Establish an alternate storage site with backups sufficient to meet RPO requirements.",
+        "control_tags": [
+          "offsite-backup",
+          "geo-redundancy",
+          "rpo",
+          "storage"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp6_001",
+            "text": "Store encrypted backups in a geographically separate region or third-party vault.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "S3 Cross-Region, Azure Geo-Redundant, Wasabi",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-9",
+              "SC-28"
+            ],
+            "tags": [
+              "geo-redundant",
+              "offsite"
+            ]
+          },
+          {
+            "id": "rule_cp6_002",
+            "text": "Ensure alternate site is not subject to the same threats as primary.",
+            "type": "configuration",
+            "platform": "DOC",
+            "tool": "Risk Assessment",
+            "dependent_rule_ids": [
+              "rule_cp6_001"
+            ],
+            "dependent_control_ids": [
+              "RA-3"
+            ],
+            "tags": [
+              "threat-diversity",
+              "site-selection"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-7",
+        "control_title": "Alternate Processing Site",
+        "control_description": "Establish an alternate processing site capable of resuming operations within RTO.",
+        "control_tags": [
+          "failover-site",
+          "hot-warm-cold",
+          "rto",
+          "continuity"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp7_001",
+            "text": "Maintain a hot or warm alternate site with replicated infrastructure and data.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "AWS Multi-Region, Azure Site Recovery",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-2"
+            ],
+            "tags": [
+              "hot-site",
+              "failover"
+            ]
+          },
+          {
+            "id": "rule_cp7_002",
+            "text": "Test failover to alternate site annually with full cutover and cutback.",
+            "type": "monitoring",
+            "platform": "ALL",
+            "tool": "DR Drills, Chaos Monkey",
+            "dependent_rule_ids": [
+              "rule_cp7_001"
+            ],
+            "dependent_control_ids": [
+              "CP-4"
+            ],
+            "tags": [
+              "cutover",
+              "failback"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-8",
+        "control_title": "Telecommunications Services",
+        "control_description": "Establish alternate telecommunications services to support critical functions during primary failure.",
+        "control_tags": [
+          "redundant-comm",
+          "isp-failover",
+          "satellite",
+          "continuity"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp8_001",
+            "text": "Contract with two or more ISPs with automatic failover routing.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "SD-WAN, BGP, Cloud Interconnect",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-2"
+            ],
+            "tags": [
+              "multi-isp",
+              "failover"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-9",
+        "control_title": "System Backup",
+        "control_description": "Conduct regular backups of system data, configurations, and software to support recovery.",
+        "control_tags": [
+          "backup",
+          "snapshot",
+          "versioning",
+          "restore"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp9_001",
+            "text": "Perform daily incremental and weekly full backups of all critical data and systems.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "AWS Backup, Veeam, Azure Backup",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-2"
+            ],
+            "tags": [
+              "daily-backup",
+              "incremental"
+            ]
+          },
+          {
+            "id": "rule_cp9_002",
+            "text": "Enable versioned backups with 30-day retention and immutability.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "S3 Versioning, Object Lock",
+            "dependent_rule_ids": [
+              "rule_cp9_001"
+            ],
+            "dependent_control_ids": [
+              "AU-9"
+            ],
+            "tags": [
+              "versioning",
+              "immutable"
+            ]
+          },
+          {
+            "id": "rule_cp9_003",
+            "text": "Encrypt all backups at rest and in transit using customer-managed keys.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "KMS, SSE-KMS",
+            "dependent_rule_ids": [
+              "rule_cp9_001"
+            ],
+            "dependent_control_ids": [
+              "SC-13"
+            ],
+            "tags": [
+              "encryption",
+              "backup-security"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-10",
+        "control_title": "System Recovery and Reconstitution",
+        "control_description": "Provide mechanisms to recover and reconstitute the system to a known secure state after disruption.",
+        "control_tags": [
+          "recovery",
+          "reconstitution",
+          "golden-image",
+          "automation"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp10_001",
+            "text": "Automate system recovery using infrastructure-as-code and immutable images.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "Terraform, Packer, Ansible",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-2",
+              "CM-2"
+            ],
+            "tags": [
+              "iac-recovery",
+              "immutable"
+            ]
+          },
+          {
+            "id": "rule_cp10_002",
+            "text": "Validate recovered systems match approved baseline before returning to production.",
+            "type": "monitoring",
+            "platform": "ALL",
+            "tool": "Config Drift Detection, InSpec",
+            "dependent_rule_ids": [
+              "rule_cp10_001"
+            ],
+            "dependent_control_ids": [
+              "CM-2"
+            ],
+            "tags": [
+              "validation",
+              "baseline"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-11",
+        "control_title": "Alternate Communications Protocols",
+        "control_description": "Provide alternate communication protocols to support resilience during primary protocol failure.",
+        "control_tags": [
+          "protocol-diversity",
+          "resilience",
+          "failover"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp11_001",
+            "text": "Support multiple network protocols and automatic failover between them.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "SD-WAN, Multi-Path Routing",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-8"
+            ],
+            "tags": [
+              "multi-protocol",
+              "resilience"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-12",
+        "control_title": "Safe Mode",
+        "control_description": "Provide capability to boot system into a secure, restricted safe mode for recovery.",
+        "control_tags": [
+          "safe-mode",
+          "recovery-mode",
+          "restricted"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp12_001",
+            "text": "Enable secure boot and safe mode with minimal services for emergency recovery.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "BIOS/UEFI, Cloud Init",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "CP-10"
+            ],
+            "tags": [
+              "secure-boot",
+              "minimal"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "CP-13",
+        "control_title": "Alternative Security Mechanisms",
+        "control_description": "Employ alternative or supplemental security mechanisms when primary controls fail.",
+        "control_tags": [
+          "compensating-control",
+          "fallback",
+          "resilience"
+        ],
+        "rules": [
+          {
+            "id": "rule_cp13_001",
+            "text": "Implement manual approval workflows when automated access controls fail.",
+            "type": "approval_workflow",
+            "platform": "ALL",
+            "tool": "ServiceNow, Email + Phone",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "AC-3"
+            ],
+            "tags": [
+              "manual-fallback",
+              "compensating"
+            ]
+          }
+        ]
+      }
+    ]
+  }

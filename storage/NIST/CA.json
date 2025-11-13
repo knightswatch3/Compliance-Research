@@ -1,0 +1,528 @@
+{
+  "control_group": "CA",
+  "group_title": "Assessment, Authorization, and Monitoring",
+  "group_description": "Processes to assess security controls, authorize system operation, and continuously monitor effectiveness to maintain risk-based security posture.",
+  "group_purpose": "Ensure systems are secure before go-live, maintain authorization through ongoing monitoring, and support risk-informed decision-making.",
+  "group_tags": [
+    "assessment",
+    "authorization",
+    "continuous-monitoring",
+    "poam",
+    "penetration-testing",
+    "risk-management"
+  ],
+  "controls": [
+    {
+      "control_id": "CA-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain assessment, authorization, and monitoring policies and procedures aligned with organizational risk strategy.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "compliance"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca1_001",
+          "text": "Create and maintain a formal security assessment and authorization policy covering scope, roles, and frequency.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_ca1_002",
+          "text": "Document procedures for control assessments, POA&M management, and continuous monitoring.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_ca1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "assessment-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_ca1_003",
+          "text": "Assign a security assessment lead responsible for program execution and reporting.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_ca1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_ca1_004",
+          "text": "Review and update assessment policy and procedures annually or after major changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ca1_001",
+            "rule_ca1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CA-2",
+      "control_title": "Control Assessments",
+      "control_description": "Assess security and privacy controls for effectiveness using defined methods and frequency.",
+      "control_tags": [
+        "control-assessment",
+        "testing",
+        "validation",
+        "compliance"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca2_001",
+          "text": "Conduct annual security control assessments using NIST 800-53A assessment procedures.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Tenable, Qualys, OpenSCAP",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CA-1",
+            "RA-5"
+          ],
+          "tags": [
+            "annual-assessment",
+            "nist-800-53a"
+          ]
+        },
+        {
+          "id": "rule_ca2_002",
+          "text": "Document assessment results including findings, evidence, and remediation plans.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, GRC Tool",
+          "dependent_rule_ids": [
+            "rule_ca2_001"
+          ],
+          "dependent_control_ids": [
+            "CA-1"
+          ],
+          "tags": [
+            "evidence",
+            "findings"
+          ]
+        },
+        {
+          "id": "rule_ca2_003",
+          "text": "Track all assessment findings in a centralized POA&M register.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "ServiceNow GRC, RSA Archer",
+          "dependent_rule_ids": [
+            "rule_ca2_002"
+          ],
+          "dependent_control_ids": [
+            "CA-5"
+          ],
+          "tags": [
+            "poam",
+            "tracking"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CA-2(1)",
+      "control_title": "Independent Assessor",
+      "control_description": "Employ independent assessors or teams to conduct control assessments.",
+      "control_tags": [
+        "independent-assessment",
+        "third-party",
+        "objectivity"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca2_1_001",
+          "text": "Engage external assessors for FedRAMP, CMMC, or high-impact system assessments.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "Contracts, 3PAO",
+          "dependent_rule_ids": [
+            "rule_ca2_001"
+          ],
+          "dependent_control_ids": [
+            "CA-2"
+          ],
+          "tags": [
+            "3pao",
+            "external"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CA-3",
+      "control_title": "Information Exchange",
+      "control_description": "Approve and manage connections to external systems and monitor for security compliance.",
+      "control_tags": [
+        "interconnection",
+        "isa",
+        "mou",
+        "external-system"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca3_001",
+          "text": "Document all system interconnections in an Interconnection Security Agreement (ISA).",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, GRC Tool",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CA-1"
+          ],
+          "tags": [
+            "isa",
+            "agreement"
+          ]
+        },
+        {
+          "id": "rule_ca3_002",
+          "text": "Review and reauthorize interconnections annually or after significant changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "ServiceNow, Jira",
+          "dependent_rule_ids": [
+            "rule_ca3_001"
+          ],
+          "dependent_control_ids": [
+            "CA-1"
+          ],
+          "tags": [
+            "reauthorization",
+            "review"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CA-5",
+      "control_title": "Plan of Action and Milestones",
+      "control_description": "Develop and maintain a POA&M to track and remediate security weaknesses.",
+      "control_tags": [
+        "poam",
+        "remediation",
+        "tracking",
+        "risk-management"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca5_001",
+          "text": "Create POA&M entries for all assessment findings with owner, timeline, and status.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "ServiceNow GRC, RSA Archer",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CA-2"
+          ],
+          "tags": [
+            "poam-entry",
+            "remediation"
+          ]
+        },
+        {
+          "id": "rule_ca5_002",
+          "text": "Review POA&M status monthly and escalate overdue items to leadership.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Dashboards, Reports",
+          "dependent_rule_ids": [
+            "rule_ca5_001"
+          ],
+          "dependent_control_ids": [
+            "CA-1"
+          ],
+          "tags": [
+            "monthly-review",
+            "escalation"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CA-6",
+      "control_title": "Authorization to Operate",
+      "control_description": "Authorize system operation based on risk determination and acceptance by senior officials.",
+      "control_tags": [
+        "ato",
+        "authorization",
+        "risk-acceptance",
+        "go-live"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca6_001",
+          "text": "Issue formal Authorization to Operate (ATO) signed by Authorizing Official (AO).",
+          "type": "approval_workflow",
+          "platform": "DOC",
+          "tool": "DocuSign, GRC Tool",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CA-2",
+            "RA-3"
+          ],
+          "tags": [
+            "ato",
+            "authorization"
+          ]
+        },
+        {
+          "id": "rule_ca6_002",
+          "text": "Define ATO conditions including duration, scope, and monitoring requirements.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "ATO Package",
+          "dependent_rule_ids": [
+            "rule_ca6_001"
+          ],
+          "dependent_control_ids": [
+            "CA-7"
+          ],
+          "tags": [
+            "conditions",
+            "scope"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CA-7",
+      "control_title": "Continuous Monitoring",
+      "control_description": "Continuously monitor security controls and environment to detect changes and threats.",
+      "control_tags": [
+        "continuous-monitoring",
+        "automation",
+        "devsecops",
+        "real-time"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca7_001",
+          "text": "Implement automated control monitoring using cloud-native and third-party tools.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Config, Azure Policy, Prisma Cloud",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CA-1",
+            "SI-4"
+          ],
+          "tags": [
+            "automation",
+            "config-drift"
+          ]
+        },
+        {
+          "id": "rule_ca7_002",
+          "text": "Generate monthly continuous monitoring reports with control status and trends.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Dashboards, Power BI",
+          "dependent_rule_ids": [
+            "rule_ca7_001"
+          ],
+          "dependent_control_ids": [
+            "CA-1"
+          ],
+          "tags": [
+            "reporting",
+            "trends"
+          ]
+        },
+        {
+          "id": "rule_ca7_003",
+          "text": "Reassess high-risk controls quarterly and low-risk annually.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Scheduler, GRC",
+          "dependent_rule_ids": [
+            "rule_ca7_001"
+          ],
+          "dependent_control_ids": [
+            "CA-2"
+          ],
+          "tags": [
+            "frequency",
+            "risk-based"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CA-7(1)",
+      "control_title": "Independent Assessment",
+      "control_description": "Employ independent assessors to monitor control effectiveness on an ongoing basis.",
+      "control_tags": [
+        "independent-monitoring",
+        "third-party",
+        "objectivity"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca7_1_001",
+          "text": "Engage external team to validate continuous monitoring results quarterly.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "3PAO, Audit Firm",
+          "dependent_rule_ids": [
+            "rule_ca7_001"
+          ],
+          "dependent_control_ids": [
+            "CA-7"
+          ],
+          "tags": [
+            "external-validation",
+            "independence"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CA-8",
+      "control_title": "Penetration Testing",
+      "control_description": "Conduct penetration testing to identify exploitable vulnerabilities in the system.",
+      "control_tags": [
+        "penetration-testing",
+        "red-team",
+        "vulnerability",
+        "attack-simulation"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca8_001",
+          "text": "Perform annual penetration testing by qualified external red team.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Cobalt, Synack, Internal Red Team",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CA-1",
+            "RA-5"
+          ],
+          "tags": [
+            "annual-pentest",
+            "red-team"
+          ]
+        },
+        {
+          "id": "rule_ca8_002",
+          "text": "Include scope, rules of engagement, and remediation tracking in pentest plan.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Pentest Charter",
+          "dependent_rule_ids": [
+            "rule_ca8_001"
+          ],
+          "dependent_control_ids": [
+            "CA-5"
+          ],
+          "tags": [
+            "roe",
+            "scope"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CA-8(1)",
+      "control_title": "Independent Penetration Testing Agent",
+      "control_description": "Use independent penetration testers not involved in system development or operation.",
+      "control_tags": [
+        "independent-pentest",
+        "external",
+        "objectivity"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca8_1_001",
+          "text": "Contract third-party penetration testing firm with no prior system access.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "Vendor Contract",
+          "dependent_rule_ids": [
+            "rule_ca8_001"
+          ],
+          "dependent_control_ids": [
+            "CA-8"
+          ],
+          "tags": [
+            "third-party",
+            "independence"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CA-9",
+      "control_title": "Internal System Connections",
+      "control_description": "Authorize and document internal connections between system components.",
+      "control_tags": [
+        "internal-connections",
+        "architecture",
+        "documentation"
+      ],
+      "rules": [
+        {
+          "id": "rule_ca9_001",
+          "text": "Maintain architecture diagram and data flow documentation for all internal connections.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Lucidchart, Visio, Confluence",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CA-1",
+            "SC-7"
+          ],
+          "tags": [
+            "data-flow",
+            "diagram"
+          ]
+        },
+        {
+          "id": "rule_ca9_002",
+          "text": "Review internal connection approvals during change management process.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "ServiceNow, Jira",
+          "dependent_rule_ids": [
+            "rule_ca9_001"
+          ],
+          "dependent_control_ids": [
+            "CM-2"
+          ],
+          "tags": [
+            "change-review",
+            "approval"
+          ]
+        }
+      ]
+    }
+  ]
+}

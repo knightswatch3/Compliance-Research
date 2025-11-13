@@ -1,0 +1,472 @@
+{
+  "control_group": "SA",
+  "group_title": "System and Services Acquisition",
+  "group_description": "Policies and processes to ensure acquired systems, components, and services meet security and privacy requirements throughout the lifecycle.",
+  "group_purpose": "Embed security early in procurement, development, and outsourcing to reduce risk, cost, and technical debt.",
+  "group_tags": [
+    "acquisition",
+    "procurement",
+    "sdlc",
+    "supplier",
+    "contract",
+    "third-party",
+    "secure-development"
+  ],
+  "controls": [
+    {
+      "control_id": "SA-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain system and services acquisition policies and procedures.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "acquisition-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa1_001",
+          "text": "Create and maintain a formal acquisition policy defining security requirements in contracts and RFPs.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_sa1_002",
+          "text": "Document procedures for supplier assessment, secure development, and contract monitoring.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_sa1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "acquisition-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_sa1_003",
+          "text": "Assign an acquisition security lead responsible for compliance and risk review.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_sa1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_sa1_004",
+          "text": "Review and update acquisition policy annually or after regulatory changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_sa1_001",
+            "rule_sa1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-2",
+      "control_title": "Allocation of Resources",
+      "control_description": "Allocate sufficient resources to implement security and privacy in system acquisition and development.",
+      "control_tags": [
+        "budget",
+        "resources",
+        "funding",
+        "personnel"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa2_001",
+          "text": "Include security and privacy resource needs in project budgets and staffing plans.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Budget Template, Project Plan",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-1",
+            "PM-3"
+          ],
+          "tags": [
+            "budget",
+            "security-funding"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-3",
+      "control_title": "System Development Life Cycle",
+      "control_description": "Manage system development using a secure SDLC with integrated security activities.",
+      "control_tags": [
+        "sdlc",
+        "secure-development",
+        "devsecops",
+        "phase-gate"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa3_001",
+          "text": "Adopt a secure SDLC framework (e.g., NIST 800-160, OWASP SAMM) with security gates.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Jira Process",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-1"
+          ],
+          "tags": [
+            "sdlc-framework",
+            "security-gates"
+          ]
+        },
+        {
+          "id": "rule_sa3_002",
+          "text": "Require threat modeling, SAST, and DAST in development and pre-production phases.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Checkmarx, SonarQube, OWASP ZAP",
+          "dependent_rule_ids": [
+            "rule_sa3_001"
+          ],
+          "dependent_control_ids": [
+            "RA-5"
+          ],
+          "tags": [
+            "sast",
+            "dast",
+            "threat-model"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-4",
+      "control_title": "Acquisition Process",
+      "control_description": "Include security and privacy requirements in acquisition contracts and agreements.",
+      "control_tags": [
+        "contract",
+        "rfp",
+        "security-requirements",
+        "sla"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa4_001",
+          "text": "Embed NIST 800-53 controls and SLAs in all RFPs and contracts for systems and services.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Contract Template, Legal Review",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-1"
+          ],
+          "tags": [
+            "rfp",
+            "contract-clause"
+          ]
+        },
+        {
+          "id": "rule_sa4_002",
+          "text": "Require suppliers to provide evidence of secure development and testing (e.g., SOC 2, penetration test).",
+          "type": "approval_workflow",
+          "platform": "DOC",
+          "tool": "Vendor Portal, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_sa4_001"
+          ],
+          "dependent_control_ids": [
+            "SA-11"
+          ],
+          "tags": [
+            "supplier-evidence",
+            "soc2"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-8",
+      "control_title": "Security and Privacy Engineering Principles",
+      "control_description": "Apply security and privacy engineering principles in system design and development.",
+      "control_tags": [
+        "secure-design",
+        "privacy-by-design",
+        "least-privilege",
+        "fail-secure"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa8_001",
+          "text": "Enforce least privilege, secure defaults, and defense in depth in all system designs.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Architecture Review, Terraform",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-3"
+          ],
+          "tags": [
+            "secure-principles",
+            "defense-in-depth"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-9",
+      "control_title": "External System Services",
+      "control_description": "Require external providers to comply with organizational security and privacy requirements.",
+      "control_tags": [
+        "third-party",
+        "cloud",
+        "saas",
+        "outsourcing"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa9_001",
+          "text": "Conduct security and privacy risk assessment before engaging any external service provider.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Vendor Risk Tool, OneTrust",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-3",
+            "SA-4"
+          ],
+          "tags": [
+            "vendor-risk",
+            "third-party"
+          ]
+        },
+        {
+          "id": "rule_sa9_002",
+          "text": "Include right-to-audit and data protection clauses in all cloud and SaaS contracts.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Contract Template, Legal",
+          "dependent_rule_ids": [
+            "rule_sa9_001"
+          ],
+          "dependent_control_ids": [
+            "SA-4"
+          ],
+          "tags": [
+            "right-to-audit",
+            "dpa"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-10",
+      "control_title": "Developer Configuration Management",
+      "control_description": "Require developers to implement configuration management for systems under development.",
+      "control_tags": [
+        "config-management",
+        "version-control",
+        "iac",
+        "developer"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa10_001",
+          "text": "Mandate Git-based version control and IaC for all code and infrastructure changes.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "GitHub, GitLab, Terraform",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-2",
+            "SA-3"
+          ],
+          "tags": [
+            "git",
+            "iac"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-11",
+      "control_title": "Developer Testing and Evaluation",
+      "control_description": "Require developers to perform security and privacy testing during development.",
+      "control_tags": [
+        "testing",
+        "sast",
+        "dast",
+        "pen-test",
+        "developer"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa11_001",
+          "text": "Integrate SAST, SCA, and DAST into CI/CD pipelines with automated failure on high issues.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "GitHub Actions, SonarQube, OWASP ZAP",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-3"
+          ],
+          "tags": [
+            "ci-cd",
+            "sast-sca"
+          ]
+        },
+        {
+          "id": "rule_sa11_002",
+          "text": "Require independent penetration testing before production deployment.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "External Pen Test Firm, Bug Bounty",
+          "dependent_rule_ids": [
+            "rule_sa11_001"
+          ],
+          "dependent_control_ids": [
+            "CA-2"
+          ],
+          "tags": [
+            "pen-test",
+            "pre-prod"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-15",
+      "control_title": "Development Process, Standards, and Tools",
+      "control_description": "Define and enforce secure development processes, standards, and tools.",
+      "control_tags": [
+        "devsecops",
+        "toolchain",
+        "standards",
+        "process"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa15_001",
+          "text": "Standardize secure toolchain: IDE, linters, package managers, and container base images.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "VS Code, Hadolint, Trivy",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-3"
+          ],
+          "tags": [
+            "toolchain",
+            "secure-base"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-16",
+      "control_title": "Developer-Provided Training",
+      "control_description": "Require developers to complete secure coding and privacy training.",
+      "control_tags": [
+        "training",
+        "secure-coding",
+        "privacy",
+        "developer"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa16_001",
+          "text": "Mandate annual secure coding and privacy training for all developers and engineers.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "Secure Code Warrior, LMS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AT-2",
+            "SA-3"
+          ],
+          "tags": [
+            "secure-coding",
+            "annual"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-17",
+      "control_title": "Developer Security Architecture and Design",
+      "control_description": "Require developers to produce security architecture and design documentation.",
+      "control_tags": [
+        "design-doc",
+        "threat-model",
+        "data-flow",
+        "architecture"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa17_001",
+          "text": "Require data flow diagrams and threat models in design documents for new systems.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Lucidchart, Confluence",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PL-8",
+            "SA-3"
+          ],
+          "tags": [
+            "dfd",
+            "threat-model"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SA-22",
+      "control_title": "Unsupported System Components",
+      "control_description": "Replace or mitigate unsupported system components to reduce risk.",
+      "control_tags": [
+        "eol",
+        "eos",
+        "unsupported",
+        "mitigation"
+      ],
+      "rules": [
+        {
+          "id": "rule_sa22_001",
+          "text": "Identify and replace EOL/EOS components within 90 days of support end.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Asset Inventory, Jira",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-8"
+          ],
+          "tags": [
+            "eol",
+            "90-day"
+          ]
+        }
+      ]
+    }
+  ]
+}

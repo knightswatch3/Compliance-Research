@@ -1,0 +1,479 @@
+{
+  "control_group": "IR",
+  "group_title": "Incident Response",
+  "group_description": "Processes and capabilities to prepare for, detect, analyze, contain, eradicate, recover from, and learn from cybersecurity incidents.",
+  "group_purpose": "Minimize impact of incidents, enable rapid recovery, and improve defenses through lessons learned.",
+  "group_tags": [
+    "incident-response",
+    "ir-plan",
+    "detection",
+    "containment",
+    "eradication",
+    "recovery",
+    "post-incident"
+  ],
+  "controls": [
+    {
+      "control_id": "IR-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain incident response policies and procedures aligned with organizational risk.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "ir-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_ir1_001",
+          "text": "Create and maintain a formal incident response policy defining scope, roles, and escalation paths.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_ir1_002",
+          "text": "Document procedures for detection, analysis, containment, eradication, and recovery.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Runbooks",
+          "dependent_rule_ids": [
+            "rule_ir1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "ir-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_ir1_003",
+          "text": "Assign an incident response lead and define on-call rotation schedule.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix, PagerDuty",
+          "dependent_rule_ids": [
+            "rule_ir1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "on-call"
+          ]
+        },
+        {
+          "id": "rule_ir1_004",
+          "text": "Review and update IR policy and procedures annually or after major incidents.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ir1_001",
+            "rule_ir1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IR-2",
+      "control_title": "Incident Response Training",
+      "control_description": "Train personnel on incident response roles, procedures, and tools.",
+      "control_tags": [
+        "training",
+        "tabletop",
+        "simulation",
+        "awareness"
+      ],
+      "rules": [
+        {
+          "id": "rule_ir2_001",
+          "text": "Conduct annual incident response training for all IR team members.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "LMS, In-Person, Tabletop Exercise",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IR-1",
+            "AT-2"
+          ],
+          "tags": [
+            "annual-training",
+            "ir-team"
+          ]
+        },
+        {
+          "id": "rule_ir2_002",
+          "text": "Run quarterly tabletop exercises simulating ransomware, data breach, and DDoS.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "Facilitated Workshop, CyberRange",
+          "dependent_rule_ids": [
+            "rule_ir2_001"
+          ],
+          "dependent_control_ids": [
+            "IR-1"
+          ],
+          "tags": [
+            "tabletop",
+            "simulation"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IR-3",
+      "control_title": "Incident Response Testing",
+      "control_description": "Test incident response capabilities to validate effectiveness and identify gaps.",
+      "control_tags": [
+        "testing",
+        "drill",
+        "red-team",
+        "validation"
+      ],
+      "rules": [
+        {
+          "id": "rule_ir3_001",
+          "text": "Conduct annual full-scale IR exercise with simulated breach and recovery.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "CyberRange, Red Team, Chaos Engineering",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IR-2"
+          ],
+          "tags": [
+            "full-scale",
+            "exercise"
+          ]
+        },
+        {
+          "id": "rule_ir3_002",
+          "text": "Document test results and update IR plan within 30 days of exercise.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, After-Action Report",
+          "dependent_rule_ids": [
+            "rule_ir3_001"
+          ],
+          "dependent_control_ids": [
+            "IR-1"
+          ],
+          "tags": [
+            "after-action",
+            "remediation"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IR-4",
+      "control_title": "Incident Handling",
+      "control_description": "Implement processes to contain, eradicate, and recover from incidents.",
+      "control_tags": [
+        "containment",
+        "eradication",
+        "recovery",
+        "playbook"
+      ],
+      "rules": [
+        {
+          "id": "rule_ir4_001",
+          "text": "Maintain incident playbooks for high-impact scenarios: ransomware, insider threat, DDoS.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, TheHive, Cortex",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IR-1"
+          ],
+          "tags": [
+            "playbook",
+            "runbook"
+          ]
+        },
+        {
+          "id": "rule_ir4_002",
+          "text": "Isolate compromised systems within 15 minutes of confirmed breach.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "SOAR, AWS Network ACL, Azure NSG",
+          "dependent_rule_ids": [
+            "rule_ir4_001"
+          ],
+          "dependent_control_ids": [
+            "SI-4"
+          ],
+          "tags": [
+            "containment",
+            "isolation"
+          ]
+        },
+        {
+          "id": "rule_ir4_003",
+          "text": "Restore systems from known-good backups after full malware eradication.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Backup, Veeam, Azure Recovery",
+          "dependent_rule_ids": [
+            "rule_ir4_002"
+          ],
+          "dependent_control_ids": [
+            "CP-9",
+            "CP-10"
+          ],
+          "tags": [
+            "restore",
+            "recovery"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IR-5",
+      "control_title": "Incident Monitoring",
+      "control_description": "Track and document incident information throughout the lifecycle.",
+      "control_tags": [
+        "tracking",
+        "ticketing",
+        "status",
+        "documentation"
+      ],
+      "rules": [
+        {
+          "id": "rule_ir5_001",
+          "text": "Log all incident activities in a centralized ticketing system with timestamps.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Jira, ServiceNow, TheHive",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-2",
+            "IR-1"
+          ],
+          "tags": [
+            "ticketing",
+            "audit-trail"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IR-6",
+      "control_title": "Incident Reporting",
+      "control_description": "Report incidents to designated authorities and stakeholders in required timeframes.",
+      "control_tags": [
+        "reporting",
+        "notification",
+        "regulatory",
+        "cisa"
+      ],
+      "rules": [
+        {
+          "id": "rule_ir6_001",
+          "text": "Report PII breaches to US-CERT within 1 hour and affected individuals within 72 hours.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "SOAR, Email, CISA Portal",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IR-1"
+          ],
+          "tags": [
+            "72-hour",
+            "cisa"
+          ]
+        },
+        {
+          "id": "rule_ir6_002",
+          "text": "Notify executive leadership and legal within 1 hour of confirmed major incident.",
+          "type": "notification",
+          "platform": "ALL",
+          "tool": "PagerDuty, Slack, Email",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IR-1"
+          ],
+          "tags": [
+            "executive",
+            "escalation"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IR-7",
+      "control_title": "Incident Response Assistance",
+      "control_description": "Provide support resources and expertise to assist in incident response.",
+      "control_tags": [
+        "support",
+        "soc",
+        "mssP",
+        "retainer"
+      ],
+      "rules": [
+        {
+          "id": "rule_ir7_001",
+          "text": "Maintain 24/7 access to internal SOC or third-party IR retainer services.",
+          "type": "governance",
+          "platform": "ALL",
+          "tool": "MSSP Contract, Internal SOC",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IR-1"
+          ],
+          "tags": [
+            "24x7",
+            "retainer"
+          ]
+        },
+        {
+          "id": "rule_ir7_002",
+          "text": "Engage external IR firm within 4 hours of declared major incident.",
+          "type": "approval_workflow",
+          "platform": "DOC",
+          "tool": "Contract, On-Call List",
+          "dependent_rule_ids": [
+            "rule_ir7_001"
+          ],
+          "dependent_control_ids": [
+            "IR-1"
+          ],
+          "tags": [
+            "external-ir",
+            "activation"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IR-8",
+      "control_title": "Incident Response Plan",
+      "control_description": "Develop and maintain a comprehensive incident response plan.",
+      "control_tags": [
+        "ir-plan",
+        "roles",
+        "communication",
+        "recovery"
+      ],
+      "rules": [
+        {
+          "id": "rule_ir8_001",
+          "text": "Document IR plan with roles, communication channels, tools, and recovery strategies.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, GRC Tool",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IR-1"
+          ],
+          "tags": [
+            "ir-plan",
+            "comms"
+          ]
+        },
+        {
+          "id": "rule_ir8_002",
+          "text": "Distribute IR plan to all stakeholders and store securely offsite.",
+          "type": "configuration",
+          "platform": "DOC",
+          "tool": "Secure Share, Physical Binder",
+          "dependent_rule_ids": [
+            "rule_ir8_001"
+          ],
+          "dependent_control_ids": [
+            "IR-1"
+          ],
+          "tags": [
+            "distribution",
+            "offsite"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IR-9",
+      "control_title": "Information Spillage Response",
+      "control_description": "Respond to information spills by containing, documenting, and notifying affected parties.",
+      "control_tags": [
+        "spillage",
+        "data-leak",
+        "contamination",
+        "cleanup"
+      ],
+      "rules": [
+        {
+          "id": "rule_ir9_001",
+          "text": "Isolate systems with spilled data and notify data owners within 1 hour.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "DLP, SOAR, Network Segmentation",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IR-4",
+            "SI-4"
+          ],
+          "tags": [
+            "isolation",
+            "notification"
+          ]
+        },
+        {
+          "id": "rule_ir9_002",
+          "text": "Purge or sanitize spilled data and document cleanup actions.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Forensic Tools, Secure Erase",
+          "dependent_rule_ids": [
+            "rule_ir9_001"
+          ],
+          "dependent_control_ids": [
+            "IR-5"
+          ],
+          "tags": [
+            "sanitize",
+            "cleanup"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "IR-10",
+      "control_title": "Integrated Information Sharing",
+      "control_description": "Enable secure information sharing during incident response with trusted partners.",
+      "control_tags": [
+        "sharing",
+        "isac",
+        "federation",
+        "collaboration"
+      ],
+      "rules": [
+        {
+          "id": "rule_ir10_001",
+          "text": "Share IOCs and TTPs with ISACs and trusted partners via secure channels.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "MISP, ThreatConnect, Secure Email",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IR-1"
+          ],
+          "tags": [
+            "ioc-sharing",
+            "isac"
+          ]
+        }
+      ]
+    }
+  ]
+}

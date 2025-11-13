@@ -1,0 +1,1299 @@
+{
+  "control_group": "AC",
+  "group_title": "Access Control",
+  "group_description": "Policies, procedures, and technical mechanisms that govern who can access information systems, resources, and data, ensuring only authorized users, processes, or devices gain entry.",
+  "group_purpose": "Prevent unauthorized access, enforce least privilege, protect system boundaries, and maintain confidentiality, integrity, and availability of resources.",
+  "group_tags": [
+    "iam",
+    "authorization",
+    "least-privilege",
+    "account-management",
+    "access-enforcement",
+    "remote-access",
+    "flow-control"
+  ],
+  "controls": [
+    {
+      "control_id": "AC-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, disseminate, and periodically review access control policies and procedures aligned with laws, regulations, and organizational risk.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "compliance"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac1_001",
+          "text": "Create and maintain a formal access control policy covering purpose, scope, roles, responsibilities, and compliance requirements.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_ac1_002",
+          "text": "Develop and document procedures to implement the access control policy across systems and teams.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_ac1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "implementation"
+          ]
+        },
+        {
+          "id": "rule_ac1_003",
+          "text": "Assign an official responsible for managing access control policy and procedure lifecycle.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_ac1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_ac1_004",
+          "text": "Review and update access control policy and procedures annually or after significant events.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ac1_001",
+            "rule_ac1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-2",
+      "control_title": "Account Management",
+      "control_description": "Define, document, approve, and regularly review user and system accounts to ensure only authorized individuals and services have access.",
+      "control_tags": [
+        "iam",
+        "account-lifecycle",
+        "approval",
+        "review",
+        "least-privilege"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac2_001",
+          "text": "Document all account types including user, service, privileged, temporary, and shared accounts.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Asset Inventory",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "account-types",
+            "inventory"
+          ]
+        },
+        {
+          "id": "rule_ac2_002",
+          "text": "Assign account managers responsible for overseeing user and system accounts.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "HRIS, IAM Console",
+          "dependent_rule_ids": [
+            "rule_ac2_001"
+          ],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "ownership",
+            "responsibility"
+          ]
+        },
+        {
+          "id": "rule_ac2_003",
+          "text": "Define and document conditions for group and role membership eligibility.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Policy Docs",
+          "dependent_rule_ids": [
+            "rule_ac2_001"
+          ],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "roles",
+            "groups"
+          ]
+        },
+        {
+          "id": "rule_ac2_004",
+          "text": "Specify authorized users, group membership, and access rights for every account.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM, Azure AD, GCP IAM",
+          "dependent_rule_ids": [
+            "rule_ac2_001",
+            "rule_ac2_003"
+          ],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "authorization",
+            "user-provisioning"
+          ]
+        },
+        {
+          "id": "rule_ac2_005",
+          "text": "Require formal approval before creating any new user or service account.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "ServiceNow, Jira, Azure PIM",
+          "dependent_rule_ids": [
+            "rule_ac2_004"
+          ],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "approval",
+            "provisioning"
+          ]
+        },
+        {
+          "id": "rule_ac2_006",
+          "text": "Automate account creation, modification, disablement, and removal using approved procedures.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "Terraform, AWS Organizations, Azure AD",
+          "dependent_rule_ids": [
+            "rule_ac2_005"
+          ],
+          "dependent_control_ids": [
+            "AC-1",
+            "CM-2"
+          ],
+          "tags": [
+            "lifecycle",
+            "automation"
+          ]
+        },
+        {
+          "id": "rule_ac2_007",
+          "text": "Enforce strong initial password requirements including length, complexity, and no defaults.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM Policy, Azure AD Password Policy",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-5"
+          ],
+          "tags": [
+            "password",
+            "initial-setup"
+          ]
+        },
+        {
+          "id": "rule_ac2_008",
+          "text": "Limit concurrent sessions per account to prevent session hijacking.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM Session Policy, Azure Conditional Access",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "session-control",
+            "security"
+          ]
+        },
+        {
+          "id": "rule_ac2_009",
+          "text": "Automatically disable accounts with no activity for over 90 days.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Prisma Cloud, AWS Config",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "dormant-accounts",
+            "cleanup"
+          ]
+        },
+        {
+          "id": "rule_ac2_010",
+          "text": "Integrate HR offboarding to automatically disable accounts upon termination.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "Okta, Workday, SCIM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PS-4"
+          ],
+          "tags": [
+            "offboarding",
+            "termination"
+          ]
+        },
+        {
+          "id": "rule_ac2_011",
+          "text": "Review all accounts quarterly for necessity, access level, and compliance.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Prisma Cloud, AWS IAM Access Analyzer",
+          "dependent_rule_ids": [
+            "rule_ac2_004"
+          ],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "review",
+            "audit"
+          ]
+        },
+        {
+          "id": "rule_ac2_012",
+          "text": "Prohibit shared accounts and enforce individual accountability.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "IAM Policy",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-1",
+            "AU-2"
+          ],
+          "tags": [
+            "shared-accounts",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_ac2_013",
+          "text": "Enforce session timeout after 15 minutes of inactivity on all consoles.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Console, Azure Portal, GCP Console",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "inactivity",
+            "timeout"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-2(1)",
+      "control_title": "Automated System Account Management",
+      "control_description": "Automate account management tasks including creation, modification, review, disablement, and removal.",
+      "control_tags": [
+        "automation",
+        "account-lifecycle",
+        "provisioning"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac2_1_001",
+          "text": "Automate user account provisioning using identity federation and SCIM.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "Okta, Azure AD Connect, AWS SSO",
+          "dependent_rule_ids": [
+            "rule_ac2_005"
+          ],
+          "dependent_control_ids": [
+            "AC-2"
+          ],
+          "tags": [
+            "scim",
+            "idp"
+          ]
+        },
+        {
+          "id": "rule_ac2_1_002",
+          "text": "Automate service account creation via infrastructure-as-code templates.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "Terraform, CloudFormation",
+          "dependent_rule_ids": [
+            "rule_ac2_006"
+          ],
+          "dependent_control_ids": [
+            "AC-2",
+            "CM-2"
+          ],
+          "tags": [
+            "iac",
+            "service-accounts"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-2(2)",
+      "control_title": "Removal of Temporary/Emergency Accounts",
+      "control_description": "Automatically remove or disable temporary and emergency accounts after a defined period.",
+      "control_tags": [
+        "temporary-accounts",
+        "cleanup",
+        "expiration"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac2_2_001",
+          "text": "Set expiration dates on break-glass accounts and auto-disable after 24 hours.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM, Azure PIM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2"
+          ],
+          "tags": [
+            "break-glass",
+            "emergency"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-2(3)",
+      "control_title": "Disable Inactive Accounts",
+      "control_description": "Disable accounts that have been inactive for a defined period.",
+      "control_tags": [
+        "dormant-accounts",
+        "cleanup",
+        "security-hygiene"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac2_3_001",
+          "text": "Disable user accounts inactive for 90 days using automated scripts.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "AWS Lambda, Azure Automation",
+          "dependent_rule_ids": [
+            "rule_ac2_009"
+          ],
+          "dependent_control_ids": [
+            "AC-2"
+          ],
+          "tags": [
+            "inactivity",
+            "disable"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-2(4)",
+      "control_title": "Automated Audit Actions",
+      "control_description": "Automatically notify account managers when accounts are no longer required or users change roles.",
+      "control_tags": [
+        "notification",
+        "audit",
+        "offboarding"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac2_4_001",
+          "text": "Send automated alerts to managers when user roles change in HR system.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "Workday, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ac2_010"
+          ],
+          "dependent_control_ids": [
+            "AC-2",
+            "PS-4"
+          ],
+          "tags": [
+            "role-change",
+            "alert"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-2(5)",
+      "control_title": "Inactivity Timeout",
+      "control_description": "Require users to log out after a defined period of inactivity.",
+      "control_tags": [
+        "session-timeout",
+        "inactivity",
+        "security"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac2_5_001",
+          "text": "Enforce 15-minute inactivity timeout on all interactive sessions.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Console, Azure AD, GCP Console",
+          "dependent_rule_ids": [
+            "rule_ac2_013"
+          ],
+          "dependent_control_ids": [
+            "AC-2"
+          ],
+          "tags": [
+            "timeout",
+            "session"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-3",
+      "control_title": "Access Enforcement",
+      "control_description": "Enforce approved authorizations for logical access to information and system resources using role-based or attribute-based access control.",
+      "control_tags": [
+        "authorization",
+        "rbac",
+        "abac",
+        "least-privilege"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac3_001",
+          "text": "Deny all access by default and explicitly allow only approved actions via IAM policies.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM, Azure RBAC, GCP IAM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2",
+            "AC-6"
+          ],
+          "tags": [
+            "deny-by-default",
+            "iam"
+          ]
+        },
+        {
+          "id": "rule_ac3_002",
+          "text": "Use role-based access control to assign permissions based on job function.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM Roles, Azure RBAC",
+          "dependent_rule_ids": [
+            "rule_ac3_001"
+          ],
+          "dependent_control_ids": [
+            "AC-2"
+          ],
+          "tags": [
+            "rbac",
+            "roles"
+          ]
+        },
+        {
+          "id": "rule_ac3_003",
+          "text": "Prevent privilege escalation by restricting IAM policy attachments.",
+          "type": "configuration",
+          "platform": "AWS",
+          "tool": "AWS IAM, SCPs",
+          "dependent_rule_ids": [
+            "rule_ac3_001"
+          ],
+          "dependent_control_ids": [
+            "AC-6"
+          ],
+          "tags": [
+            "privilege-escalation",
+            "scp"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-4",
+      "control_title": "Information Flow Enforcement",
+      "control_description": "Control the flow of information between system components and external networks using firewalls, proxies, and data guards.",
+      "control_tags": [
+        "data-flow",
+        "network-segmentation",
+        "firewall",
+        "proxy"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac4_001",
+          "text": "Restrict inbound and outbound traffic using security groups and network ACLs.",
+          "type": "configuration",
+          "platform": "AWS",
+          "tool": "AWS Security Groups, NACLs",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-7"
+          ],
+          "tags": [
+            "network-security",
+            "firewall"
+          ]
+        },
+        {
+          "id": "rule_ac4_002",
+          "text": "Enforce data flow rules using VPC service controls and private endpoints.",
+          "type": "configuration",
+          "platform": "GCP",
+          "tool": "VPC Service Controls",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-7"
+          ],
+          "tags": [
+            "data-exfiltration",
+            "private-connectivity"
+          ]
+        },
+        {
+          "id": "rule_ac4_003",
+          "text": "Use network security groups to filter traffic between Azure subnets.",
+          "type": "configuration",
+          "platform": "Azure",
+          "tool": "Azure NSG",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-7"
+          ],
+          "tags": [
+            "nsg",
+            "segmentation"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-5",
+      "control_title": "Separation of Duties",
+      "control_description": "Enforce separation of duties to prevent any single individual from performing conflicting security functions.",
+      "control_tags": [
+        "separation-of-duties",
+        "conflict-of-interest",
+        "dual-control"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac5_001",
+          "text": "Prevent the same user from both requesting and approving high-risk changes.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "ServiceNow, Jira",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2",
+            "CM-5"
+          ],
+          "tags": [
+            "dual-approval",
+            "change-management"
+          ]
+        },
+        {
+          "id": "rule_ac5_002",
+          "text": "Enforce role mutual exclusivity for security administration and audit functions.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM, Azure RBAC",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2",
+            "AU-9"
+          ],
+          "tags": [
+            "role-conflict",
+            "audit-independence"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-6",
+      "control_title": "Least Privilege",
+      "control_description": "Grant users, processes, and systems the minimum permissions necessary to perform their functions.",
+      "control_tags": [
+        "least-privilege",
+        "principle-of-least-privilege",
+        "permission-minimization"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac6_001",
+          "text": "Assign the most restrictive IAM policy that still allows required job functions.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM, Azure RBAC",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "tags": [
+            "least-privilege",
+            "iam"
+          ]
+        },
+        {
+          "id": "rule_ac6_002",
+          "text": "Use just-in-time elevation for temporary privileged access.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "Azure PIM, AWS SSM",
+          "dependent_rule_ids": [
+            "rule_ac6_001"
+          ],
+          "dependent_control_ids": [
+            "AC-2"
+          ],
+          "tags": [
+            "jit",
+            "privileged-access"
+          ]
+        },
+        {
+          "id": "rule_ac6_003",
+          "text": "Review and remove unused IAM permissions quarterly using access analyzer tools.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "AWS IAM Access Analyzer, Prisma Cloud",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2"
+          ],
+          "tags": [
+            "permission-review",
+            "cleanup"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-6(1)",
+      "control_title": "Authorize Access to Security Functions",
+      "control_description": "Explicitly authorize access to security functions and security-relevant information.",
+      "control_tags": [
+        "privileged-access",
+        "security-functions",
+        "authorization"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac6_1_001",
+          "text": "Restrict access to IAM, KMS, and audit log management to authorized security admins.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM, Azure RBAC",
+          "dependent_rule_ids": [
+            "rule_ac6_001"
+          ],
+          "dependent_control_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "tags": [
+            "security-admin",
+            "kms"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-6(2)",
+      "control_title": "Non-Privileged Access for Nonsecurity Functions",
+      "control_description": "Require non-privileged accounts for nonsecurity functions even for privileged users.",
+      "control_tags": [
+        "non-privileged",
+        "daily-use",
+        "admin-separation"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac6_2_001",
+          "text": "Require administrators to use standard user accounts for email and web browsing.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Azure AD, Okta",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2"
+          ],
+          "tags": [
+            "admin-workstation",
+            "separation"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-7",
+      "control_title": "Unsuccessful Logon Attempts",
+      "control_description": "Lock accounts after a defined number of consecutive failed login attempts to prevent brute-force attacks.",
+      "control_tags": [
+        "lockout",
+        "brute-force",
+        "account-lock"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac7_001",
+          "text": "Lock account for 15 minutes after 5 consecutive failed login attempts.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM, Azure AD, GCP IAM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2",
+            "IA-5"
+          ],
+          "tags": [
+            "lockout",
+            "brute-force"
+          ]
+        },
+        {
+          "id": "rule_ac7_002",
+          "text": "Log all failed login attempts with source IP and timestamp for audit.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "CloudTrail, Azure Monitor, GCP Audit Logs",
+          "dependent_rule_ids": [
+            "rule_ac7_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2",
+            "AU-3"
+          ],
+          "tags": [
+            "audit",
+            "failed-login"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-8",
+      "control_title": "System Use Notification",
+      "control_description": "Display an approved system use notification message before granting access.",
+      "control_tags": [
+        "banner",
+        "warning",
+        "legal-notice"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac8_001",
+          "text": "Display legal banner warning of monitoring and consent to terms before login.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS SSM, Azure AD, GCP OS Login",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "banner",
+            "consent"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-11",
+      "control_title": "Device Lock",
+      "control_description": "Prevent access to the system via a device lock after a period of inactivity.",
+      "control_tags": [
+        "screen-lock",
+        "inactivity",
+        "endpoint"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac11_001",
+          "text": "Enforce screen lock after 15 minutes of inactivity on all managed devices.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Intune, JAMF, Google Workspace",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2"
+          ],
+          "tags": [
+            "endpoint",
+            "screen-lock"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-12",
+      "control_title": "Session Termination",
+      "control_description": "Automatically terminate user sessions after a defined period of inactivity.",
+      "control_tags": [
+        "session-termination",
+        "timeout",
+        "security"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac12_001",
+          "text": "Terminate idle SSH and RDP sessions after 10 minutes.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS SSM, Azure Bastion",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2"
+          ],
+          "tags": [
+            "ssh",
+            "rdp"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-14",
+      "control_title": "Permitted Actions Without Identification or Authentication",
+      "control_description": "Identify specific user actions that can be performed without identification or authentication.",
+      "control_tags": [
+        "public-access",
+        "anonymous",
+        "exception"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac14_001",
+          "text": "Allow public read access to marketing website but require auth for all admin functions.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "S3 Bucket Policy, CDN",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-3"
+          ],
+          "tags": [
+            "public",
+            "anonymous"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-17",
+      "control_title787": "Remote Access",
+      "control_description": "Authorize, monitor, and control remote access to the system using secure protocols and authentication.",
+      "control_tags": [
+        "remote-access",
+        "vpn",
+        "bastion",
+        "secure-connection"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac17_001",
+          "text": "Require multi-factor authentication for all remote access sessions.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Client VPN, Azure VPN, GCP IAP",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-2",
+            "AC-2"
+          ],
+          "tags": [
+            "mfa",
+            "remote"
+          ]
+        },
+        {
+          "id": "rule_ac17_002",
+          "text": "Route all remote traffic through a managed bastion host or VPN gateway.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS SSM, Azure Bastion",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-7"
+          ],
+          "tags": [
+            "bastion",
+            "jump-host"
+          ]
+        },
+        {
+          "id": "rule_ac17_003",
+          "text": "Log and monitor all remote access sessions including user, time, and actions.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "CloudTrail, VPC Flow Logs",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-2",
+            "AU-6"
+          ],
+          "tags": [
+            "remote-audit",
+            "session-logging"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-18",
+      "control_title": "Wireless Access",
+      "control_description": "Authorize, monitor, and control wireless access to the system.",
+      "control_tags": [
+        "wifi",
+        "wireless",
+        "802.1x"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac18_001",
+          "text": "Require WPA3 encryption and 802.1X authentication for all corporate Wi-Fi.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Cisco Meraki, Aruba",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-3",
+            "SC-40"
+          ],
+          "tags": [
+            "wpa3",
+            "wireless"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-19",
+      "control_title": "Access Control for Mobile Devices",
+      "control_description": "Establish usage restrictions and implementation guidance for mobile devices.",
+      "control_tags": [
+        "mobile",
+        "byod",
+        "mdm"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac19_001",
+          "text": "Enroll all mobile devices in MDM and enforce encryption and remote wipe.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Intune, JAMF, Google Workspace",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2",
+            "SC-15"
+          ],
+          "tags": [
+            "mdm",
+            "mobile-security"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-20",
+      "control_title": "Use of External Systems",
+      "control_description": "Establish terms and conditions for use of external systems and monitor compliance.",
+      "control_tags": [
+        "external",
+        "third-party",
+        "cloud"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac20_001",
+          "text": "Require DLP and CASB to monitor data sent to external SaaS applications.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Microsoft Defender for Cloud Apps, Netskope",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-4",
+            "SI-4"
+          ],
+          "tags": [
+            "casb",
+            "shadow-it"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-21",
+      "control_title": "Information Sharing",
+      "control_description": "Facilitate information sharing by enabling authorized users to determine access permissions.",
+      "control_tags": [
+        "sharing",
+        "collaboration",
+        "permissions"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac21_001",
+          "text": "Allow document owners to grant share access with expiration and audit logging.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Google Drive, SharePoint",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-3",
+            "AU-2"
+          ],
+          "tags": [
+            "collaboration",
+            "sharing"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AC-22",
+      "control_title": "Publicly Accessible Content",
+      "control_description": "Designate individuals authorized to post publicly accessible content and review content prior to posting.",
+      "control_tags": [
+        "public-content",
+        "website",
+        "approval"
+      ],
+      "rules": [
+        {
+          "id": "rule_ac22_001",
+          "text": "Require communications team approval before publishing content to public websites.",
+          "type": "approval_workflow",
+          "platform": "DOC",
+          "tool": "CMS Workflow",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-1"
+          ],
+          "tags": [
+            "public",
+            "content-approval"
+          ]
+        }
+      ]
+    },
+    {
+        "control_id": "AC-23",
+        "control_title": "Data Mining Protection",
+        "control_description": "Employ technical and procedural measures to prevent unauthorized data mining and protect sensitive patterns or relationships in organizational data.",
+        "control_tags": [
+          "data-mining",
+          "privacy",
+          "pattern-protection",
+          "anonymization"
+        ],
+        "rules": [
+          {
+            "id": "rule_ac23_001",
+            "text": "Apply differential privacy techniques to datasets before releasing for analytics to prevent re-identification.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "Google DPF, OpenDP, AWS Clean Rooms",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "AC-4",
+              "SC-42"
+            ],
+            "tags": [
+              "differential-privacy",
+              "data-release"
+            ]
+          },
+          {
+            "id": "rule_ac23_002",
+            "text": "Restrict access to raw transaction logs and require aggregation before analysis to prevent pattern inference.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "CloudTrail Lake, BigQuery, Snowflake",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "AC-3",
+              "AU-12"
+            ],
+            "tags": [
+              "log-aggregation",
+              "pattern-inference"
+            ]
+          },
+          {
+            "id": "rule_ac23_003",
+            "text": "Implement data masking and tokenization in non-production environments to prevent mining of sensitive correlations.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "Delphix, Imperva, AWS RDS Proxy",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "SC-7(10)",
+              "MP-6"
+            ],
+            "tags": [
+              "data-masking",
+              "test-data"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "AC-24",
+        "control_title": "Access Control Decisions",
+        "control_description": "Establish procedures to ensure access control decisions are made by authorized individuals or processes using defined criteria.",
+        "control_tags": [
+          "access-decision",
+          "authorization-logic",
+          "policy-enforcement",
+          "governance"
+        ],
+        "rules": [
+          {
+            "id": "rule_ac24_001",
+            "text": "Centralize all access control decisions in a policy engine using ABAC or ReBAC models.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "OPA, Styra, Permify, AWS Verified Permissions",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "AC-3",
+              "AC-6"
+            ],
+            "tags": [
+              "abac",
+              "policy-engine"
+            ]
+          },
+          {
+            "id": "rule_ac24_002",
+            "text": "Require dual authorization for access policy changes affecting privileged resources.",
+            "type": "approval_workflow",
+            "platform": "ALL",
+            "tool": "ServiceNow, GitOps PR Approval",
+            "dependent_rule_ids": [
+              "rule_ac24_001"
+            ],
+            "dependent_control_ids": [
+              "AC-5",
+              "CM-5"
+            ],
+            "tags": [
+              "dual-control",
+              "policy-change"
+            ]
+          },
+          {
+            "id": "rule_ac24_003",
+            "text": "Log all access control decisions with context including requester, resource, and policy rule applied.",
+            "type": "monitoring",
+            "platform": "ALL",
+            "tool": "OPA Audit Logs, CloudTrail, Azure Monitor",
+            "dependent_rule_ids": [
+              "rule_ac24_001"
+            ],
+            "dependent_control_ids": [
+              "AU-2",
+              "AU-3"
+            ],
+            "tags": [
+              "decision-logging",
+              "audit"
+            ]
+          }
+        ]
+      },
+      {
+        "control_id": "AC-25",
+        "control_title": "Reference Monitor",
+        "control_description": "Implement a reference monitor that is tamper-resistant, always invoked, and small enough to be subject to analysis and testing.",
+        "control_tags": [
+          "reference-monitor",
+          "tamper-resistance",
+          "security-kernel",
+          "mediation"
+        ],
+        "rules": [
+          {
+            "id": "rule_ac25_001",
+            "text": "Enforce all access requests through cloud-native policy enforcement points that cannot be bypassed.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "AWS IAM, Azure RBAC, GCP IAM, Istio",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "AC-3",
+              "SC-3"
+            ],
+            "tags": [
+              "enforcement-point",
+              "non-bypassable"
+            ]
+          },
+          {
+            "id": "rule_ac25_002",
+            "text": "Deploy service mesh sidecars to mediate all microservice traffic with mTLS and authorization.",
+            "type": "configuration",
+            "platform": "ALL",
+            "tool": "Istio, Linkerd, Consul Connect",
+            "dependent_rule_ids": [
+              "rule_ac25_001"
+            ],
+            "dependent_control_ids": [
+              "SC-7",
+              "AC-4"
+            ],
+            "tags": [
+              "service-mesh",
+              "mtls"
+            ]
+          },
+          {
+            "id": "rule_ac25_003",
+            "text": "Conduct regular security testing and code review of access enforcement logic to verify tamper resistance.",
+            "type": "monitoring",
+            "platform": "ALL",
+            "tool": "SCA Tools, SAST, Penetration Testing",
+            "dependent_rule_ids": [],
+            "dependent_control_ids": [
+              "SA-11",
+              "RA-5"
+            ],
+            "tags": [
+              "code-review",
+              "security-testing"
+            ]
+          }
+        ]
+      }
+  ]
+}

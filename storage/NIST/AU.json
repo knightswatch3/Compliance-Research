@@ -1,0 +1,799 @@
+{
+  "control_group": "AU",
+  "group_title": "Audit and Accountability",
+  "group_description": "Mechanisms to generate, collect, analyze, and protect audit records that track user and system activity for security, compliance, and incident response.",
+  "group_purpose": "Enable detection of unauthorized actions, support forensic analysis, ensure non-repudiation, and meet regulatory audit requirements.",
+  "group_tags": [
+    "audit-logs",
+    "monitoring",
+    "non-repudiation",
+    "compliance",
+    "incident-response",
+    "forensics"
+  ],
+  "controls": [
+    {
+      "control_id": "AU-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain audit and accountability policies and procedures aligned with organizational risk and regulatory requirements.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "audit-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_au1_001",
+          "text": "Create and maintain a formal audit and accountability policy defining scope, roles, event types, retention, and protection.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_au1_002",
+          "text": "Document procedures for log collection, analysis, retention, and response to audit findings.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_au1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "audit-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_au1_003",
+          "text": "Assign an audit manager responsible for policy enforcement and compliance reporting.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_au1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_au1_004",
+          "text": "Review and update audit policy and procedures annually or after significant incidents.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_au1_001",
+            "rule_au1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-2",
+      "control_title": "Audit Events",
+      "control_description": "Define and document which system events must be audited to meet security, compliance, and operational needs.",
+      "control_tags": [
+        "audit-events",
+        "event-selection",
+        "compliance",
+        "monitoring"
+      ],
+      "rules": [
+        {
+          "id": "rule_au2_001",
+          "text": "Maintain a list of auditable events including login, privilege use, config changes, and data access.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Audit Matrix",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-1"
+          ],
+          "tags": [
+            "event-list",
+            "audit-scope"
+          ]
+        },
+        {
+          "id": "rule_au2_002",
+          "text": "Include NIST 800-92 event types: authentication, authorization, system changes, and failures.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Policy Docs",
+          "dependent_rule_ids": [
+            "rule_au2_001"
+          ],
+          "dependent_control_ids": [
+            "AU-1"
+          ],
+          "tags": [
+            "nist-events",
+            "event-types"
+          ]
+        },
+        {
+          "id": "rule_au2_003",
+          "text": "Review and update auditable event list annually or after risk assessment changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, Risk Register",
+          "dependent_rule_ids": [
+            "rule_au2_001"
+          ],
+          "dependent_control_ids": [
+            "AU-1",
+            "RA-3"
+          ],
+          "tags": [
+            "review",
+            "risk-driven"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-3",
+      "control_title": "Content of Audit Records",
+      "control_description": "Ensure audit records contain sufficient information to support forensic analysis and accountability.",
+      "control_tags": [
+        "log-content",
+        "event-data",
+        "who-what-when",
+        "forensics"
+      ],
+      "rules": [
+        {
+          "id": "rule_au3_001",
+          "text": "Include in every audit record: user ID, event type, timestamp, source IP, outcome, and resource.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "CloudTrail, Azure Monitor, GCP Audit Logs",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-2"
+          ],
+          "tags": [
+            "log-fields",
+            "minimum-content"
+          ]
+        },
+        {
+          "id": "rule_au3_002",
+          "text": "Enforce UTC timestamps and synchronized time across all systems using NTP.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Chrony, NTP, Cloud NTP",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-8"
+          ],
+          "tags": [
+            "time-sync",
+            "ntp"
+          ]
+        },
+        {
+          "id": "rule_au3_003",
+          "text": "Capture both success and failure outcomes for all auditable events.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS CloudTrail, Azure Activity Log",
+          "dependent_rule_ids": [
+            "rule_au3_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2"
+          ],
+          "tags": [
+            "success-failure",
+            "event-outcome"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-4",
+      "control_title": "Audit Storage Capacity",
+      "control_description": "Allocate sufficient storage for audit records and configure warnings when capacity thresholds are approached.",
+      "control_tags": [
+        "log-storage",
+        "capacity",
+        "retention",
+        "alerting"
+      ],
+      "rules": [
+        {
+          "id": "rule_au4_001",
+          "text": "Allocate audit storage to support at least 12 months of log retention.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "S3 Lifecycle, Azure Blob, GCS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-11"
+          ],
+          "tags": [
+            "storage",
+            "retention"
+          ]
+        },
+        {
+          "id": "rule_au4_002",
+          "text": "Alert when audit storage reaches 80% capacity with escalation at 90%.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "CloudWatch, Azure Monitor, Stackdriver",
+          "dependent_rule_ids": [
+            "rule_au4_001"
+          ],
+          "dependent_control_ids": [
+            "AU-1"
+          ],
+          "tags": [
+            "capacity-alert",
+            "threshold"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-5",
+      "control_title": "Response to Audit Logging Process Failures",
+      "control_description": "Detect and respond to audit system failures such as storage exhaustion, network issues, or log corruption.",
+      "control_tags": [
+        "audit-failure",
+        "resilience",
+        "alerting",
+        "continuity"
+      ],
+      "rules": [
+        {
+          "id": "rule_au5_001",
+          "text": "Alert immediately on audit system failure including log loss or ingestion errors.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "CloudWatch Alarms, Datadog, Splunk",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-1"
+          ],
+          "tags": [
+            "failure-alert",
+            "audit-health"
+          ]
+        },
+        {
+          "id": "rule_au5_002",
+          "text": "Automatically switch to secondary log destination if primary fails.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "S3 Cross-Region, Azure Geo-Redundant",
+          "dependent_rule_ids": [
+            "rule_au5_001"
+          ],
+          "dependent_control_ids": [
+            "CP-9"
+          ],
+          "tags": [
+            "failover",
+            "resilience"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-6",
+      "control_title": "Audit Record Review, Analysis, and Reporting",
+      "control_description": "Regularly review and analyze audit records to detect anomalies, incidents, and compliance issues.",
+      "control_tags": [
+        "log-review",
+        "analysis",
+        "siem",
+        "reporting"
+      ],
+      "rules": [
+        {
+          "id": "rule_au6_001",
+          "text": "Ingest all audit logs into a central SIEM for correlation and analysis.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Splunk, ELK, Datadog, Sentinel",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-2",
+            "AU-3"
+          ],
+          "tags": [
+            "siem",
+            "central-logging"
+          ]
+        },
+        {
+          "id": "rule_au6_002",
+          "text": "Review critical security events daily and generate weekly compliance reports.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "SIEM Dashboards, Scheduled Reports",
+          "dependent_rule_ids": [
+            "rule_au6_001"
+          ],
+          "dependent_control_ids": [
+            "AU-1"
+          ],
+          "tags": [
+            "daily-review",
+            "reporting"
+          ]
+        },
+        {
+          "id": "rule_au6_003",
+          "text": "Correlate logs across identity, network, and endpoint for threat detection.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Splunk ES, Microsoft Sentinel",
+          "dependent_rule_ids": [
+            "rule_au6_001"
+          ],
+          "dependent_control_ids": [
+            "SI-4"
+          ],
+          "tags": [
+            "correlation",
+            "threat-hunting"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-7",
+      "control_title": "Audit Record Reduction and Report Generation",
+      "control_description": "Provide tools to reduce audit data and generate customized reports for different stakeholders.",
+      "control_tags": [
+        "reduction",
+        "reporting",
+        "dashboards",
+        "analytics"
+      ],
+      "rules": [
+        {
+          "id": "rule_au7_001",
+          "text": "Filter and aggregate raw logs to reduce noise before storage and analysis.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Log Filters, Splunk Transforms",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-6"
+          ],
+          "tags": [
+            "log-reduction",
+            "filtering"
+          ]
+        },
+        {
+          "id": "rule_au7_002",
+          "text": "Generate role-based audit reports: executive summary, compliance, and technical detail.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "SIEM Reports, Power BI",
+          "dependent_rule_ids": [
+            "rule_au7_001"
+          ],
+          "dependent_control_ids": [
+            "AU-6"
+          ],
+          "tags": [
+            "custom-reports",
+            "stakeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-8",
+      "control_title": "Time Stamps",
+      "control_description": "Use internal system clocks synchronized to an authoritative time source for audit record timestamps.",
+      "control_tags": [
+        "timestamp",
+        "ntp",
+        "time-sync",
+        "chronology"
+      ],
+      "rules": [
+        {
+          "id": "rule_au8_001",
+          "text": "Synchronize all system clocks to NTP servers with stratum 3 or better.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Chrony, NTP, Cloud NTP",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-1"
+          ],
+          "tags": [
+            "ntp",
+            "time-source"
+          ]
+        },
+        {
+          "id": "rule_au8_002",
+          "text": "Record timestamps in UTC with millisecond precision in all audit logs.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "CloudTrail, Azure Monitor",
+          "dependent_rule_ids": [
+            "rule_au8_001"
+          ],
+          "dependent_control_ids": [
+            "AU-3"
+          ],
+          "tags": [
+            "utc",
+            "precision"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-9",
+      "control_title": "Protection of Audit Information",
+      "control_description": "Protect audit information and tools from unauthorized access, modification, and deletion.",
+      "control_tags": [
+        "log-protection",
+        "integrity",
+        "tamper-proof",
+        "access-control"
+      ],
+      "rules": [
+        {
+          "id": "rule_au9_001",
+          "text": "Restrict audit log access to authorized security analysts and auditors only.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "IAM Policies, RBAC",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-3",
+            "AC-6"
+          ],
+          "tags": [
+            "least-privilege",
+            "log-access"
+          ]
+        },
+        {
+          "id": "rule_au9_002",
+          "text": "Enable object-level immutability and write-once storage for audit logs.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "S3 Object Lock, Azure Immutable Blob",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-11"
+          ],
+          "tags": [
+            "worman",
+            "immutability"
+          ]
+        },
+        {
+          "id": "rule_au9_003",
+          "text": "Encrypt audit logs at rest and in transit using AES-256.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "KMS, SSE, TLS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-13",
+            "SC-8"
+          ],
+          "tags": [
+            "encryption",
+            "confidentiality"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-10",
+      "control_title": "Non-repudiation",
+      "control_description": "Provide mechanisms to prove actions were performed by specific users and prevent denial of actions.",
+      "control_tags": [
+        "non-repudiation",
+        "digital-signature",
+        "provenance",
+        "accountability"
+      ],
+      "rules": [
+        {
+          "id": "rule_au10_001",
+          "text": "Capture user identity and action in immutable audit trails with cryptographic binding.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "CloudTrail Data Events, Signed Logs",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-3",
+            "AU-9"
+          ],
+          "tags": [
+            "binding",
+            "provenance"
+          ]
+        },
+        {
+          "id": "rule_au10_002",
+          "text": "Use digital signatures on configuration changes in GitOps workflows.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Git Signing, Cosign",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-5",
+            "AU-9"
+          ],
+          "tags": [
+            "git-signing",
+            "change-proof"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-11",
+      "control_title": "Audit Record Retention",
+      "control_description": "Retain audit records for a defined period to support after-the-fact investigations and compliance.",
+      "control_tags": [
+        "retention",
+        "archive",
+        "compliance,pliance",
+        "investigation"
+      ],
+      "rules": [
+        {
+          "id": "rule_au11_001",
+          "text": "Retain audit records for at least 12 months online and 7 years archived.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "S3 Glacier, Azure Cool Blob",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-1"
+          ],
+          "tags": [
+            "retention-policy",
+            "archive"
+          ]
+        },
+        {
+          "id": "rule_au11_002",
+          "text": "Automate log lifecycle with retention policies and secure deletion after expiry.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "S3 Lifecycle, Terraform",
+          "dependent_rule_ids": [
+            "rule_au11_001"
+          ],
+          "dependent_control_ids": [
+            "AU-4"
+          ],
+          "tags": [
+            "lifecycle",
+            "deletion"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-12",
+      "control_title": "Audit Record Generation",
+      "control_description": "Generate audit records for defined events using automated mechanisms across the system.",
+      "control_tags": [
+        "log-generation",
+        "event-capture",
+        "automation",
+        "coverage"
+      ],
+      "rules": [
+        {
+          "id": "rule_au12_001",
+          "text": "Enable full audit logging on all cloud accounts, workloads, and applications.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS CloudTrail, Azure Activity Log, GCP Audit",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-2",
+            "AU-3"
+          ],
+          "tags": [
+            "cloud-native",
+            "full-coverage"
+          ]
+        },
+        {
+          "id": "rule_au12_002",
+          "text": "Deploy agents to capture OS and application logs from on-prem and container environments.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Fluentd, Filebeat, Datadog Agent",
+          "dependent_rule_ids": [
+            "rule_au12_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2"
+          ],
+          "tags": [
+            "agent-based",
+            "endpoint"
+          ]
+        },
+        {
+          "id": "rule_au12_003",
+          "text": "Validate audit record generation with daily health checks and coverage reports.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "SIEM, Custom Scripts",
+          "dependent_rule_ids": [
+            "rule_au12_001"
+          ],
+          "dependent_control_ids": [
+            "AU-5"
+          ],
+          "tags": [
+            "health-check",
+            "coverage"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-13",
+      "control_title": "Monitoring for Information Disclosure",
+      "control_description": "Monitor systems for unauthorized export of information and alert on suspicious activity.",
+      "control_tags": [
+        "data-exfiltration",
+        "dlp",
+        "monitoring",
+        "insider-threat"
+      ],
+      "rules": [
+        {
+          "id": "rule_au13_001",
+          "text": "Monitor for large data downloads, email attachments, and cloud sync events.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "CASB, DLP, SIEM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-6",
+            "SI-4"
+          ],
+          "tags": [
+            "exfiltration",
+            "dlp"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-14",
+      "control_title": "Session Audit",
+      "control_description": "Capture user session activity for privileged accounts to enable review and replay.",
+      "control_tags": [
+        "session-recording",
+        "privileged-access",
+        "replay",
+        "forensics"
+      ],
+      "rules": [
+        {
+          "id": "rule_au14_001",
+          "text": "Record all administrative SSH, RDP, and console sessions with full keystroke and video.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS SSM Session Manager, Teleport, ObserveIT",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-6",
+            "AU-12"
+          ],
+          "tags": [
+            "session-capture",
+            "pam"
+          ]
+        },
+        {
+          "id": "rule_au14_002",
+          "text": "Index session recordings for search and replay during investigations.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Session Manager Indexing, SIEM",
+          "dependent_rule_ids": [
+            "rule_au14_001"
+          ],
+          "dependent_control_ids": [
+            "AU-6"
+          ],
+          "tags": [
+            "searchable",
+            "replay"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-15",
+      "control_title": "Alternate Audit Capability",
+      "control_description": "Provide an alternate audit capability in the event of primary audit system failure.",
+      "control_tags": [
+        "backup-audit",
+        "resilience",
+        "failover",
+        "continuity"
+      ],
+      "rules": [
+        {
+          "id": "rule_au15_001",
+          "text": "Replicate critical audit logs to a secondary region or cloud provider.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "S3 Cross-Region Replication, Multi-Cloud",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-5",
+            "CP-9"
+          ],
+          "tags": [
+            "dr",
+            "alternate"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "AU-16",
+      "control_title": "Cross-Organizational Audit Record Sharing",
+      "control_description": "Enable sharing of audit information with authorized external organizations when required.",
+      "control_tags": [
+        "sharing",
+        "federation",
+        "incident-response",
+        "collaboration"
+      ],
+      "rules": [
+        {
+          "id": "rule_au16_001",
+          "text": "Establish secure log-sharing agreements and channels with partners and regulators.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "Contracts, Secure File Transfer",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-1"
+          ],
+          "tags": [
+            "mou",
+            "sharing"
+          ]
+        }
+      ]
+    }
+  ]
+}

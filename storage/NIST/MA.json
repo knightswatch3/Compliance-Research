@@ -1,0 +1,382 @@
+{
+  "control_group": "MA",
+  "group_title": "Maintenance",
+  "group_description": "Policies and processes to manage, perform, and document maintenance on systems and components to ensure availability, integrity, and security.",
+  "group_purpose": "Minimize downtime, prevent failures, ensure secure maintenance practices, and maintain system reliability.",
+  "group_tags": [
+    "maintenance",
+    "patch-management",
+    "hardware-repair",
+    "remote-maintenance",
+    "tools",
+    "predictive-maintenance"
+  ],
+  "controls": [
+    {
+      "control_id": "MA-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain system maintenance policies and procedures.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "maintenance-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_ma1_001",
+          "text": "Create and maintain a formal system maintenance policy defining scope, roles, and approval processes.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_ma1_002",
+          "text": "Document procedures for scheduled, unscheduled, and remote maintenance activities.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_ma1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "maintenance-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_ma1_003",
+          "text": "Assign a maintenance coordinator responsible for oversight and compliance.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_ma1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_ma1_004",
+          "text": "Review and update maintenance policy annually or after significant changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ma1_001",
+            "rule_ma1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MA-2",
+      "control_title": "Controlled Maintenance",
+      "control_description": "Schedule, document, and approve maintenance activities to minimize operational impact.",
+      "control_tags": [
+        "scheduled-maintenance",
+        "approval",
+        "downtime",
+        "change-control"
+      ],
+      "rules": [
+        {
+          "id": "rule_ma2_001",
+          "text": "Require formal approval for all maintenance via change management process.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "ServiceNow, Jira",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-3",
+            "MA-1"
+          ],
+          "tags": [
+            "change-approval",
+            "maintenance-window"
+          ]
+        },
+        {
+          "id": "rule_ma2_002",
+          "text": "Log all maintenance actions with start/end time, personnel, and outcome.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "CloudTrail, Azure Activity Log, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ma2_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2",
+            "MA-1"
+          ],
+          "tags": [
+            "audit",
+            "maintenance-log"
+          ]
+        },
+        {
+          "id": "rule_ma2_003",
+          "text": "Conduct post-maintenance validation to confirm system integrity and functionality.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Health Checks, InSpec, AWS Config",
+          "dependent_rule_ids": [
+            "rule_ma2_002"
+          ],
+          "dependent_control_ids": [
+            "CM-2"
+          ],
+          "tags": [
+            "validation",
+            "post-maintenance"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MA-3",
+      "control_title": "Maintenance Tools",
+      "control_description": "Approve, control, and monitor the use of maintenance tools and diagnostic equipment.",
+      "control_tags": [
+        "tools",
+        "diagnostic",
+        "approval",
+        "monitoring"
+      ],
+      "rules": [
+        {
+          "id": "rule_ma3_001",
+          "text": "Maintain an approved list of maintenance tools and scan for integrity before use.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "HashiCorp Vault, Code Signing, SBoM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "MA-1",
+            "CM-7"
+          ],
+          "tags": [
+            "tool-approval",
+            "integrity-check"
+          ]
+        },
+        {
+          "id": "rule_ma3_002",
+          "text": "Log all use of maintenance tools with user, time, and system accessed.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "SIEM, CloudTrail, Auditd",
+          "dependent_rule_ids": [
+            "rule_ma3_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2"
+          ],
+          "tags": [
+            "tool-usage",
+            "audit"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MA-4",
+      "control_title": "Nonlocal Maintenance",
+      "control_description": "Approve, control, and monitor nonlocal (remote) maintenance and diagnostic activities.",
+      "control_tags": [
+        "remote-maintenance",
+        "vpn",
+        "bastion",
+        "session-recording"
+      ],
+      "rules": [
+        {
+          "id": "rule_ma4_001",
+          "text": "Require MFA and just-in-time access for all remote maintenance sessions.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS SSM, Azure Bastion, Teleport",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "IA-2",
+            "AC-6"
+          ],
+          "tags": [
+            "jit-access",
+            "mfa"
+          ]
+        },
+        {
+          "id": "rule_ma4_002",
+          "text": "Record and retain all remote maintenance sessions for 12 months.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Session Manager, ObserveIT, GCP Audit",
+          "dependent_rule_ids": [
+            "rule_ma4_001"
+          ],
+          "dependent_control_ids": [
+            "AU-14",
+            "MA-1"
+          ],
+          "tags": [
+            "session-recording",
+            "retention"
+          ]
+        },
+        {
+          "id": "rule_ma4_003",
+          "text": "Terminate remote sessions after 30 minutes of inactivity.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "SSM Session Timeout, Azure Policy",
+          "dependent_rule_ids": [
+            "rule_ma4_001"
+          ],
+          "dependent_control_ids": [
+            "AC-12"
+          ],
+          "tags": [
+            "session-timeout",
+            "inactivity"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MA-5",
+      "control_title": "Maintenance Personnel",
+      "control_description": "Establish and maintain a list of authorized maintenance personnel and monitor their actions.",
+      "control_tags": [
+        "personnel",
+        "vetting",
+        "background-check",
+        "authorization"
+      ],
+      "rules": [
+        {
+          "id": "rule_ma5_001",
+          "text": "Maintain a current list of authorized maintenance personnel with roles and access levels.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, HRIS, GRC Tool",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PS-3",
+            "MA-1"
+          ],
+          "tags": [
+            "personnel-list",
+            "authorization"
+          ]
+        },
+        {
+          "id": "rule_ma5_002",
+          "text": "Require background checks and NDAs for all third-party maintenance providers.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "Vendor Contracts, HR",
+          "dependent_rule_ids": [
+            "rule_ma5_001"
+          ],
+          "dependent_control_ids": [
+            "PS-7"
+          ],
+          "tags": [
+            "third-party",
+            "vetting"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MA-6",
+      "control_title": "Timely Maintenance",
+      "control_description": "Obtain maintenance support and spare parts within required timeframes to meet availability objectives.",
+      "control_tags": [
+        "sla",
+        "spare-parts",
+        "support-contract",
+        "mttr"
+      ],
+      "rules": [
+        {
+          "id": "rule_ma6_001",
+          "text": "Establish SLAs with vendors for critical hardware support within 4 hours.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "Vendor Contracts, ServiceNow",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "MA-1"
+          ],
+          "tags": [
+            "sla",
+            "4-hour-response"
+          ]
+        },
+        {
+          "id": "rule_ma6_002",
+          "text": "Maintain on-site or regional spare parts inventory for critical components.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Asset Management, CMDB",
+          "dependent_rule_ids": [
+            "rule_ma6_001"
+          ],
+          "dependent_control_ids": [
+            "CM-8"
+          ],
+          "tags": [
+            "spare-parts",
+            "inventory"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MA-7",
+      "control_title": "Field Maintenance",
+      "control_description": "Restrict and monitor field maintenance to authorized personnel and locations.",
+      "control_tags": [
+        "field-service",
+        "on-site",
+        "physical-access",
+        "escort"
+      ],
+      "rules": [
+        {
+          "id": "rule_ma7_001",
+          "text": "Require escorted access and logging for all on-site field maintenance.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Physical Access Logs, Badge System",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PE-3",
+            "MA-5"
+          ],
+          "tags": [
+            "escort",
+            "physical"
+          ]
+        }
+      ]
+    }
+  ]
+}

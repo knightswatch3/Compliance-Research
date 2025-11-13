@@ -1,0 +1,408 @@
+{
+  "control_group": "MP",
+  "group_title": "Media Protection",
+  "group_description": "Policies and safeguards to protect digital and physical media containing sensitive information throughout its lifecycle.",
+  "group_purpose": "Prevent unauthorized disclosure, ensure proper handling, sanitization, and disposal of media to maintain confidentiality and integrity.",
+  "group_tags": [
+    "media-protection",
+    "data-sanitization",
+    "encryption",
+    "physical-media",
+    "usb-control",
+    "disposal"
+  ],
+  "controls": [
+    {
+      "control_id": "MP-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain media protection policies and procedures.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "media-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_mp1_001",
+          "text": "Create and maintain a formal media protection policy covering access, marking, storage, and disposal.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_mp1_002",
+          "text": "Document procedures for media sanitization, transport, and destruction.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_mp1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "media-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_mp1_003",
+          "text": "Assign a media protection officer responsible for compliance and training.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_mp1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_mp1_004",
+          "text": "Review and update media protection policy annually or after incidents.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_mp1_001",
+            "rule_mp1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MP-2",
+      "control_title": "Media Access",
+      "control_description": "Restrict access to media containing sensitive information to authorized individuals.",
+      "control_tags": [
+        "access-control",
+        "least-privilege",
+        "media-library",
+        "authorization"
+      ],
+      "rules": [
+        {
+          "id": "rule_mp2_001",
+          "text": "Store all sensitive media in locked cabinets or encrypted containers with access logs.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Physical Locks, IronKey, AWS KMS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-3",
+            "MP-1"
+          ],
+          "tags": [
+            "physical-lock",
+            "encrypted-storage"
+          ]
+        },
+        {
+          "id": "rule_mp2_002",
+          "text": "Require dual control for access to backup tapes or high-sensitivity media.",
+          "type": "approval_workflow",
+          "platform": "DOC",
+          "tool": "Safe Deposit, Dual-Key",
+          "dependent_rule_ids": [
+            "rule_mp2_001"
+          ],
+          "dependent_control_ids": [
+            "AC-5",
+            "MP-1"
+          ],
+          "tags": [
+            "dual-control",
+            "high-sensitivity"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MP-3",
+      "control_title": "Media Marking",
+      "control_description": "Mark media with sensitivity labels to indicate handling and distribution limitations.",
+      "control_tags": [
+        "labeling",
+        "classification",
+        "handling",
+        "visual-marking"
+      ],
+      "rules": [
+        {
+          "id": "rule_mp3_001",
+          "text": "Apply physical labels (e.g., CUI, Confidential) to all removable media and containers.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Label Printer, DLP Tags",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "MP-1"
+          ],
+          "tags": [
+            "physical-label",
+            "cui"
+          ]
+        },
+        {
+          "id": "rule_mp3_002",
+          "text": "Embed classification metadata in digital files and enforce via DLP.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Microsoft AIP, Symantec DLP, Titus",
+          "dependent_rule_ids": [
+            "rule_mp3_001"
+          ],
+          "dependent_control_ids": [
+            "AC-16"
+          ],
+          "tags": [
+            "dlp",
+            "metadata"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MP-4",
+      "control_title": "Media Storage",
+      "control_description": "Securely store media in controlled areas with environmental and physical protections.",
+      "control_tags": [
+        "storage",
+        "environmental",
+        "fireproof",
+        "offsite"
+      ],
+      "rules": [
+        {
+          "id": "rule_mp4_001",
+          "text": "Store backup media in fire-rated, access-controlled offsite facility.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Iron Mountain, AWS Snowball Vault",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CP-6",
+            "PE-3"
+          ],
+          "tags": [
+            "offsite",
+            "fireproof"
+          ]
+        },
+        {
+          "id": "rule_mp4_002",
+          "text": "Encrypt all stored media at rest using AES-256 with customer-managed keys.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS KMS, Azure Key Vault, VeraCrypt",
+          "dependent_rule_ids": [
+            "rule_mp4_001"
+          ],
+          "dependent_control_ids": [
+            "SC-28"
+          ],
+          "tags": [
+            "encryption-at-rest",
+            "aes-256"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MP-5",
+      "control_title": "Media Transport",
+      "control_description": "Protect media during transport using encryption, tracking, and secure couriers.",
+      "control_tags": [
+        "transport",
+        "courier",
+        "chain-of-custody",
+        "tamper-evident"
+      ],
+      "rules": [
+        {
+          "id": "rule_mp5_001",
+          "text": "Use tamper-evident packaging and tracked couriers (FedEx, Iron Mountain) for media transport.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Courier SOP, Tracking Portal",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "MP-1"
+          ],
+          "tags": [
+            "tamper-evident",
+            "courier"
+          ]
+        },
+        {
+          "id": "rule_mp5_002",
+          "text": "Encrypt media in transit and require signature confirmation upon receipt.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "BitLocker To Go, AWS Snowball Edge",
+          "dependent_rule_ids": [
+            "rule_mp5_001"
+          ],
+          "dependent_control_ids": [
+            "SC-8"
+          ],
+          "tags": [
+            "encryption-in-transit",
+            "signature"
+          ]
+        },
+        {
+          "id": "rule_mp5_003",
+          "text": "Log chain of custody with sender, recipient, and timestamps.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "ServiceNow, Chain of Custody Form",
+          "dependent_rule_ids": [
+            "rule_mp5_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2"
+          ],
+          "tags": [
+            "chain-of-custody",
+            "audit"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MP-6",
+      "control_title": "Media Sanitization",
+      "control_description": "Sanitize media prior to disposal, release, or reuse using approved methods.",
+      "control_tags": [
+        "sanitization",
+        "wipe",
+        "degauss",
+        "destruction"
+      ],
+      "rules": [
+        {
+          "id": "rule_mp6_001",
+          "text": "Use NIST 800-88 clearing, purging, or destruction based on media type and sensitivity.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Blancco, DBAN, Degausser, Shredder",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "MP-1"
+          ],
+          "tags": [
+            "nist-800-88",
+            "purge"
+          ]
+        },
+        {
+          "id": "rule_mp6_002",
+          "text": "Verify sanitization success and issue certificate of destruction.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Sanitization Log, Certificate",
+          "dependent_rule_ids": [
+            "rule_mp6_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2"
+          ],
+          "tags": [
+            "verification",
+            "certificate"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MP-7",
+      "control_title": "Media Use",
+      "control_description": "Restrict the use of removable media and prohibit use of unapproved devices.",
+      "control_tags": [
+        "usb-control",
+        "removable-media",
+        "blocklist",
+        "endpoint-protection"
+      ],
+      "rules": [
+        {
+          "id": "rule_mp7_001",
+          "text": "Block all unauthorized USB storage devices via endpoint policy.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Intune, Carbon Black, GPOs",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-19",
+            "MP-1"
+          ],
+          "tags": [
+            "usb-block",
+            "endpoint"
+          ]
+        },
+        {
+          "id": "rule_mp7_002",
+          "text": "Allow only encrypted, corporate-issued removable media with unique IDs.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "BitLocker, IronKey, Device Control",
+          "dependent_rule_ids": [
+            "rule_mp7_001"
+          ],
+          "dependent_control_ids": [
+            "SC-13"
+          ],
+          "tags": [
+            "corporate-usb",
+            "encrypted-media"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "MP-8",
+      "control_title": "Media Downgrading",
+      "control_description": "Downgrade media to lower sensitivity level using approved sanitization and re-labeling.",
+      "control_tags": [
+        "downgrade",
+        "reclassification",
+        "sanitization",
+        "re-label"
+      ],
+      "rules": [
+        {
+          "id": "rule_mp8_001",
+          "text": "Sanitize and re-label media before downgrading from Secret to CUI or Unclassified.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Sanitization Tool, New Labels",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "MP-6",
+            "MP-3"
+          ],
+          "tags": [
+            "downgrade",
+            "re-label"
+          ]
+        }
+      ]
+    }
+  ]
+}

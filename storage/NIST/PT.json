@@ -1,0 +1,388 @@
+{
+  "control_group": "PT",
+  "group_title": "PII Processing and Transparency",
+  "group_description": "Policies and controls to ensure personally identifiable information (PII) is collected, used, disclosed, and retained lawfully and transparently.",
+  "group_purpose": "Protect individual privacy, enable informed consent, and provide visibility into PII processing activities.",
+  "group_tags": [
+    "pii",
+    "privacy",
+    "transparency",
+    "consent",
+    "data-subject",
+    "notice",
+    "minimization"
+  ],
+  "controls": [
+    {
+      "control_id": "PT-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain policies and procedures for PII processing and transparency.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "privacy-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_pt1_001",
+          "text": "Create and maintain a formal PII processing and transparency policy aligned with privacy laws.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_pt1_002",
+          "text": "Document procedures for privacy notices, consent, data subject requests, and PII inventory.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_pt1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "privacy-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_pt1_003",
+          "text": "Assign a privacy officer responsible for PII compliance and transparency reporting.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_pt1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "privacy-officer"
+          ]
+        },
+        {
+          "id": "rule_pt1_004",
+          "text": "Review and update PII policy annually or after regulatory changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_pt1_001",
+            "rule_pt1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PT-2",
+      "control_title": "Authority to Process PII",
+      "control_description": "Identify and document legal authority for each PII processing activity.",
+      "control_tags": [
+        "legal-basis",
+        "authority",
+        "sorn",
+        "pia"
+      ],
+      "rules": [
+        {
+          "id": "rule_pt2_001",
+          "text": "Document legal basis (consent, contract, legal obligation) for every PII collection and use.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "OneTrust, Confluence, GRC Tool",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PT-1"
+          ],
+          "tags": [
+            "legal-basis",
+            "authority"
+          ]
+        },
+        {
+          "id": "rule_pt2_002",
+          "text": "Publish System of Records Notice (SORN) for federal systems processing PII.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Federal Register, Internal Portal",
+          "dependent_rule_ids": [
+            "rule_pt2_001"
+          ],
+          "dependent_control_ids": [
+            "PT-1"
+          ],
+          "tags": [
+            "sorn",
+            "federal"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PT-3",
+      "control_title": "PII Processing Purposes",
+      "control_description": "Specify and document purposes for PII processing and restrict use to those purposes.",
+      "control_tags": [
+        "purpose-limitation",
+        "data-use",
+        "minimization",
+        "specification"
+      ],
+      "rules": [
+        {
+          "id": "rule_pt3_001",
+          "text": "Define and document specific, explicit purposes for each PII processing activity.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Privacy Register, OneTrust",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PT-2"
+          ],
+          "tags": [
+            "purpose-specification",
+            "explicit"
+          ]
+        },
+        {
+          "id": "rule_pt3_002",
+          "text": "Enforce purpose-based access controls to prevent unauthorized PII use.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Okta, Azure AD, ABAC",
+          "dependent_rule_ids": [
+            "rule_pt3_001"
+          ],
+          "dependent_control_ids": [
+            "AC-16"
+          ],
+          "tags": [
+            "purpose-restriction",
+            "abac"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PT-4",
+      "control_title": "Consent",
+      "control_description": "Obtain and manage individual consent for PII processing where required.",
+      "control_tags": [
+        "consent",
+        "opt-in",
+        "granular",
+        "withdrawal"
+      ],
+      "rules": [
+        {
+          "id": "rule_pt4_001",
+          "text": "Implement granular opt-in consent banners for cookies and marketing PII use.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "OneTrust, Cookiebot, Quantcast",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PT-3"
+          ],
+          "tags": [
+            "cookie-consent",
+            "opt-in"
+          ]
+        },
+        {
+          "id": "rule_pt4_002",
+          "text": "Allow data subjects to withdraw consent at any time with immediate effect.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Preference Center, OneTrust",
+          "dependent_rule_ids": [
+            "rule_pt4_001"
+          ],
+          "dependent_control_ids": [
+            "PT-3"
+          ],
+          "tags": [
+            "consent-withdrawal",
+            "preference"
+          ]
+        },
+        {
+          "id": "rule_pt4_003",
+          "text": "Log all consent actions with timestamp, user ID, and version of notice.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "OneTrust, Audit Log",
+          "dependent_rule_ids": [
+            "rule_pt4_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2"
+          ],
+          "tags": [
+            "consent-audit",
+            "logging"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PT-5",
+      "control_title": "Privacy Notice",
+      "control_description": "Provide individuals with clear, accessible privacy notices at or before PII collection.",
+      "control_tags": [
+        "privacy-notice",
+        "transparency",
+        "collection-point",
+        "just-in-time"
+      ],
+      "rules": [
+        {
+          "id": "rule_pt5_001",
+          "text": "Display just-in-time privacy notice at every PII collection point (forms, apps, websites).",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "OneTrust, TrustArc, Website UI",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PT-3"
+          ],
+          "tags": [
+            "just-in-time",
+            "notice"
+          ]
+        },
+        {
+          "id": "rule_pt5_002",
+          "text": "Publish comprehensive privacy policy with data use, sharing, and rights.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Public Website, Confluence",
+          "dependent_rule_ids": [
+            "rule_pt5_001"
+          ],
+          "dependent_control_ids": [
+            "PT-1"
+          ],
+          "tags": [
+            "privacy-policy",
+            "public"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PT-6",
+      "control_title": "System of Records Notice",
+      "control_description": "Develop and publish SORNs for systems maintaining PII retrievable by personal identifier.",
+      "control_tags": [
+        "sorn",
+        "federal",
+        "privacy-act",
+        "publication"
+      ],
+      "rules": [
+        {
+          "id": "rule_pt6_001",
+          "text": "Publish SORN in Federal Register for each Privacy Act system of records.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Federal Register, Internal SORN DB",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PT-2"
+          ],
+          "tags": [
+            "sorn",
+            "privacy-act"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PT-7",
+      "control_title": "Data Subject Requests",
+      "control_description": "Establish processes to respond to individual requests regarding their PII.",
+      "control_tags": [
+        "dsar",
+        "access",
+        "deletion",
+        "correction",
+        "portability"
+      ],
+      "rules": [
+        {
+          "id": "rule_pt7_001",
+          "text": "Provide self-service portal for data subjects to access, correct, or delete their PII.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "OneTrust, Transcend, User Portal",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PT-1"
+          ],
+          "tags": [
+            "dsar-portal",
+            "self-service"
+          ]
+        },
+        {
+          "id": "rule_pt7_002",
+          "text": "Respond to DSARs within 30 days with verification and fulfillment tracking.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "ServiceNow, OneTrust DSAR",
+          "dependent_rule_ids": [
+            "rule_pt7_001"
+          ],
+          "dependent_control_ids": [
+            "PT-1"
+          ],
+          "tags": [
+            "30-day-response",
+            "dsar"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PT-8",
+      "control_title": "Computer Matching Notice",
+      "control_description": "Provide notice when conducting computer matching of PII with external sources.",
+      "control_tags": [
+        "computer-matching",
+        "data-matching",
+        "notice",
+        "agreement"
+      ],
+      "rules": [
+        {
+          "id": "rule_pt8_001",
+          "text": "Publish computer matching agreement and notice in Federal Register before matching PII.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Federal Register, Legal Review",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PT-5"
+          ],
+          "tags": [
+            "matching-agreement",
+            "federal"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,404 @@
+{
+  "control_group": "SR",
+  "group_title": "Supply Chain Risk Management",
+  "group_description": "Strategies and processes to identify, assess, and mitigate risks in the supply chain for systems, components, and services.",
+  "group_purpose": "Protect against counterfeit components, malicious insertion, and untrustworthy suppliers to ensure system integrity and availability.",
+  "group_tags": [
+    "supply-chain",
+    "vendor-risk",
+    "third-party",
+    "counterfeit",
+    "provenance",
+    "sbom",
+    "cmmc"
+  ],
+  "controls": [
+    {
+      "control_id": "SR-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain supply chain risk management policies and procedures.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "scrm-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_sr1_001",
+          "text": "Create and maintain a formal supply chain risk management policy defining assessment, monitoring, and mitigation.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_sr1_002",
+          "text": "Document procedures for supplier vetting, SBOM validation, and incident response in supply chain.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_sr1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "scrm-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_sr1_003",
+          "text": "Assign a supply chain risk officer responsible for program oversight and reporting.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_sr1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "scrm-lead"
+          ]
+        },
+        {
+          "id": "rule_sr1_004",
+          "text": "Review and update supply chain policy annually or after major supplier changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_sr1_001",
+            "rule_sr1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SR-2",
+      "control_title": "Supply Chain Risk Management Plan",
+      "control_description": "Develop and maintain a plan to manage supply chain risks throughout the system lifecycle.",
+      "control_tags": [
+        "scrm-plan",
+        "risk-mitigation",
+        "supplier-diversity",
+        "continuity"
+      ],
+      "rules": [
+        {
+          "id": "rule_sr2_001",
+          "text": "Develop a supply chain risk management plan with critical suppliers, risk thresholds, and mitigation strategies.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, GRC Tool, RSA Archer",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SR-1"
+          ],
+          "tags": [
+            "scrm-plan",
+            "critical-suppliers"
+          ]
+        },
+        {
+          "id": "rule_sr2_002",
+          "text": "Include supplier diversity and alternative sourcing in plan to reduce single points of failure.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Procurement Strategy, Plan Document",
+          "dependent_rule_ids": [
+            "rule_sr2_001"
+          ],
+          "dependent_control_ids": [
+            "CP-8"
+          ],
+          "tags": [
+            "supplier-diversity",
+            "resilience"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SR-3",
+      "control_title": "Supply Chain Controls and Processes",
+      "control_description": "Establish and implement controls to manage supply chain risks in acquisition and development.",
+      "control_tags": [
+        "contract-controls",
+        "provenance",
+        "tamper-evidence",
+        "sbom"
+      ],
+      "rules": [
+        {
+          "id": "rule_sr3_001",
+          "text": "Require suppliers to provide SBOM in CycloneDX or SPDX format for all software and hardware.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Dependency-Track, Black Duck, Contract Clause",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-4"
+          ],
+          "tags": [
+            "sbom",
+            "cyclonedx"
+          ]
+        },
+        {
+          "id": "rule_sr3_002",
+          "text": "Mandate tamper-evident packaging and chain-of-custody tracking for critical hardware.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Courier SOP, RFID Seals",
+          "dependent_rule_ids": [
+            "rule_sr3_001"
+          ],
+          "dependent_control_ids": [
+            "MP-5"
+          ],
+          "tags": [
+            "tamper-evident",
+            "hardware-custody"
+          ]
+        },
+        {
+          "id": "rule_sr3_003",
+          "text": "Verify component provenance and authenticity using manufacturer certificates and secure boot.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "UEFI Secure Boot, HSM, Intel SGX",
+          "dependent_rule_ids": [
+            "rule_sr3_001"
+          ],
+          "dependent_control_ids": [
+            "SC-13"
+          ],
+          "tags": [
+            "provenance",
+            "secure-boot"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SR-4",
+      "control_title": "Supplier Assessments and Reviews",
+      "control_description": "Assess and review suppliers for security, quality, and compliance before and during engagement.",
+      "control_tags": [
+        "vendor-assessment",
+        "soc2",
+        "iso27001",
+        "on-site-audit"
+      ],
+      "rules": [
+        {
+          "id": "rule_sr4_001",
+          "text": "Conduct pre-engagement security assessment and require SOC 2 Type 2 or ISO 27001 certification.",
+          "type": "approval_workflow",
+          "platform": "DOC",
+          "tool": "Vendor Risk Platform, OneTrust, ServiceNow",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-9"
+          ],
+          "tags": [
+            "soc2",
+            "pre-assessment"
+          ]
+        },
+        {
+          "id": "rule_sr4_002",
+          "text": "Perform annual on-site or virtual audits of critical suppliers handling CUI or critical functions.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Audit Checklist, Video Review",
+          "dependent_rule_ids": [
+            "rule_sr4_001"
+          ],
+          "dependent_control_ids": [
+            "SA-9"
+          ],
+          "tags": [
+            "annual-audit",
+            "critical-supplier"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SR-5",
+      "control_title": "Supply Chain Integrity Verification",
+      "control_description": "Verify the integrity of supplied components using independent testing and validation.",
+      "control_tags": [
+        "integrity-check",
+        "third-party-test",
+        "firmware-verify",
+        "golden-image"
+      ],
+      "rules": [
+        {
+          "id": "rule_sr5_001",
+          "text": "Validate firmware and software hashes against vendor-published golden images before deployment.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Cosign, Hashicorp Vault, Vendor Portal",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SI-7"
+          ],
+          "tags": [
+            "hash-verify",
+            "golden-image"
+          ]
+        },
+        {
+          "id": "rule_sr5_002",
+          "text": "Use third-party labs to test critical components for backdoors and undocumented functionality.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Independent Lab, Red Team Hardware",
+          "dependent_rule_ids": [
+            "rule_sr5_001"
+          ],
+          "dependent_control_ids": [
+            "RA-5"
+          ],
+          "tags": [
+            "third-party-test",
+            "backdoor-scan"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SR-6",
+      "control_title": "Supplier Diversity",
+      "control_description": "Use multiple suppliers to reduce dependency and mitigate supply chain disruption risks.",
+      "control_tags": [
+        "diversity",
+        "multi-source",
+        "resilience",
+        "geographic"
+      ],
+      "rules": [
+        {
+          "id": "rule_sr6_001",
+          "text": "Source critical components from at least two geographically diverse, qualified suppliers.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Procurement Plan, Supplier Matrix",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SR-2"
+          ],
+          "tags": [
+            "dual-source",
+            "geo-diversity"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SR-7",
+      "control_title": "Supply Chain Notification",
+      "control_description": "Require suppliers to notify of changes, incidents, or vulnerabilities in supplied products.",
+      "control_tags": [
+        "notification",
+        "change-alert",
+        "vulnerability-disclosure",
+        "psirt"
+      ],
+      "rules": [
+        {
+          "id": "rule_sr7_001",
+          "text": "Include mandatory 48-hour notification clause for security incidents and product changes in contracts.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Contract Template, SLA",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-4"
+          ],
+          "tags": [
+            "48-hour-notify",
+            "incident-clause"
+          ]
+        },
+        {
+          "id": "rule_sr7_002",
+          "text": "Subscribe to supplier PSIRT and vulnerability feeds with automated alerting.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "RSS, Email Alerts, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_sr7_001"
+          ],
+          "dependent_control_ids": [
+            "SI-5"
+          ],
+          "tags": [
+            "psirt",
+            "vulnerability-feed"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SR-8",
+      "control_title": "Component Authenticity",
+      "control_description": "Develop and implement anti-counterfeit procedures and reporting mechanisms.",
+      "control_tags": [
+        "anti-counterfeit",
+        "authenticity",
+        "reporting",
+        "supply-chain-fraud"
+      ],
+      "rules": [
+        {
+          "id": "rule_sr8_001",
+          "text": "Train procurement and IT staff to identify counterfeit indicators and report via hotline.",
+          "type": "training",
+          "platform": "ALL",
+          "tool": "LMS, Awareness Program",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AT-2"
+          ],
+          "tags": [
+            "counterfeit-training",
+            "reporting"
+          ]
+        },
+        {
+          "id": "rule_sr8_002",
+          "text": "Use authorized distributors and verify certificates of conformance for all hardware purchases.",
+          "type": "approval_workflow",
+          "platform": "DOC",
+          "tool": "Procurement System, COFC Check",
+          "dependent_rule_ids": [
+            "rule_sr8_001"
+          ],
+          "dependent_control_ids": [
+            "SA-4"
+          ],
+          "tags": [
+            "authorized-distributor",
+            "cofc"
+          ]
+        }
+      ]
+    }
+  ]
+}

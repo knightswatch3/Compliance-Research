@@ -1,0 +1,555 @@
+{
+  "control_group": "SI",
+  "group_title": "System and Information Integrity",
+  "group_description": "Mechanisms to identify, protect against, detect, and respond to flaws, malicious code, and unauthorized changes in systems and information.",
+  "group_purpose": "Maintain trustworthiness of systems and data through timely flaw remediation, malware prevention, and integrity monitoring.",
+  "group_tags": [
+    "integrity",
+    "malware",
+    "patch-management",
+    "antivirus",
+    "file-integrity",
+    "spam",
+    "input-validation"
+  ],
+  "controls": [
+    {
+      "control_id": "SI-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain system and information integrity policies and procedures.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "integrity-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_si1_001",
+          "text": "Create and maintain a formal system integrity policy defining flaw remediation, malware defense, and monitoring.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_si1_002",
+          "text": "Document procedures for patch management, antivirus updates, and file integrity checks.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Runbooks",
+          "dependent_rule_ids": [
+            "rule_si1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "integrity-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_si1_003",
+          "text": "Assign an integrity lead responsible for flaw tracking and malware response.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_si1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_si1_004",
+          "text": "Review and update integrity policy annually or after major incidents.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_si1_001",
+            "rule_si1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-2",
+      "control_title": "Flaw Remediation",
+      "control_description": "Identify, report, and correct system flaws in a timely manner.",
+      "control_tags": [
+        "patch-management",
+        "vulnerability-remediation",
+        "cve",
+        "sla"
+      ],
+      "rules": [
+        {
+          "id": "rule_si2_001",
+          "text": "Patch critical vulnerabilities within 15 days and high within 30 days using automated tools.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "AWS Systems Manager, WSUS, Intune",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-5",
+            "CM-3"
+          ],
+          "tags": [
+            "15-day-critical",
+            "patch-sla"
+          ]
+        },
+        {
+          "id": "rule_si2_002",
+          "text": "Track all flaws in a central register with status, owner, and remediation date.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow, GRC Tool",
+          "dependent_rule_ids": [
+            "rule_si2_001"
+          ],
+          "dependent_control_ids": [
+            "RA-3"
+          ],
+          "tags": [
+            "flaw-tracking",
+            "register"
+          ]
+        },
+        {
+          "id": "rule_si2_003",
+          "text": "Test patches in staging before production deployment.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "CI/CD Pipeline, Change Board",
+          "dependent_rule_ids": [
+            "rule_si2_001"
+          ],
+          "dependent_control_ids": [
+            "CM-4"
+          ],
+          "tags": [
+            "patch-testing",
+            "staging"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-3",
+      "control_title": "Malicious Code Protection",
+      "control_description": "Deploy malicious code protection mechanisms at system entry and exit points.",
+      "control_tags": [
+        "antivirus",
+        "edr",
+        "malware",
+        "signature",
+        "behavior"
+      ],
+      "rules": [
+        {
+          "id": "rule_si3_001",
+          "text": "Deploy EDR with real-time scanning and behavioral blocking on all endpoints and servers.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "CrowdStrike, Microsoft Defender, Carbon Black",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SI-1"
+          ],
+          "tags": [
+            "edr",
+            "real-time"
+          ]
+        },
+        {
+          "id": "rule_si3_002",
+          "text": "Update malware signatures daily and enable automatic quarantine of threats.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "Defender ATP, Symantec, SentinelOne",
+          "dependent_rule_ids": [
+            "rule_si3_001"
+          ],
+          "dependent_control_ids": [
+            "SI-1"
+          ],
+          "tags": [
+            "daily-update",
+            "auto-quarantine"
+          ]
+        },
+        {
+          "id": "rule_si3_003",
+          "text": "Scan all email attachments and web downloads at gateway and endpoint.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Proofpoint, Mimecast, Zscaler",
+          "dependent_rule_ids": [
+            "rule_si3_001"
+          ],
+          "dependent_control_ids": [
+            "SC-7"
+          ],
+          "tags": [
+            "gateway-scan",
+            "attachment"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-4",
+      "control_title": "System Monitoring",
+      "control_description": "Monitor systems to detect attacks, unauthorized activity, and system performance issues.",
+      "control_tags": [
+        "monitoring",
+        "siem",
+        "log-analysis",
+        "anomaly",
+        "ids"
+      ],
+      "rules": [
+        {
+          "id": "rule_si4_001",
+          "text": "Collect and correlate logs from all systems in a central SIEM with 24/7 monitoring.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Splunk, ELK, Azure Sentinel",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-2",
+            "SC-7"
+          ],
+          "tags": [
+            "siem",
+            "central-logging"
+          ]
+        },
+        {
+          "id": "rule_si4_002",
+          "text": "Deploy IDS/IPS with automated alerts for suspicious network and host activity.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Snort, Suricata, AWS GuardDuty",
+          "dependent_rule_ids": [
+            "rule_si4_001"
+          ],
+          "dependent_control_ids": [
+            "SI-1"
+          ],
+          "tags": [
+            "ids-ips",
+            "alerting"
+          ]
+        },
+        {
+          "id": "rule_si4_003",
+          "text": "Monitor system performance and availability with thresholds and escalation.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Datadog, New Relic, CloudWatch",
+          "dependent_rule_ids": [
+            "rule_si4_001"
+          ],
+          "dependent_control_ids": [
+            "CP-2"
+          ],
+          "tags": [
+            "performance",
+            "availability"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-5",
+      "control_title": "Security Alerts, Advisories, and Directives",
+      "control_description": "Receive and respond to security alerts and directives from authoritative sources.",
+      "control_tags": [
+        "alerts",
+        "cisa",
+        "us-cert",
+        "threat-intel",
+        "advisory"
+      ],
+      "rules": [
+        {
+          "id": "rule_si5_001",
+          "text": "Subscribe to CISA, US-CERT, and vendor alerts with automated ingestion into ticketing.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "ServiceNow, Jira, RSS Feeds",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SI-1"
+          ],
+          "tags": [
+            "cisa",
+            "us-cert"
+          ]
+        },
+        {
+          "id": "rule_si5_002",
+          "text": "Respond to critical alerts within 4 hours with investigation and remediation plan.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "PagerDuty, Incident Response",
+          "dependent_rule_ids": [
+            "rule_si5_001"
+          ],
+          "dependent_control_ids": [
+            "IR-4"
+          ],
+          "tags": [
+            "4-hour-response",
+            "critical-alert"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-7",
+      "control_title": "Software, Firmware, and Information Integrity",
+      "control_description": "Verify integrity of software, firmware, and information using cryptographic checks.",
+      "control_tags": [
+        "file-integrity",
+        "fim",
+        "hash",
+        "code-signing"
+      ],
+      "rules": [
+        {
+          "id": "rule_si7_001",
+          "text": "Deploy FIM to monitor critical system files and alert on unauthorized changes.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Tripwire, Ossec, AWS Config",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-5"
+          ],
+          "tags": [
+            "fim",
+            "file-monitoring"
+          ]
+        },
+        {
+          "id": "rule_si7_002",
+          "text": "Enforce code signing for all scripts, binaries, and container images.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Sigstore, Docker Content Trust, GPG",
+          "dependent_rule_ids": [
+            "rule_si7_001"
+          ],
+          "dependent_control_ids": [
+            "SA-10"
+          ],
+          "tags": [
+            "code-signing",
+            "container"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-8",
+      "control_title": "Spam Protection",
+      "control_description": "Deploy spam protection at email gateways and endpoints.",
+      "control_tags": [
+        "spam",
+        "phishing",
+        "email-filter",
+        "quarantine"
+      ],
+      "rules": [
+        {
+          "id": "rule_si8_001",
+          "text": "Filter inbound and outbound email with AI-based spam and phishing detection.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Proofpoint, Microsoft Defender for O365",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SI-3"
+          ],
+          "tags": [
+            "spam-filter",
+            "phishing"
+          ]
+        },
+        {
+          "id": "rule_si8_002",
+          "text": "Quarantine suspicious emails and require user release with warning banner.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Mimecast, Barracuda",
+          "dependent_rule_ids": [
+            "rule_si8_001"
+          ],
+          "dependent_control_ids": [
+            "AT-2"
+          ],
+          "tags": [
+            "quarantine",
+            "user-release"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-10",
+      "control_title": "Information Input Validation",
+      "control_description": "Validate inputs to protect against injection and malformed data attacks.",
+      "control_tags": [
+        "input-validation",
+        "sanitization",
+        "sql-injection",
+        "xss"
+      ],
+      "rules": [
+        {
+          "id": "rule_si10_001",
+          "text": "Enforce server-side input validation, sanitization, and allow-listing in all applications.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "OWASP ESAPI, Input Libraries, WAF",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-11"
+          ],
+          "tags": [
+            "allow-list",
+            "sanitization"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-11",
+      "control_title": "Error Handling",
+      "control_description": "Handle errors to prevent information disclosure and maintain availability.",
+      "control_tags": [
+        "error-handling",
+        "stack-trace",
+        "debug",
+        "logging"
+      ],
+      "rules": [
+        {
+          "id": "rule_si11_001",
+          "text": "Suppress detailed error messages in production; log internally without exposing stack traces.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Application Config, Exception Handling",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SI-1"
+          ],
+          "tags": [
+            "no-stack-trace",
+            "secure-error"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-12",
+      "control_title": "Information Management and Retention",
+      "control_description": "Manage and retain information in accordance with records retention policies.",
+      "control_tags": [
+        "retention",
+        "records-management",
+        "archiving",
+        "disposal"
+      ],
+      "rules": [
+        {
+          "id": "rule_si12_001",
+          "text": "Retain security logs for 12 months and audit records per legal and business requirements.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "S3 Glacier, Azure Blob Archive, ELK",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AU-11"
+          ],
+          "tags": [
+            "12-month-logs",
+            "retention"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-16",
+      "control_title": "Memory Protection",
+      "control_description": "Implement memory protection to prevent exploitation of buffer overflows and injection.",
+      "control_tags": [
+        "memory-safety",
+        "aslr",
+        "dep",
+        "stack-canary"
+      ],
+      "rules": [
+        {
+          "id": "rule_si16_001",
+          "text": "Enable ASLR, DEP, and stack canaries in OS and application runtimes.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Kernel Settings, Compiler Flags",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SA-3"
+          ],
+          "tags": [
+            "aslr",
+            "dep"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "SI-17",
+      "control_title": "Fail-Secure",
+      "control_description": "Design systems to fail securely in the event of operational failure.",
+      "control_tags": [
+        "fail-secure",
+        "default-deny",
+        "graceful-degradation",
+        "resilience"
+      ],
+      "rules": [
+        {
+          "id": "rule_si17_001",
+          "text": "Configure systems to default to deny access and disable non-essential services on failure.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Firewall Rules, Service Config",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SC-7"
+          ],
+          "tags": [
+            "default-deny",
+            "fail-closed"
+          ]
+        }
+      ]
+    }
+  ]
+}

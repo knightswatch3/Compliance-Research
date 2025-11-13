@@ -1,0 +1,379 @@
+{
+  "control_group": "PL",
+  "group_title": "Planning",
+  "group_description": "Processes to develop, document, and maintain security and privacy plans that guide risk-based protection of systems and information.",
+  "group_purpose": "Align security and privacy efforts with organizational mission, establish baselines, and enable consistent implementation across the enterprise.",
+  "group_tags": [
+    "planning",
+    "security-plan",
+    "privacy-plan",
+    "architecture",
+    "rules-of-behavior",
+    "governance"
+  ],
+  "controls": [
+    {
+      "control_id": "PL-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain planning policies and procedures for security and privacy.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "planning-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_pl1_001",
+          "text": "Create and maintain a formal planning policy defining scope, roles, and plan development processes.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_pl1_002",
+          "text": "Document procedures for system security plans, privacy plans, and architecture reviews.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_pl1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "plan-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_pl1_003",
+          "text": "Assign a planning coordinator responsible for policy enforcement and plan approval.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_pl1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_pl1_004",
+          "text": "Review and update planning policy annually or after major organizational changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_pl1_001",
+            "rule_pl1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PL-2",
+      "control_title": "System Security and Privacy Plans",
+      "control_description": "Develop and maintain security and privacy plans for each system describing controls and responsibilities.",
+      "control_tags": [
+        "ssp",
+        "privacy-plan",
+        "control-implementation",
+        "system-boundary"
+      ],
+      "rules": [
+        {
+          "id": "rule_pl2_001",
+          "text": "Create a system security plan (SSP) for every in-scope system with boundary, controls, and roles.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, GRC Tool, RSA Archer",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PL-1"
+          ],
+          "tags": [
+            "ssp",
+            "system-boundary"
+          ]
+        },
+        {
+          "id": "rule_pl2_002",
+          "text": "Include privacy impact assessment (PIA) and data flow in the system plan.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "OneTrust, Confluence",
+          "dependent_rule_ids": [
+            "rule_pl2_001"
+          ],
+          "dependent_control_ids": [
+            "PL-8",
+            "PT-3"
+          ],
+          "tags": [
+            "pia",
+            "data-flow"
+          ]
+        },
+        {
+          "id": "rule_pl2_003",
+          "text": "Review and update SSP annually or after significant changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow, GRC Workflow",
+          "dependent_rule_ids": [
+            "rule_pl2_001"
+          ],
+          "dependent_control_ids": [
+            "CM-3"
+          ],
+          "tags": [
+            "annual-review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PL-4",
+      "control_title": "Rules of Behavior",
+      "control_description": "Establish and provide rules of behavior for users of systems and information.",
+      "control_tags": [
+        "acceptable-use",
+        "code-of-conduct",
+        "user-agreement",
+        "acknowledgment"
+      ],
+      "rules": [
+        {
+          "id": "rule_pl4_001",
+          "text": "Require all users to sign rules of behavior before granting system access.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "Okta, DocuSign, HRIS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PS-6",
+            "AC-2"
+          ],
+          "tags": [
+            "signing",
+            "user-agreement"
+          ]
+        },
+        {
+          "id": "rule_pl4_002",
+          "text": "Include expectations for password use, data handling, and incident reporting in rules.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Portal",
+          "dependent_rule_ids": [
+            "rule_pl4_001"
+          ],
+          "dependent_control_ids": [
+            "PL-1"
+          ],
+          "tags": [
+            "behavior-guidelines",
+            "expectations"
+          ]
+        },
+        {
+          "id": "rule_pl4_003",
+          "text": "Review and re-sign rules of behavior annually or after policy updates.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "LMS, HRIS, Okta",
+          "dependent_rule_ids": [
+            "rule_pl4_001"
+          ],
+          "dependent_control_ids": [
+            "AT-2"
+          ],
+          "tags": [
+            "annual-resign",
+            "refresh"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PL-8",
+      "control_title": "Security and Privacy Architectures",
+      "control_description": "Develop and maintain enterprise architecture with security and privacy by design.",
+      "control_tags": [
+        "architecture",
+        "zero-trust",
+        "reference-model",
+        "segmentation"
+      ],
+      "rules": [
+        {
+          "id": "rule_pl8_001",
+          "text": "Document enterprise security architecture with network zones, data flows, and control points.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Lucidchart, Visio, Confluence",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PL-1"
+          ],
+          "tags": [
+            "architecture-diagram",
+            "zones"
+          ]
+        },
+        {
+          "id": "rule_pl8_002",
+          "text": "Align architecture to zero trust principles: identity, least privilege, microsegmentation.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Zscaler, Illumio, Terraform",
+          "dependent_rule_ids": [
+            "rule_pl8_001"
+          ],
+          "dependent_control_ids": [
+            "AC-4"
+          ],
+          "tags": [
+            "zero-trust",
+            "microsegmentation"
+          ]
+        },
+        {
+          "id": "rule_pl8_003",
+          "text": "Review architecture annually and after major technology or threat changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, Architecture Review Board",
+          "dependent_rule_ids": [
+            "rule_pl8_001"
+          ],
+          "dependent_control_ids": [
+            "RA-3"
+          ],
+          "tags": [
+            "annual-review",
+            "threat-driven"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PL-9",
+      "control_title": "Central Management",
+      "control_description": "Centrally manage planning processes and tools to ensure consistency and efficiency.",
+      "control_tags": [
+        "centralization",
+        "governance",
+        "automation",
+        "consistency"
+      ],
+      "rules": [
+        {
+          "id": "rule_pl9_001",
+          "text": "Use a centralized GRC platform to manage all SSPs, policies, and control evidence.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "RSA Archer, ServiceNow GRC, OneTrust",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PL-1"
+          ],
+          "tags": [
+            "grc-platform",
+            "centralized"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PL-10",
+      "control_title": "Baseline Selection",
+      "control_description": "Select and document security and privacy control baselines tailored to system risk.",
+      "control_tags": [
+        "baseline",
+        "low-moderate-high",
+        "tailoring",
+        "overlay"
+      ],
+      "rules": [
+        {
+          "id": "rule_pl10_001",
+          "text": "Assign NIST 800-53 Low, Moderate, or High baseline based on FIPS 199 categorization.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "GRC Tool, Excel, Confluence",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-2",
+            "PL-2"
+          ],
+          "tags": [
+            "fips-199",
+            "baseline-selection"
+          ]
+        },
+        {
+          "id": "rule_pl10_002",
+          "text": "Apply overlays (e.g., Cloud, IoT, Privacy) to modify baseline for specific technologies.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, GRC Tool",
+          "dependent_rule_ids": [
+            "rule_pl10_001"
+          ],
+          "dependent_control_ids": [
+            "PL-2"
+          ],
+          "tags": [
+            "overlay",
+            "cloud"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PL-11",
+      "control_title": "Baseline Tailoring",
+      "control_description": "Tailor selected baselines by adding, removing, or parameterizing controls based on risk.",
+      "control_tags": [
+        "tailoring",
+        "parameterization",
+        "risk-based",
+        "justification"
+      ],
+      "rules": [
+        {
+          "id": "rule_pl11_001",
+          "text": "Document all tailoring decisions with risk-based justification and compensating controls.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "GRC Tool, SSP Template",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PL-10",
+            "RA-3"
+          ],
+          "tags": [
+            "tailoring-justification",
+            "compensating"
+          ]
+        }
+      ]
+    }
+  ]
+}

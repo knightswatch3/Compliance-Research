@@ -1,0 +1,621 @@
+{
+  "control_group": "CM",
+  "group_title": "Configuration Management",
+  "group_description": "Policies and processes to establish, document, and maintain secure system configurations throughout the lifecycle.",
+  "group_purpose": "Prevent unauthorized changes, enforce secure baselines, detect drift, and support audit and recovery.",
+  "group_tags": [
+    "config-management",
+    "baseline",
+    "change-control",
+    "drift-detection",
+    "iac",
+    "compliance"
+  ],
+  "controls": [
+    {
+      "control_id": "CM-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain configuration management policies and procedures aligned with risk strategy.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "cm-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm1_001",
+          "text": "Create and maintain a formal configuration management policy defining scope, roles, and change processes.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_cm1_002",
+          "text": "Document procedures for baseline creation, change approval, and drift remediation.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_cm1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "cm-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_cm1_003",
+          "text": "Assign a configuration manager responsible for policy enforcement and compliance.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_cm1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_cm1_004",
+          "text": "Review and update CM policy and procedures annually or after major incidents.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_cm1_001",
+            "rule_cm1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-2",
+      "control_title": "Baseline Configuration",
+      "control_description": "Develop, document, and maintain secure baseline configurations for all systems and components.",
+      "control_tags": [
+        "baseline",
+        "golden-image",
+        "secure-config",
+        "hardening"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm2_001",
+          "text": "Maintain approved baseline configurations for OS, applications, and cloud resources.",
+          "type": "documentation",
+          "platform": "ALL",
+          "tool": "Confluence, Git, CIS Benchmarks",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-1"
+          ],
+          "tags": [
+            "baseline",
+            "cis"
+          ]
+        },
+        {
+          "id": "rule_cm2_002",
+          "text": "Use infrastructure-as-code to define and version-control all baselines.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Terraform, CloudFormation, Pulumi",
+          "dependent_rule_ids": [
+            "rule_cm2_001"
+          ],
+          "dependent_control_ids": [
+            "CM-1"
+          ],
+          "tags": [
+            "iac",
+            "version-control"
+          ]
+        },
+        {
+          "id": "rule_cm2_003",
+          "text": "Review and update baselines annually or after vulnerability disclosure.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Jira, GitHub Issues",
+          "dependent_rule_ids": [
+            "rule_cm2_001"
+          ],
+          "dependent_control_ids": [
+            "RA-5",
+            "CM-1"
+          ],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-3",
+      "control_title": "Configuration Change Control",
+      "control_description": "Establish and manage a formal change control process to evaluate, approve, and track configuration changes.",
+      "control_tags": [
+        "change-control",
+        "approval",
+        "impact-analysis",
+        "rollback"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm3_001",
+          "text": "Require formal change request with business justification and risk assessment.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "ServiceNow, Jira",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-1"
+          ],
+          "tags": [
+            "change-request",
+            "risk"
+          ]
+        },
+        {
+          "id": "rule_cm3_002",
+          "text": "Route high-risk changes through CAB for multi-stakeholder approval.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "ServiceNow CAB",
+          "dependent_rule_ids": [
+            "rule_cm3_001"
+          ],
+          "dependent_control_ids": [
+            "CM-1"
+          ],
+          "tags": [
+            "cab",
+            "high-risk"
+          ]
+        },
+        {
+          "id": "rule_cm3_003",
+          "text": "Log all approved changes with timestamp, approver, and rollback plan.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "CloudTrail, Change Log",
+          "dependent_rule_ids": [
+            "rule_cm3_001"
+          ],
+          "dependent_control_ids": [
+            "AU-2",
+            "CM-1"
+          ],
+          "tags": [
+            "audit",
+            "rollback"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-4",
+      "control_title": "Impact Analyses",
+      "control_description": "Analyze proposed changes to determine security and operational impact before implementation.",
+      "control_tags": [
+        "impact-analysis",
+        "risk-assessment",
+        "change-review"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm4_001",
+          "text": "Assess each change for impact on security controls, dependencies, and compliance.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "ServiceNow, Risk Matrix",
+          "dependent_rule_ids": [
+            "rule_cm3_001"
+          ],
+          "dependent_control_ids": [
+            "CM-3",
+            "RA-3"
+          ],
+          "tags": [
+            "impact",
+            "risk"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-5",
+      "control_title": "Access Restrictions for Change",
+      "control_description": "Restrict configuration changes to authorized personnel and enforce separation of duties.",
+      "control_tags": [
+        "change-access",
+        "least-privilege",
+        "dual-control"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm5_001",
+          "text": "Limit configuration access to approved roles via RBAC and just-in-time elevation.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS IAM, Azure PIM, GCP IAM",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-6",
+            "CM-1"
+          ],
+          "tags": [
+            "rbac",
+            "jit"
+          ]
+        },
+        {
+          "id": "rule_cm5_002",
+          "text": "Enforce dual approval for changes to production baselines or privileged systems.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "GitHub PR, Terraform Cloud",
+          "dependent_rule_ids": [
+            "rule_cm5_001"
+          ],
+          "dependent_control_ids": [
+            "AC-5",
+            "CM-3"
+          ],
+          "tags": [
+            "dual-control",
+            "production"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-6",
+      "control_title": "Configuration Settings",
+      "control_description": "Establish and enforce mandatory configuration settings for systems and software.",
+      "control_tags": [
+        "hardening",
+        "secure-settings",
+        "compliance"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm6_001",
+          "text": "Enforce CIS or vendor hardening benchmarks on all systems via policy-as-code.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Config Rules, Azure Policy, OpenSCAP",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-2"
+          ],
+          "tags": [
+            "cis",
+            "policy-as-code"
+          ]
+        },
+        {
+          "id": "rule_cm6_002",
+          "text": "Block non-compliant configurations using admission controllers and guardrails.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "OPA Gatekeeper, Kyverno, Prisma Cloud",
+          "dependent_rule_ids": [
+            "rule_cm6_001"
+          ],
+          "dependent_control_ids": [
+            "CM-2"
+          ],
+          "tags": [
+            "admission-control",
+            "guardrails"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-7",
+      "control_title": "Least Functionality",
+      "control_description": "Configure systems to provide only essential capabilities and prohibit unnecessary functions.",
+      "control_tags": [
+        "least-functionality",
+        "disable-services",
+        "attack-surface"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm7_001",
+          "text": "Disable unnecessary services, ports, protocols, and software by default.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Security Groups, GPOs, CIS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-2"
+          ],
+          "tags": [
+            "disable",
+            "attack-surface"
+          ]
+        },
+        {
+          "id": "rule_cm7_002",
+          "text": "Require business justification to enable any non-standard service or port.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "ServiceNow, Jira",
+          "dependent_rule_ids": [
+            "rule_cm7_001"
+          ],
+          "dependent_control_ids": [
+            "CM-3"
+          ],
+          "tags": [
+            "justification",
+            "exception"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-8",
+      "control_title": "System Component Inventory",
+      "control_description": "Develop and maintain an inventory of system components including hardware, software, and firmware.",
+      "control_tags": [
+        "inventory",
+        "asset-management",
+        "cmbd"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm8_001",
+          "text": "Maintain real-time inventory of all cloud and on-prem assets with owner and purpose.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "AWS Systems Manager, ServiceNow CMDB, Prisma",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-1"
+          ],
+          "tags": [
+            "asset-inventory",
+            "cmdb"
+          ]
+        },
+        {
+          "id": "rule_cm8_002",
+          "text": "Reconcile inventory weekly and investigate unauthorized assets immediately.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Automated Scripts, Alerts",
+          "dependent_rule_ids": [
+            "rule_cm8_001"
+          ],
+          "dependent_control_ids": [
+            "CM-1"
+          ],
+          "tags": [
+            "reconciliation",
+            "rogue-asset"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-9",
+      "control_title": "Configuration Management Plan",
+      "control_description": "Develop and implement a configuration management plan that addresses roles, responsibilities, and processes.",
+      "control_tags": [
+        "cm-plan",
+        "governance",
+        "strategy"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm9_001",
+          "text": "Document CM plan including tools, workflows, baselines, and compliance reporting.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, GRC Tool",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-1"
+          ],
+          "tags": [
+            "cm-plan",
+            "strategy"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-10",
+      "control_title": "Software Usage Restrictions",
+      "control_description": "Establish and enforce restrictions on software installation and use.",
+      "control_tags": [
+        "software-policy",
+        "allowlist",
+        "blocklist"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm10_001",
+          "text": "Allow only approved software via application allowlisting and block all else.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Carbon Black, Intune, Tanium",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-7"
+          ],
+          "tags": [
+            "allowlist",
+            "app-control"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-11",
+      "control_title": "User-Installed Software",
+      "control_description": "Prohibit or strictly control user-installed software on organizational systems.",
+      "control_tags": [
+        "user-software",
+        "shadow-it",
+        "control"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm11_001",
+          "text": "Block local admin rights and monitor for unauthorized software installation.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Intune, JAMF, GPOs",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-6",
+            "CM-10"
+          ],
+          "tags": [
+            "local-admin",
+            "shadow-it"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-12",
+      "control_title": "Information Location",
+      "control_description": "Identify and document the location of information and system components.",
+      "control_tags": [
+        "data-location",
+        "asset-tracking",
+        "residency"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm12_001",
+          "text": "Tag all data and compute resources with location, sensitivity, and owner.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "AWS Tags, Azure Tags, GCP Labels",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-8"
+          ],
+          "tags": [
+            "tagging",
+            "location"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-13",
+      "control_title": "Data Action Mapping",
+      "control_description": "Map data actions (create, read, update, delete) to security controls and monitor compliance.",
+      "control_tags": [
+        "data-action",
+        "crud",
+        "zero-trust",
+        "governance"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm13_001",
+          "text": "Document CRUD operations for all data types and link to access controls.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Data Catalog",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-3",
+            "CM-1"
+          ],
+          "tags": [
+            "crud",
+            "data-governance"
+          ]
+        },
+        {
+          "id": "rule_cm13_002",
+          "text": "Enforce data action policies via ABAC in applications and databases.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "OPA, AWS Verified Permissions",
+          "dependent_rule_ids": [
+            "rule_cm13_001"
+          ],
+          "dependent_control_ids": [
+            "AC-3"
+          ],
+          "tags": [
+            "abac",
+            "enforcement"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "CM-14",
+      "control_title": "Signed Components",
+      "control_description": "Require cryptographic signatures on software, firmware, and configuration files.",
+      "control_tags": [
+        "code-signing",
+        "supply-chain",
+        "integrity",
+        "sbom"
+      ],
+      "rules": [
+        {
+          "id": "rule_cm14_001",
+          "text": "Enforce container image signing and verify before deployment.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Cosign, Notary, ECR Signing",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-2",
+            "SI-7"
+          ],
+          "tags": [
+            "container-signing",
+            "supply-chain"
+          ]
+        },
+        {
+          "id": "rule_cm14_002",
+          "text": "Sign all IaC templates and scripts with GPG or code signing certs.",
+          "type": "configuration",
+          "platform": "ALL",
+          "tool": "Git Signing, Terraform Cloud",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "CM-2"
+          ],
+          "tags": [
+            "gpg",
+            "iac-signing"
+          ]
+        }
+      ]
+    }
+  ]
+}

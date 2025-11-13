@@ -1,0 +1,405 @@
+{
+  "control_group": "RA",
+  "group_title": "Risk Assessment",
+  "group_description": "Processes to identify, assess, and prioritize risks to organizational operations, assets, individuals, and other organizations.",
+  "group_purpose": "Enable informed risk-based decisions, allocate resources effectively, and maintain acceptable risk posture.",
+  "group_tags": [
+    "risk-assessment",
+    "vulnerability",
+    "threat",
+    "impact",
+    "likelihood",
+    "risk-register",
+    "prioritization"
+  ],
+  "controls": [
+    {
+      "control_id": "RA-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain risk assessment policies and procedures.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "risk-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_ra1_001",
+          "text": "Create and maintain a formal risk assessment policy defining methodology, roles, and frequency.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_ra1_002",
+          "text": "Document procedures for threat modeling, vulnerability scanning, and risk prioritization.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_ra1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "risk-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_ra1_003",
+          "text": "Assign a risk management lead responsible for assessment oversight and reporting.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_ra1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_ra1_004",
+          "text": "Review and update risk assessment policy annually or after major changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ra1_001",
+            "rule_ra1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "RA-2",
+      "control_title": "Security Categorization",
+      "control_description": "Categorize systems and information based on impact of loss of confidentiality, integrity, and availability.",
+      "control_tags": [
+        "fips-199",
+        "low-moderate-high",
+        "categorization",
+        "impact"
+      ],
+      "rules": [
+        {
+          "id": "rule_ra2_001",
+          "text": "Assign FIPS 199 Low, Moderate, or High impact level to every system using impact analysis.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "GRC Tool, Excel, Confluence",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-1"
+          ],
+          "tags": [
+            "fips-199",
+            "impact-level"
+          ]
+        },
+        {
+          "id": "rule_ra2_002",
+          "text": "Review system categorizations annually or after scope or data changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "ServiceNow, GRC Workflow",
+          "dependent_rule_ids": [
+            "rule_ra2_001"
+          ],
+          "dependent_control_ids": [
+            "RA-1"
+          ],
+          "tags": [
+            "annual-review",
+            "recategorization"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "RA-3",
+      "control_title": "Risk Assessment",
+      "control_description": "Conduct risk assessments to identify threats, vulnerabilities, likelihood, and impact.",
+      "control_tags": [
+        "risk-assessment",
+        "threat-modeling",
+        "vulnerability",
+        "likelihood-impact"
+      ],
+      "rules": [
+        {
+          "id": "rule_ra3_001",
+          "text": "Perform annual risk assessment using NIST 800-30 methodology across all in-scope systems.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "RSA Archer, OneTrust GRC, Excel",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-2"
+          ],
+          "tags": [
+            "annual-risk",
+            "nist-800-30"
+          ]
+        },
+        {
+          "id": "rule_ra3_002",
+          "text": "Conduct threat modeling for new systems and major changes before production.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Lucidchart, ThreatModeler, STRIDE",
+          "dependent_rule_ids": [
+            "rule_ra3_001"
+          ],
+          "dependent_control_ids": [
+            "PL-8"
+          ],
+          "tags": [
+            "threat-model",
+            "stride"
+          ]
+        },
+        {
+          "id": "rule_ra3_003",
+          "text": "Maintain a risk register with risk ID, score, owner, and mitigation status.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow, GRC Tool",
+          "dependent_rule_ids": [
+            "rule_ra3_001"
+          ],
+          "dependent_control_ids": [
+            "RA-1"
+          ],
+          "tags": [
+            "risk-register",
+            "tracking"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "RA-5",
+      "control_title": "Vulnerability Monitoring and Scanning",
+      "control_description": "Scan for vulnerabilities in systems and applications, prioritize, and remediate.",
+      "control_tags": [
+        "vulnerability-scan",
+        "patch-management",
+        "cve",
+        "remediation"
+      ],
+      "rules": [
+        {
+          "id": "rule_ra5_001",
+          "text": "Run authenticated vulnerability scans monthly on all in-scope assets.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Tenable, Qualys, Prisma Cloud",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-3"
+          ],
+          "tags": [
+            "monthly-scan",
+            "authenticated"
+          ]
+        },
+        {
+          "id": "rule_ra5_002",
+          "text": "Remediate critical vulnerabilities within 15 days and high within 30 days.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Jira, ServiceNow, Patch Manager",
+          "dependent_rule_ids": [
+            "rule_ra5_001"
+          ],
+          "dependent_control_ids": [
+            "CM-3"
+          ],
+          "tags": [
+            "sla-remediation",
+            "15-day-critical"
+          ]
+        },
+        {
+          "id": "rule_ra5_003",
+          "text": "Subscribe to CVE feeds and threat intelligence for emerging risks.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Recorded Future, ThreatConnect, NVD",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "SI-5"
+          ],
+          "tags": [
+            "cve-feed",
+            "threat-intel"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "RA-7",
+      "control_title": "Risk Response",
+      "control_description": "Respond to risk findings by accepting, avoiding, mitigating, or transferring risk.",
+      "control_tags": [
+        "risk-response",
+        "mitigation",
+        "acceptance",
+        "transfer"
+      ],
+      "rules": [
+        {
+          "id": "rule_ra7_001",
+          "text": "Assign risk owner and response strategy (mitigate, accept, transfer, avoid) for each high risk.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "GRC Tool, Risk Register",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-3"
+          ],
+          "tags": [
+            "risk-owner",
+            "response-strategy"
+          ]
+        },
+        {
+          "id": "rule_ra7_002",
+          "text": "Require formal risk acceptance by authorizing official for residual risks.",
+          "type": "approval_workflow",
+          "platform": "DOC",
+          "tool": "ServiceNow, GRC Workflow",
+          "dependent_rule_ids": [
+            "rule_ra7_001"
+          ],
+          "dependent_control_ids": [
+            "CA-6"
+          ],
+          "tags": [
+            "risk-acceptance",
+            "ao-approval"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "RA-8",
+      "control_title": "Privacy Impact Assessments",
+      "control_description": "Assess privacy risks for systems processing PII and implement mitigations.",
+      "control_tags": [
+        "pia",
+        "privacy-risk",
+        "data-flow",
+        "transparency"
+      ],
+      "rules": [
+        {
+          "id": "rule_ra8_001",
+          "text": "Complete Privacy Impact Assessment (PIA) for all systems collecting or processing PII.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "OneTrust, Confluence, GRC Tool",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-3",
+            "PT-2"
+          ],
+          "tags": [
+            "pia",
+            "privacy"
+          ]
+        },
+        {
+          "id": "rule_ra8_002",
+          "text": "Update PIA before major system changes or every 3 years.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "ServiceNow, GRC Calendar",
+          "dependent_rule_ids": [
+            "rule_ra8_001"
+          ],
+          "dependent_control_ids": [
+            "RA-1"
+          ],
+          "tags": [
+            "pia-update",
+            "3-year"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "RA-9",
+      "control_title": "Criticality Analysis",
+      "control_description": "Identify critical system components and functions to prioritize protection and recovery.",
+      "control_tags": [
+        "criticality",
+        "bcdr",
+        "dependency",
+        "rto-rpo"
+      ],
+      "rules": [
+        {
+          "id": "rule_ra9_001",
+          "text": "Perform Business Impact Analysis (BIA) to define RTO, RPO, and criticality tiers.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "RSA Archer, Excel, Confluence",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-2",
+            "CP-2"
+          ],
+          "tags": [
+            "bia",
+            "rto-rpo"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "RA-10",
+      "control_title": "Threat Hunting",
+      "control_description": "Proactively search for advanced threats and anomalies not detected by automated tools.",
+      "control_tags": [
+        "threat-hunting",
+        "proactive",
+        "hypothesis",
+        "ttp"
+      ],
+      "rules": [
+        {
+          "id": "rule_ra10_001",
+          "text": "Execute quarterly threat hunting exercises using MITRE ATT&CK and hypothesis-driven methods.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "Splunk, Elastic, Panther",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "RA-5",
+            "SI-4"
+          ],
+          "tags": [
+            "threat-hunt",
+            "mitre-attck"
+          ]
+        }
+      ]
+    }
+  ]
+}

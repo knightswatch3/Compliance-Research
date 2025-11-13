@@ -1,0 +1,426 @@
+{
+  "control_group": "PS",
+  "group_title": "Personnel Security",
+  "group_description": "Policies and processes to ensure individuals in trusted positions are screened, trained, and monitored to protect information and systems.",
+  "group_purpose": "Reduce insider threats, enforce accountability, and maintain trust through lifecycle management of personnel security.",
+  "group_tags": [
+    "personnel-security",
+    "background-check",
+    "access-agreement",
+    "termination",
+    "insider-threat",
+    "screening"
+  ],
+  "controls": [
+    {
+      "control_id": "PS-1",
+      "control_title": "Policy and Procedures",
+      "control_description": "Develop, document, and maintain personnel security policies and procedures.",
+      "control_tags": [
+        "governance",
+        "policy",
+        "procedures",
+        "personnel-program"
+      ],
+      "rules": [
+        {
+          "id": "rule_ps1_001",
+          "text": "Create and maintain a formal personnel security policy defining screening, access, and termination processes.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, Policy Repository",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [],
+          "tags": [
+            "policy",
+            "governance"
+          ]
+        },
+        {
+          "id": "rule_ps1_002",
+          "text": "Document procedures for background checks, access agreements, and offboarding.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Confluence, SOPs",
+          "dependent_rule_ids": [
+            "rule_ps1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "procedures",
+            "personnel-lifecycle"
+          ]
+        },
+        {
+          "id": "rule_ps1_003",
+          "text": "Assign a personnel security officer responsible for program oversight and compliance.",
+          "type": "governance",
+          "platform": "DOC",
+          "tool": "RACI Matrix",
+          "dependent_rule_ids": [
+            "rule_ps1_001"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "ownership",
+            "accountability"
+          ]
+        },
+        {
+          "id": "rule_ps1_004",
+          "text": "Review and update personnel security policy annually or after incidents.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Jira, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ps1_001",
+            "rule_ps1_002"
+          ],
+          "dependent_control_ids": [],
+          "tags": [
+            "review",
+            "update"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PS-2",
+      "control_title": "Position Risk Designation",
+      "control_description": "Assign risk levels to all positions based on duties and access to sensitive information.",
+      "control_tags": [
+        "risk-designation",
+        "high-moderate-low",
+        "role-based",
+        "sensitivity"
+      ],
+      "rules": [
+        {
+          "id": "rule_ps2_001",
+          "text": "Classify all positions as Low, Moderate, or High risk based on access and impact.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "HRIS, GRC Tool, Excel",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PS-1"
+          ],
+          "tags": [
+            "risk-level",
+            "position-category"
+          ]
+        },
+        {
+          "id": "rule_ps2_002",
+          "text": "Review position risk designations annually or after role changes.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "HR Workflow, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ps2_001"
+          ],
+          "dependent_control_ids": [
+            "PS-1"
+          ],
+          "tags": [
+            "annual-review",
+            "role-change"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PS-3",
+      "control_title": "Personnel Screening",
+      "control_description": "Screen individuals prior to granting access, commensurate with position risk.",
+      "control_tags": [
+        "background-check",
+        "fingerprint",
+        "credit-check",
+        "screening"
+      ],
+      "rules": [
+        {
+          "id": "rule_ps3_001",
+          "text": "Conduct background checks (criminal, credit, reference) for all Moderate and High-risk positions.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "Checkr, Sterling, HireRight",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PS-2",
+            "PS-1"
+          ],
+          "tags": [
+            "background-check",
+            "pre-employment"
+          ]
+        },
+        {
+          "id": "rule_ps3_002",
+          "text": "Require fingerprinting and FBI check for High-risk or privileged access roles.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "LiveScan, Identogo",
+          "dependent_rule_ids": [
+            "rule_ps3_001"
+          ],
+          "dependent_control_ids": [
+            "PS-2"
+          ],
+          "tags": [
+            "fbi-check",
+            "fingerprint"
+          ]
+        },
+        {
+          "id": "rule_ps3_003",
+          "text": "Rescreen personnel in High-risk positions every 5 years.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "HRIS, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ps3_001"
+          ],
+          "dependent_control_ids": [
+            "PS-1"
+          ],
+          "tags": [
+            "rescreening",
+            "5-year"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PS-4",
+      "control_title": "Personnel Termination",
+      "control_description": "Execute termination procedures to disable access and retrieve assets upon separation.",
+      "control_tags": [
+        "offboarding",
+        "access-revocation",
+        "asset-return",
+        "exit-interview"
+      ],
+      "rules": [
+        {
+          "id": "rule_ps4_001",
+          "text": "Disable all system access within 1 hour of termination notification.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "Okta, Azure AD, HRIS Integration",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2",
+            "PS-1"
+          ],
+          "tags": [
+            "access-disable",
+            "1-hour"
+          ]
+        },
+        {
+          "id": "rule_ps4_002",
+          "text": "Retrieve all company assets (laptop, badge, tokens) on last day via checklist.",
+          "type": "approval_workflow",
+          "platform": "DOC",
+          "tool": "ServiceNow, Exit Checklist",
+          "dependent_rule_ids": [
+            "rule_ps4_001"
+          ],
+          "dependent_control_ids": [
+            "CM-8"
+          ],
+          "tags": [
+            "asset-return",
+            "checklist"
+          ]
+        },
+        {
+          "id": "rule_ps4_003",
+          "text": "Conduct exit interview and remind of NDA and data protection obligations.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "HR Process, DocuSign",
+          "dependent_rule_ids": [
+            "rule_ps4_001"
+          ],
+          "dependent_control_ids": [
+            "PS-6"
+          ],
+          "tags": [
+            "exit-interview",
+            "nda-reminder"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PS-5",
+      "control_title": "Personnel Transfer",
+      "control_description": "Review and adjust access upon internal transfer or role change.",
+      "control_tags": [
+        "transfer",
+        "role-change",
+        "access-review",
+        "reassignment"
+      ],
+      "rules": [
+        {
+          "id": "rule_ps5_001",
+          "text": "Review and modify access privileges within 24 hours of role transfer.",
+          "type": "automation",
+          "platform": "ALL",
+          "tool": "Okta Lifecycle, SailPoint",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "AC-2",
+            "PS-1"
+          ],
+          "tags": [
+            "access-adjustment",
+            "24-hour"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PS-6",
+      "control_title": "Access Agreements",
+      "control_description": "Require personnel to sign access agreements including NDA and rules of behavior.",
+      "control_tags": [
+        "nda",
+        "access-agreement",
+        "confidentiality",
+        "signing"
+      ],
+      "rules": [
+        {
+          "id": "rule_ps6_001",
+          "text": "Require signed NDA and acceptable use agreement before granting system access.",
+          "type": "approval_workflow",
+          "platform": "ALL",
+          "tool": "DocuSign, Okta, HRIS",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PL-4",
+            "PS-1"
+          ],
+          "tags": [
+            "nda",
+            "signing"
+          ]
+        },
+        {
+          "id": "rule_ps6_002",
+          "text": "Renew access agreements annually or upon policy update.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "LMS, HRIS, Okta",
+          "dependent_rule_ids": [
+            "rule_ps6_001"
+          ],
+          "dependent_control_ids": [
+            "AT-2"
+          ],
+          "tags": [
+            "annual-renewal",
+            "refresh"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PS-7",
+      "control_title": "External Personnel Security",
+      "control_description": "Apply equivalent security requirements to contractors, vendors, and third-party personnel.",
+      "control_tags": [
+        "third-party",
+        "contractor",
+        "vendor",
+        "external"
+      ],
+      "rules": [
+        {
+          "id": "rule_ps7_001",
+          "text": "Include personnel screening and access agreement clauses in all third-party contracts.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "Contract Template, Legal Review",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PS-3",
+            "PS-6",
+            "SA-9"
+          ],
+          "tags": [
+            "contract-clause",
+            "third-party"
+          ]
+        },
+        {
+          "id": "rule_ps7_002",
+          "text": "Verify contractor background checks and maintain evidence in vendor file.",
+          "type": "monitoring",
+          "platform": "DOC",
+          "tool": "Vendor Portal, ServiceNow",
+          "dependent_rule_ids": [
+            "rule_ps7_001"
+          ],
+          "dependent_control_ids": [
+            "PS-3"
+          ],
+          "tags": [
+            "verification",
+            "evidence"
+          ]
+        }
+      ]
+    },
+    {
+      "control_id": "PS-8",
+      "control_title": "Personnel Sanctions",
+      "control_description": "Establish and enforce sanctions for personnel failing to comply with security policies.",
+      "control_tags": [
+        "sanction",
+        "disciplinary",
+        "violation",
+        "enforcement"
+      ],
+      "rules": [
+        {
+          "id": "rule_ps8_001",
+          "text": "Define progressive disciplinary actions for policy violations in employee handbook.",
+          "type": "documentation",
+          "platform": "DOC",
+          "tool": "HR Policy, Confluence",
+          "dependent_rule_ids": [],
+          "dependent_control_ids": [
+            "PS-1"
+          ],
+          "tags": [
+            "disciplinary-policy",
+            "progressive"
+          ]
+        },
+        {
+          "id": "rule_ps8_002",
+          "text": "Track and report all security violations with remediation and sanctions applied.",
+          "type": "monitoring",
+          "platform": "ALL",
+          "tool": "ServiceNow, HR Case Management",
+          "dependent_rule_ids": [
+            "rule_ps8_001"
+          ],
+          "dependent_control_ids": [
+            "IR-4"
+          ],
+          "tags": [
+            "violation-tracking",
+            "sanction"
+          ]
+        }
+      ]
+    }
+  ]
+}
