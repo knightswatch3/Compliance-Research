@@ -1,1 +1,13 @@
 .env
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Neo4j database files (exclude from Git, but keep import folder)
+storage/neo4j-data/data/
+storage/neo4j-data/logs/
+storage/neo4j-data/plugins/
+# Keep import folder for Master.json
+!storage/neo4j-data/import/
