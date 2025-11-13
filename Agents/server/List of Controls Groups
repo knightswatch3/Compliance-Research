@@ -1,0 +1,43 @@
+NIST control group
+===============
+
+
+AC: Access Control — 24 controls
+
+AT: Awareness and Training — 6 controls
+
+AU: Audit and Accountability — 14 controls
+
+CA: Assessment, Authorization, and Monitoring — 9 controls
+
+CM: Configuration Management — 14 controls
+
+CP: Contingency Planning — 10 controls
+
+IA: Identification and Authentication — 13 controls
+
+IR: Incident Response — 9 controls
+
+MA: Maintenance — 6 controls
+
+MP: Media Protection — 10 controls
+
+PE: Physical and Environmental Protection — 20 controls
+
+PL: Planning — 7 controls
+
+PS: Personnel Security — 8 controls
+
+PT: PII Processing and Transparency — 6 controls
+
+RA: Risk Assessment — 8 controls
+
+SA: System and Services Acquisition — 15 controls
+
+SC: System and Communications Protection — 45 controls
+
+SI: System and Information Integrity — 19 controls
+
+SR: Supply Chain Risk Management — 12 controls
+
+
