@@ -1,0 +1,37 @@
+
+
+
+TEMPLATE FOR FRAMEWORK OBJECT MODELS
+===============
+
+
+
+Generate a RAG-optimized JSON structure for the NIST SP 800-53 control family "SR: Supply Chain Risk Management", using the following rules:
+
+1. **Structure**:
+   - Top level: control_group, group_title, group_description, group_purpose, group_tags
+   - Each control: control_id, control_title, control_description, control_tags, rules[]
+   - Each rule: id (unique, semantic), text (short, embeddable), type, platform, tool, dependent_rule_ids[], dependent_control_ids[], tags[]
+
+2. **RAG Requirements**:
+   - `text` field must be concise (<150 words), natural language, and suitable for vector embedding.
+   - No full NIST statements — only actionable, queryable descriptions.
+   - Every level (group, control, rule) must be independently searchable.
+
+3. **Dependencies**:
+   - Use `dependent_rule_ids` for intra-control dependencies.
+   - Use `dependent_control_ids` for cross-control dependencies (within or across families).
+
+4. **Metadata**:
+   - `platform`: AWS, Azure, GCP, ALL, DOC, etc.
+   - `tool`: AWS Config, Azure Policy, Prisma Cloud, Terraform, Confluence, etc.
+   - `type`: documentation, configuration, approval_workflow, monitoring, etc.
+
+5. **Output**:
+   - Single valid JSON object.
+   - Ready for ingestion into a VectorDB (e.g., Pinecone, Weaviate).
+   - No explanations — just the JSON.
+
+Example family codes: AC, AU, CM, IA, SC, etc.
+
+Now generate for: SR: Supply Chain Risk Management
