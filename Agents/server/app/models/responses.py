@@ -1,6 +1,6 @@
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Citation(BaseModel):
@@ -23,7 +23,7 @@ class RuleSummary(BaseModel):
 
 class ChatResponse(BaseModel):
     answer: str
-    citations: List[Citation] = []
-    controls: List[ControlSummary] = []
-    rules: List[RuleSummary] = []
-    metadata: dict[str, Any] = {}
+    citations: List[Citation] = Field(default_factory=list)
+    controls: List[ControlSummary] = Field(default_factory=list)
+    rules: List[RuleSummary] = Field(default_factory=list)
+    metadata: Optional[Dict[str, Any]] = Field(default_factory=dict)

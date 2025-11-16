@@ -1,4 +1,5 @@
 import os
+from typing import Tuple
 
 from dotenv import load_dotenv
 from langchain.chains import RetrievalQA
@@ -18,8 +19,13 @@ def load_google_api_key(env_file: str = ".env") -> str:
     return api_key
 
 
-def initialize_agent() -> RetrievalQA:
-    """Build and return the retrieval-based QA chain backed by Neo4j."""
+def initialize_agent() -> Tuple[RetrievalQA, Neo4jControlRetriever]:
+    """Build and return the retrieval-based QA chain backed by Neo4j.
+    
+    Returns:
+        Tuple of (RetrievalQA chain, Neo4jControlRetriever) so we can
+        use the retriever separately to extract controls/rules.
+    """
 
     load_google_api_key()
 
@@ -27,15 +33,23 @@ def initialize_agent() -> RetrievalQA:
         model="gemini-2.5-flash",
         temperature=0.0,
         max_tokens=None,
-        timeout=None,
+        timeout=30,  # 30 second timeout for LLM calls
         max_retries=2,
     )
 
+    # Create retriever and pass LLM for query generation
     retriever = Neo4jControlRetriever(top_k=10)
+    retriever.llm = llm  # Pass LLM to retriever for Cypher generation
 
     chain = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
         retriever=retriever,
     )
-    return chain
+    return chain, retriever
+
+
+# For backward compatibility and easier access
+def get_retriever() -> Neo4jControlRetriever:
+    """Get a retriever instance. Note: This creates a new instance."""
+    return Neo4jControlRetriever(top_k=10)

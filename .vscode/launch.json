@@ -22,6 +22,7 @@
               "--host", "0.0.0.0",
               "--port", "8000"
             ],
+            "python": "${workspaceFolder}/Agents/server/.venv/bin/python",
             "cwd": "${workspaceFolder}/Agents/server",
             "envFile": "${workspaceFolder}/Agents/server/.env",
             "jinja": true
