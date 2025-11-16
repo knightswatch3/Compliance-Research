@@ -27,6 +27,15 @@ QUERY PATTERNS:
    RETURN c, collect(r) AS rules
    LIMIT $top_k
 
+1a. For queries asking about "rules inside [control name]" or "rules in [control name]":
+   Extract the control name from the query and use:
+   MATCH (c:Control)
+   WHERE toLower(c.title) CONTAINS toLower($query)
+      OR toLower(c.control_id) CONTAINS toLower($query)
+   OPTIONAL MATCH (c)-[:HAS_RULE]->(r:Rule)
+   RETURN c, collect(r) AS rules
+   LIMIT $top_k
+
 2. For control groups (by name/title or ID):
    MATCH (c:ControlGroup)
    WHERE toLower(c.title) CONTAINS toLower($query)

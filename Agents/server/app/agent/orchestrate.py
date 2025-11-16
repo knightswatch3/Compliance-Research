@@ -6,6 +6,7 @@ from langchain.chains import RetrievalQA
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from app.knowledge.retriever import Neo4jControlRetriever
+from app.prompts.qa_prompt import qa_prompt
 
 
 def load_google_api_key(env_file: str = ".env") -> str:
@@ -45,6 +46,7 @@ def initialize_agent() -> Tuple[RetrievalQA, Neo4jControlRetriever]:
         llm=llm,
         chain_type="stuff",
         retriever=retriever,
+        chain_type_kwargs={"prompt": qa_prompt},  # Use custom prompt
     )
     return chain, retriever
 

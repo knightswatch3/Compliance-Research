@@ -10,7 +10,8 @@ from app.agent.orchestrate import initialize_agent
 from app.knowledge.conversation import ConversationStore
 from app.knowledge.retriever import graph
 from app.models.requests import ChatRequest
-from app.models.responses import ChatResponse, ControlSummary, RuleSummary, Citation
+from app.models.responses import ChatResponse, ControlSummary, RuleSummary, ControlGroupSummary, Citation, DocumentMetadata
+from app.tools.formatter import DocumentFormatter
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -19,15 +20,27 @@ logger = logging.getLogger(__name__)
 agent = None
 retriever = None
 conversation_store = None
+formatter = None
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    global agent, retriever, conversation_store
+    global agent, retriever, conversation_store, formatter
     try:
         agent, retriever = initialize_agent()
         conversation_store = ConversationStore(graph)
-        logger.info("Agent, retriever, and conversation store initialized successfully")
+        # Initialize formatter with the same LLM from the agent
+        from langchain_google_genai import ChatGoogleGenerativeAI
+        from dotenv import load_dotenv
+        import os
+        load_dotenv()
+        llm = ChatGoogleGenerativeAI(
+            model="gemini-2.5-flash",
+            temperature=0.0,
+            timeout=30,
+        )
+        formatter = DocumentFormatter(llm=llm)
+        logger.info("Agent, retriever, conversation store, and formatter initialized successfully")
         yield
     except Exception as exc:
         logger.error(f"Error initializing agent: {exc}")
@@ -37,6 +50,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         agent = None
         retriever = None
         conversation_store = None
+        formatter = None
 
 
 app = FastAPI(title="Compliance Agent API", version="0.1.0", lifespan=lifespan)
@@ -83,96 +97,107 @@ async def chat(request: ChatRequest) -> ChatResponse:
     retrieved_docs = retriever.get_relevant_documents(request.question)
     logger.info(f"Retrieved {len(retrieved_docs)} documents")
 
-    # Step 2: Extract controls and rules from retrieved documents
-    controls = []
-    rules = []
-    citations = []
+    # Step 2: Convert documents to response format (simple - just extract page_content and metadata)
+    documents_metadata = [
+        DocumentMetadata(
+            content=doc.page_content,
+            metadata=doc.metadata if doc.metadata is not None else {}
+        )
+        for doc in retrieved_docs
+    ]
     
-    for doc in retrieved_docs:
-        metadata = doc.metadata
-        
-        # Extract control information
-        if "control_id" in metadata and metadata["control_id"]:
-            control = ControlSummary(
-                control_id=metadata["control_id"],
-                title=metadata.get("title"),
-                group_id=metadata.get("group_id"),
-            )
-            # Avoid duplicates
-            if not any(c.control_id == control.control_id for c in controls):
-                controls.append(control)
-            
-            # Add citation
-            citation = Citation(
-                label=metadata["control_id"],
-                snippet=doc.page_content[:200] + "..." if len(doc.page_content) > 200 else doc.page_content,
-            )
-            citations.append(citation)
-        
-        # Extract control group information
-        elif "group_id" in metadata and metadata["group_id"]:
-            # Extract controls from control group metadata (first 10 controls)
-            if "controls" in metadata and metadata["controls"]:
-                for control_data in metadata["controls"]:
-                    if isinstance(control_data, dict) and control_data.get("control_id"):
-                        control = ControlSummary(
-                            control_id=control_data["control_id"],
-                            title=control_data.get("title"),
-                            group_id=metadata["group_id"],
-                        )
-                        # Avoid duplicates
-                        if not any(c.control_id == control.control_id for c in controls):
-                            controls.append(control)
-            
-            # Add citation for control group
-            citation = Citation(
-                label=metadata["group_id"],
-                snippet=doc.page_content[:200] + "..." if len(doc.page_content) > 200 else doc.page_content,
-            )
-            citations.append(citation)
-        
-        # Extract rules from metadata
-        if "rules" in metadata and metadata["rules"]:
-            for rule_data in metadata["rules"]:
-                if rule_data and "rule_id" in rule_data:
-                    rule = RuleSummary(
-                        rule_id=rule_data["rule_id"],
-                        platform=rule_data.get("platform"),
-                        tool=rule_data.get("tool"),
-                    )
-                    # Avoid duplicates
-                    if not any(r.rule_id == rule.rule_id for r in rules):
-                        rules.append(rule)
+    # Simple citations
+    citations = [
+        Citation(
+            label=f"Document {i+1}",
+            snippet=doc.page_content[:200] + "..." if len(doc.page_content) > 200 else doc.page_content,
+        )
+        for i, doc in enumerate(retrieved_docs)
+    ]
     
-    logger.info(f"Extracted {len(controls)} controls and {len(rules)} rules")
+    logger.info(f"Converted {len(documents_metadata)} documents to response format")
     
-    # Step 3: Get answer from RAG chain
-    logger.info("Invoking RAG chain to generate answer")
+    # Step 3: Use formatter tool to format documents and extract information
+    if formatter is None:
+        raise RuntimeError("Formatter is not initialized")
     
-    # Format conversation history if provided
-    query_with_context = request.question
+    # Build conversation context for formatter
+    context = None
     if history_to_use and len(history_to_use) > 0:
-        logger.info(f"Including {len(history_to_use)} previous turns in context")
-        # Build conversation context
+        logger.info(f"Including {len(history_to_use)} previous turns in context for formatter")
         context_parts = []
-        for turn in history_to_use[-5:]:  # Only include last 5 turns to avoid token limits
+        for turn in history_to_use[-5:]:  # Only include last 5 turns
             if turn.user:
                 context_parts.append(f"User: {turn.user}")
             if turn.assistant:
                 context_parts.append(f"Assistant: {turn.assistant}")
         
         if context_parts:
-            conversation_context = "\n".join(context_parts)
-            query_with_context = f"""Previous conversation:
-{conversation_context}
-
-Current question: {request.question}"""
-            logger.debug(f"Query with context: {query_with_context[:200]}...")
+            context = "\n".join(context_parts)
     
-    result = agent.invoke({"query": query_with_context})
-    answer = result.get("result", "")
+    logger.info("Using formatter tool to format documents and extract controls/rules")
+    formatted_result = formatter.format_documents(
+        documents=retrieved_docs,
+        user_query=request.question,
+        context=context
+    )
     
-    logger.info(f"Generated answer (length: {len(answer)} chars)")
+    # Extract formatted answer and structured data
+    answer = formatted_result.get("answer", "")
+    control_groups_raw = formatted_result.get("control_groups", [])
+    controls_raw = formatted_result.get("controls", [])
+    rules_raw = formatted_result.get("rules", [])
+    
+    # Convert control groups to ControlGroupSummary objects
+    control_groups = [
+        ControlGroupSummary(
+            id=group.get("id", ""),
+            title=group.get("title"),
+            description=group.get("description")
+        )
+        for group in control_groups_raw
+    ]
+    
+    # Convert extracted controls to ControlSummary objects
+    # controls_raw can be a list of strings (control IDs) or dicts (control objects)
+    controls = []
+    for ctrl in controls_raw:
+        if isinstance(ctrl, dict):
+            # Full control object with title and group_id
+            controls.append(ControlSummary(
+                control_id=ctrl.get("control_id") or ctrl.get("id", ""),
+                title=ctrl.get("title"),
+                group_id=ctrl.get("group_id")
+            ))
+        else:
+            # Just a control ID string
+            controls.append(ControlSummary(
+                control_id=str(ctrl),
+                title=None,
+                group_id=None
+            ))
+    
+    # Convert extracted rules to RuleSummary objects
+    # rules_raw can be a list of strings (rule IDs) or dicts (rule objects)
+    rules = []
+    for rule in rules_raw:
+        if isinstance(rule, dict):
+            # Full rule object with platform and tool
+            rules.append(RuleSummary(
+                rule_id=rule.get("rule_id") or rule.get("id", ""),
+                platform=rule.get("platform"),
+                tool=rule.get("tool")
+            ))
+        else:
+            # Just a rule ID string
+            rules.append(RuleSummary(
+                rule_id=str(rule),
+                platform=None,
+                tool=None
+            ))
+    
+    logger.info(f"Formatter extracted {len(control_groups)} control groups, {len(controls)} controls, and {len(rules)} rules")
+    logger.info(f"Generated formatted answer (length: {len(answer)} chars)")
     
     # Step 4: Save conversation to Neo4j
     try:
@@ -189,6 +214,7 @@ Current question: {request.question}"""
             role="assistant",
             content=answer,
             metadata={
+                "control_groups_count": len(control_groups),
                 "controls_count": len(controls),
                 "rules_count": len(rules),
                 "retrieved_docs_count": len(retrieved_docs)
@@ -198,9 +224,10 @@ Current question: {request.question}"""
     except Exception as e:
         logger.warning(f"Could not save conversation to Neo4j: {e}")
     
-    # Step 5: Return response with extracted information
+    # Step 5: Return response
     return ChatResponse(
         answer=answer,
+        control_groups=control_groups,
         controls=controls,
         rules=rules,
         citations=citations,
